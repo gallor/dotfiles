@@ -53,3 +53,5 @@ complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes Syste
 
 # Add git-completion support for Git
 source $HOME/.git-completion.bash
+
+source /usr/local/bin/git-prompt.sh
