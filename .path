@@ -1,0 +1,1 @@
+export PATH=${JAVA_HOME}:${ANDROID_TOOLS}:/usr/local/bin:/usr/local/sbin:~/bin:$PATH
