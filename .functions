@@ -76,15 +76,6 @@ if [ $? -eq 0 ]; then
     }
 fi;
 
-# Create a data URL from a file
-function dataurl() {
-    local mimeType=$(file -b --mime-type "$1");
-    if [[ $mimeType == text/* ]]; then
-        mimeType="${mimeType};charset=utf-8";
-    fi
-    echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')";
-}
-
 # Create a git.io short URL
 function gitio() {
     if [ -z "${1}" -o -z "${2}" ]; then
@@ -92,24 +83,6 @@ function gitio() {
         return 1;
     fi;
     curl -i http://git.io/ -F "url=${2}" -F "code=${1}";
-}
-
-# Start an HTTP server from a directory, optionally specifying the port
-function server() {
-    local port="${1:-8000}";
-    sleep 1 && open "http://localhost:${port}/" &
-    # Set the default Content-Type to `text/plain` instead of `application/octet-stream`
-    # And serve everything as UTF-8 (although not technically correct, this doesn’t break anything for binary files)
-    python -c $'import SimpleHTTPServer;\nmap = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nmap[""] = "text/plain";\nfor key, value in map.items():\n\tmap[key] = value + ";charset=UTF-8";\nSimpleHTTPServer.test();' "$port";
-}
-
-# Start a PHP server from a directory, optionally specifying the port
-# (Requires PHP 5.4.0+.)
-function phpserver() {
-    local port="${1:-4000}";
-    local ip=$(ipconfig getifaddr en1);
-    sleep 1 && open "http://${ip}:${port}/" &
-    php -S "${ip}:${port}";
 }
 
 # Compare original and gzipped file size
@@ -131,11 +104,6 @@ function json() {
     fi;
 }
 
-# Run `dig` and display the most useful info
-function digga() {
-    dig +nocmd "$1" any +multiline +noall +answer;
-}
-
 # UTF-8-encode a string of Unicode symbols
 function escape() {
     printf "\\\x%s" $(printf "$@" | xxd -p -c1 -u);
@@ -154,93 +122,65 @@ function unidecode() {
     fi;
 }
 
-# Get a character’s Unicode code point
-function codepoint() {
-    perl -e "use utf8; print sprintf('U+%04X', ord(\"$@\"))";
-    # print a newline unless we’re piping the output to another program
-    if [ -t 1 ]; then
-        echo ""; # newline
-    fi;
+function get_version_ctl_branch() {
+	local dir="$PWD"
+	local vcs
+	local nick
+	while [[ "$dir" != "/"  ]]; do
+		for vcs in git hg svn bzr; do
+			if [[ -d "$dir/.$vcs"  ]] && hash "$vcs" &>/dev/null; then
+				case "$vcs" in
+					git) __git_ps1 "${1:-(%s) }"; return;; 
+					hg) nick=$(hg branch 2>dev/null);;
+					svn) nick=$(svn info 2>/dev/null\
+						| grep -e '^Repository Root:'\
+						| sed -e 's#.*/##');;
+					bzr)
+						local conf="${dir}/.bzr/branch/branch.conf"
+						[[ -f "$conf"  ]] && nick=$(grep -E '^nickname =' "$conf" | cut -d' ' -f 3)
+						conf="${dir}/.bzr/branch/location" # colo/lightweight branch
+							[[ -z "$nick"  ]] && [[ -f "$conf"  ]] && nick="$(basename "$(< $conf)")"
+							[[ -z "$nick"  ]] && nick="$(basename "$(readlink -f "$dir")")";;
+				esac
+				[[ -n "$nick"  ]] && printf "${1:-(%s) }" "$nick"
+				return 0
+			fi
+		done
+		dir="$(dirname "$dir")"
+	done
 }
 
-# Show all the names (CNs and SANs) listed in the SSL certificate
-# for a given domain
-function getcertnames() {
-    if [ -z "${1}" ]; then
-        echo "ERROR: No domain specified.";
-        return 1;
-    fi;
-
-    local domain="${1}";
-    echo "Testing ${domain}…";
-    echo ""; # newline
-
-    local tmp=$(echo -e "GET / HTTP/1.0\nEOT" \
-        | openssl s_client -connect "${domain}:443" -servername "${domain}" 2>&1);
-
-    if [[ "${tmp}" = *"-----BEGIN CERTIFICATE-----"* ]]; then
-        local certText=$(echo "${tmp}" \
-            | openssl x509 -text -certopt "no_aux, no_header, no_issuer, no_pubkey, \
-            no_serial, no_sigdump, no_signame, no_validity, no_version");
-        echo "Common Name:";
-        echo ""; # newline
-        echo "${certText}" | grep "Subject:" | sed -e "s/^.*CN=//" | sed -e "s/\/emailAddress=.*//";
-        echo ""; # newline
-        echo "Subject Alternative Name(s):";
-        echo ""; # newline
-        echo "${certText}" | grep -A 1 "Subject Alternative Name:" \
-            | sed -e "2s/DNS://g" -e "s/ //g" | tr "," "\n" | tail -n +2;
-        return 0;
-    else
-        echo "ERROR: Certificate not found.";
-        return 1;
-    fi;
+get_styled_version_ctl_branch() {
+	CUR_BRANCH=$(get_version_ctl_branch "$1")
+	if [[ "${CUR_BRANCH}" =~ ^.*(master).*$  ]]; then
+		printf "\033[38;5;257m${CUR_BRANCH}\033[00m"
+	else
+			printf "\033[38;5;173m${CUR_BRANCH}\033[00m"
+	fi
 }
 
-# `s` with no arguments opens the current directory in Sublime Text, otherwise
-# opens the given location
-function s() {
-    if [ $# -eq 0 ]; then
-        subl .;
-    else
-        subl "$@";
-    fi;
-}
+printAnsiiTable() {
+    # generates an 8 bit color table (256 colors) for reference,
+	# using the ANSI CSI+SGR \033[48;5;${val}m for background and
+	# \033[38;5;${val}m for text (see "ANSI Code" on Wikipedia)
+	#
+	echo -en "\n   +  "
+	for i in {0..35}; do
+		printf "%2b " $i
+	done
+	printf "\n\n %3b  " 0
+	for i in {0..15}; do
+		echo -en "\033[48;5;${i}m \033[m "
+	done
 
-# `a` with no arguments opens the current directory in Atom Editor, otherwise
-# opens the given location
-function a() {
-    if [ $# -eq 0 ]; then
-        atom .;
-    else
-        atom "$@";
-    fi;
-}
-
-# `v` with no arguments opens the current directory in Vim, otherwise opens the
-# given location
-function v() {
-    if [ $# -eq 0 ]; then
-        vim .;
-    else
-        vim "$@";
-    fi;
-}
-
-# `o` with no arguments opens the current directory, otherwise opens the given
-# location
-function o() {
-    if [ $# -eq 0 ]; then
-        open .;
-    else
-        open "$@";
-    fi;
-}
-
-# `tre` is a shorthand for `tree` with hidden files and color enabled, ignoring
-# the `.git` directory, listing directories first. The output gets piped into
-# `less` with options to preserve color and line numbers, unless the output is
-# small enough for one screen.
-function tre() {
-    tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
+	#for i in 16 52 88 124 160 196 232; do
+	for i in {0..6}; do
+		let "i = i*36 +16"
+		printf "\n\n %3b " $i
+		for j in {0..35}; do
+			let "val = i+j"
+			echo -en "\033[48;5;${val}m  \033[m "
+		done
+	done 
+                                                                                                                                echo -e "\n"
 }

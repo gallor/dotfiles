@@ -55,3 +55,11 @@ complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes Syste
 source $HOME/.git-completion.bash
 
 source /usr/local/bin/git-prompt.sh
+
+# Print nickname for git/hg/bzr/svn version control in CWD
+# Optional $1 of format string for printf, default "(%s)"
+if [[ ! -f ~/.git-prompt.sh  ]]; then
+	curl -o ~/.git-prompt.sh https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+fi
+
+source $HOME/.git-prompt.sh

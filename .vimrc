@@ -10,34 +10,34 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-Plugin 'gmarik/Vundle.vim'
-Plugin 'tmhedberg/matchit'
-Plugin 'SuperTab'
-Plugin 'Tabular'
-Plugin 'pangloss/vim-javascript'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-git'
-Plugin 'Markdown'
-Plugin 'davidoc/taskpaper.vim'
-Plugin 'The-NERD-Commenter'
-Plugin 'The-NERD-tree'
-Plugin 'Syntastic'
-Plugin 'ack.vim'
-Plugin 'Tagbar'
-Plugin 'flazz/vim-colorschemes'
-Plugin 'myusuf3/numbers.vim'
-Plugin 'ctrlp.vim'
-Plugin 'bling/vim-airline'
-Plugin 'Shougo/neocomplete.vim'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'taglist.vim'
-Plugin 'gdbmgr'
-Plugin 'surround.vim'
+Plugin 'gmarik/Vundle.vim' " Plugin Management
+"Plugin 'tmhedberg/matchit' " Matching configuration for %
+"Plugin 'SuperTab' "Allows you to use <Tab> for all your insert completion needs
+"Plugin 'godlygeek/tabular' "Line up text
+Plugin 'pangloss/vim-javascript' "Javascript syntax highlighting
+"Plugin 'tpope/vim-surround' "provides mappings to easily delete, change and add surroundings like quotes, parenths etc
+Plugin 'tpope/vim-fugitive' "Vim wrapper, allow for git viewing in airline
+"Plugin 'tpope/vim-git' "syntax, indent, and filetype plugin files for git, gitcommit, gitconfig, gitrebase, and gitsendemail
+"Plugin 'plasticboy/vim-markdown' "Markdown support
+Plugin 'davidoc/taskpaper.vim' "Taskpaper support
+"Plugin 'scrooloose/nerdcommenter' "Lots of commenting
+Plugin 'scrooloose/nerdtree' "Tree navigation
+Plugin 'Xuyuanp/nerdtree-git-plugin' "Nerdtree git tags for files support
+Plugin 'scrooloose/syntastic' "Syntax check
+"Plugin 'mileszs/ack.vim' "Enhanced searching
+Plugin 'majutsushi/tagbar' "Browse the tags of the current file and get an overview of its structure.
+"Plugin 'flazz/vim-colorschemes' "One colorscheme pack to rule them all!
+"Plugin 'myusuf3/numbers.vim' "Intelligently toggling line numbers
+"Plugin 'ctrlpvim/ctrlp.vim' "Full path fuzzy file, buffer, mru, tag, ... finder for Vim.
+Plugin 'bling/vim-airline' "Statusbar
+"Plugin 'Shougo/neocomplete.vim' "Provides keyword completion system by maintaining a cache of keywords in the current buffer
+Plugin 'jiangmiao/auto-pairs' "Insert or delete brackets, parens, quotes in pair
+Plugin 'Yggdroot/indentLine' "A vim plugin to display the indention levels with thin vertical lines
+Plugin 'altercation/vim-colors-solarized' "Solarized color theme
+Plugin 'chriskempson/vim-tomorrow-theme' "Tomorrow color theme
+Plugin 'w0ng/vim-hybrid' "Hybrid Solarized, codecademy, Jellybeans, and Tomorrow-Night
 
 call vundle#end()
-filetype plugin indent on
-
 " -----------------------------------------------------------
 "  Allow intelligent auot-indenting for each filetype and for
 "  plugins that are filetype specific
@@ -45,24 +45,32 @@ filetype plugin indent on
 filetype indent plugin on
 
 " -----------------------------------------------------------
-"  Enable syntax highlighting
-" -----------------------------------------------------------
-filetype on
-syntax on
-
-" -----------------------------------------------------------
 " change mapleader from \ to ,
 " -----------------------------------------------------------
 let mapleader = ","
 
 " -----------------------------------------------------------
+"  Enable syntax highlighting
+" -----------------------------------------------------------
+syntax on
+
+" -----------------------------------------------------------
 " set color scheme
 " -----------------------------------------------------------
 set t_Co=256
-colorscheme codeschool
+"let g:solarized_termcolors=256
+set background=dark
 hi Normal ctermbg=NONE
 hi LineNr ctermbg=NONE
 hi NonText ctermbg=NONE
+set cursorline
+hi CursorLine ctermbg=234
+colorscheme Tomorrow-Night
+
+" For Hybrid ColorScheme
+" let g:hybrid_custom_term_colors = 1
+" let g:hybrid_reduced_contrast = 1 " Remove this line if using the default palette.
+" colorscheme hybrid
 
 " -----------------------------------------------------------
 " Allow saving if file needs sudo priv after opening
@@ -77,8 +85,8 @@ set modelines=0
 " -----------------------------------------------------------
 " Block for Command mode, underscore for insert
 " -----------------------------------------------------------
-"let &t_SI = "\<Esc>]50;CursorShape=2\x7"
-"let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+let &t_SI = "\<Esc>]50;CursorShape=2\x7" " Underscore in insert mode
+let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
 
 " -----------------------------------------------------------
 " CtrlP Settings
@@ -100,13 +108,20 @@ nmap <leader>bm :CtrlPMixed<cr>
 nmap <leader>bs :CtrlPMRU<cr>
 
 " -----------------------------------------------------------
+" IndentLine
+" -----------------------------------------------------------
+let g:indentLine_color_term = 239 " Change Character color
+let g:indentLine_char = '│'
+
+" -----------------------------------------------------------
 " Airline Mods
 " -----------------------------------------------------------
 let g:airline#extensions#tabline#enabled = 1 " Enable Vim Airline for list of buffers
-let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename of buffer
+"let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename of buffer
 let g:airline_detect_crypt = 1
 let g:airline#extension#syntastic#enabled = 1 " Enable syntastic integration
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#hunks#enabled=0
 " if !exists('g:airline_symbols')
 "	let g:airline_symbols = {}
 " endif
@@ -115,11 +130,22 @@ let g:airline_powerline_fonts = 1
 " let g:airline_symbols.branch = '⎇ '
 
 let g:airline_section_a = airline#section#create(['mode',' ','branch'])
-let g:airline_section_b = airline#section#create(['%t'])
+let g:airline_section_b = airline#section#create(['%<%F'])
 let g:airline_section_c = airline#section#create(['filetype','readonly'])
 let g:airline_section_x = 0
 let g:airline_section_y = 0
-let g:airline_section_z = '%{getcwd()}'
+let g:airline_section_z = airline#section#create(['%{getcwd()}'])
+
+" -----------------------------------------------------------
+" NerdTree
+" -----------------------------------------------------------
+map <leader>n :NERDTreeToggle<CR> 
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif "Close vim if nerdtree is the last window open
+
+" -----------------------------------------------------------
+" TagBar
+" -----------------------------------------------------------
+nmap <leader>t :TagbarToggle<CR>
 
 " -----------------------------------------------------------
 " Visual Updates
@@ -132,10 +158,9 @@ set softtabstop=4 " 4 spaces tabbing when in insert mode
 set nojoinspaces " Unset join spaces
 set splitright " Opening splits to right
 set splitbelow " Opening spluts below
-
+set synmaxcol=250 " Setting syntax highlighting to the first 250 columns. Helps with speed for long lines
 set encoding=utf-8
 set scrolloff=3 "Scrolling visual offset to three lines
-
 
 set autoindent " Keep the same indent as the line you're currently on
 set smartindent " Smart indents for new lines
@@ -145,16 +170,16 @@ set showcmd "Show the (partial) command as it's being typed
 set hidden " Hides buffers instead of closing them
 set cmdheight=2 " Command window height to 2 lines
 set mouse=a " Enable mouse
-set showmatch " Bracket highlight matching
-
 
 " Change highlighting of bracket matching. cterm can be none, bold or underline
-hi MatchParen cterm=none ctermbg=white ctermfg=black
+hi MatchParen cterm=underline ctermbg=none ctermfg=none
 set hlsearch
 
 " -----------------------------------------------------------
 " Vim Funtionality
 " -----------------------------------------------------------
+set noesckeys " Disable Escape keys in insert mode
+set ttimeoutlen=100 "Set shorter timeout to disable esc key combination
 set ttyfast " Optimize for fast terminal connections
 set wildmenu " Better command-line completion
 set wildmode=list:longest " List all matches and complete till longest
@@ -197,9 +222,12 @@ nnoremap <leader><space> :noh<cr>
 nnoremap <tab> %
 vnoremap <tab> %
 
+" Toggle syntax on and off
+nnoremap <leader>ts :syntax off<cr>:syntax on<cr>
+
 " set wrap
 set textwidth=90
-set formatoptions=qrn1
+set formatoptions=qrnt
 "set colorcolumn=95
 
 set gfn=Consolas:h11

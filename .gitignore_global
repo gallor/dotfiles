@@ -9,3 +9,11 @@ doc/alaska/peapod-prototype
 __init__.py
 npm-debug.log
 .*/SolrSearchService.properties
+.classpath
+.idea/
+.settings/
+.tomcatplugin
+.project
+.sass-cache
+node_modules
+npm-debug.log
