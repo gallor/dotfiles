@@ -17,3 +17,6 @@ npm-debug.log
 .sass-cache
 node_modules
 npm-debug.log
+*.cert
+*.pfx
+*.crt

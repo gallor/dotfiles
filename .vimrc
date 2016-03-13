@@ -28,7 +28,7 @@ Plugin 'scrooloose/syntastic' "Syntax check
 Plugin 'majutsushi/tagbar' "Browse the tags of the current file and get an overview of its structure.
 "Plugin 'flazz/vim-colorschemes' "One colorscheme pack to rule them all!
 "Plugin 'myusuf3/numbers.vim' "Intelligently toggling line numbers
-"Plugin 'ctrlpvim/ctrlp.vim' "Full path fuzzy file, buffer, mru, tag, ... finder for Vim.
+Plugin 'ctrlpvim/ctrlp.vim' "Full path fuzzy file, buffer, mru, tag, ... finder for Vim.
 Plugin 'bling/vim-airline' "Statusbar
 "Plugin 'Shougo/neocomplete.vim' "Provides keyword completion system by maintaining a cache of keywords in the current buffer
 Plugin 'jiangmiao/auto-pairs' "Insert or delete brackets, parens, quotes in pair
@@ -53,7 +53,8 @@ let mapleader = ","
 "  Enable syntax highlighting
 " -----------------------------------------------------------
 syntax on
-
+syntax sync minlines=200 " Syntax highlighting 200 lines instead of always from start
+ 
 " -----------------------------------------------------------
 " set color scheme
 " -----------------------------------------------------------
