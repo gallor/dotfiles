@@ -11,31 +11,30 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim' " Plugin Management
-"Plugin 'tmhedberg/matchit' " Matching configuration for %
+Plugin 'tmhedberg/matchit' " Matching configuration for %
 "Plugin 'SuperTab' "Allows you to use <Tab> for all your insert completion needs
 "Plugin 'godlygeek/tabular' "Line up text
 Plugin 'pangloss/vim-javascript' "Javascript syntax highlighting
-"Plugin 'tpope/vim-surround' "provides mappings to easily delete, change and add surroundings like quotes, parenths etc
+Plugin 'tpope/vim-surround' "provides mappings to easily delete, change and add surroundings like quotes, parenths etc
 Plugin 'tpope/vim-fugitive' "Vim wrapper, allow for git viewing in airline
 "Plugin 'tpope/vim-git' "syntax, indent, and filetype plugin files for git, gitcommit, gitconfig, gitrebase, and gitsendemail
 "Plugin 'plasticboy/vim-markdown' "Markdown support
 Plugin 'davidoc/taskpaper.vim' "Taskpaper support
-"Plugin 'scrooloose/nerdcommenter' "Lots of commenting
+Plugin 'scrooloose/nerdcommenter' "Lots of commenting
 Plugin 'scrooloose/nerdtree' "Tree navigation
 Plugin 'Xuyuanp/nerdtree-git-plugin' "Nerdtree git tags for files support
 Plugin 'scrooloose/syntastic' "Syntax check
-"Plugin 'mileszs/ack.vim' "Enhanced searching
 Plugin 'majutsushi/tagbar' "Browse the tags of the current file and get an overview of its structure.
-"Plugin 'flazz/vim-colorschemes' "One colorscheme pack to rule them all!
-"Plugin 'myusuf3/numbers.vim' "Intelligently toggling line numbers
 Plugin 'ctrlpvim/ctrlp.vim' "Full path fuzzy file, buffer, mru, tag, ... finder for Vim.
 Plugin 'bling/vim-airline' "Statusbar
-"Plugin 'Shougo/neocomplete.vim' "Provides keyword completion system by maintaining a cache of keywords in the current buffer
+Plugin 'othree/javascript-libraries-syntax.vim' " Javascript syntax library highlighting
+Plugin 'burnettk/vim-angular' " Angular functionality
 Plugin 'jiangmiao/auto-pairs' "Insert or delete brackets, parens, quotes in pair
 Plugin 'Yggdroot/indentLine' "A vim plugin to display the indention levels with thin vertical lines
 Plugin 'altercation/vim-colors-solarized' "Solarized color theme
 Plugin 'chriskempson/vim-tomorrow-theme' "Tomorrow color theme
 Plugin 'w0ng/vim-hybrid' "Hybrid Solarized, codecademy, Jellybeans, and Tomorrow-Night
+Plugin 'Valloric/YouCompleteMe' " Code completion 
 
 call vundle#end()
 " -----------------------------------------------------------
@@ -113,6 +112,8 @@ nmap <leader>bs :CtrlPMRU<cr>
 " -----------------------------------------------------------
 let g:indentLine_color_term = 239 " Change Character color
 let g:indentLine_char = '│'
+let g:indentLine_indentLevel=5
+let g:indentLine_faster = 1
 
 " -----------------------------------------------------------
 " Airline Mods
@@ -179,6 +180,7 @@ set hlsearch
 " -----------------------------------------------------------
 " Vim Funtionality
 " -----------------------------------------------------------
+set iskeyword -=_ " Underscores denote words
 set noesckeys " Disable Escape keys in insert mode
 set ttimeoutlen=100 "Set shorter timeout to disable esc key combination
 set ttyfast " Optimize for fast terminal connections
@@ -227,9 +229,13 @@ vnoremap <tab> %
 nnoremap <leader>ts :syntax off<cr>:syntax on<cr>
 
 " set wrap
-set textwidth=90
-set formatoptions=qrnt
-"set colorcolumn=95
+set wrap
+set linebreak
+set textwidth=0
+set wrapmargin=0
+
+" set textwidth=90
+" set formatoptions=qrnt
 
 set gfn=Consolas:h11
 
@@ -287,8 +293,11 @@ noremap <leader>W :w !sudo tee % > /dev/null<CR>
 if has("autocmd")
 	" Enable file type detection
 	filetype on
+	" Treat .scss files as css
+	autocmd BufRead,BufNewFile *.scss set filetype css syntax=css
+	autocmd BufRead,BufNewFile *.less set filetype css syntax=css
 	" Treat .json files as .js
-	autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
+	autocmd BufNewFile,BufRead *.json set filetype json syntax=javascript
 	" Treat .md files as Markdown
 	autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
 endif

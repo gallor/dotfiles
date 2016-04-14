@@ -36,11 +36,6 @@ elif [ -f /etc/bash_completion ]; then
     source /etc/bash_completion;
 fi;
 
-# Enable tab completion for `g` by marking it as an alias for `git`
-if type _git &> /dev/null && [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
-    complete -o default -o nospace -F _git g;
-fi;
-
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
 
@@ -48,18 +43,20 @@ fi;
 # You could just use `-g` instead, but I like being explicit
 complete -W "NSGlobalDomain" defaults;
 
-# Add `killall` tab completion for common apps
-complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall;
-
 # Add git-completion support for Git
 source $HOME/.git-completion.bash
 
-source /usr/local/bin/git-prompt.sh
+# source /usr/local/bin/git-prompt.sh
 
 # Print nickname for git/hg/bzr/svn version control in CWD
 # Optional $1 of format string for printf, default "(%s)"
 if [[ ! -f ~/.git-prompt.sh  ]]; then
 	curl -o ~/.git-prompt.sh https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+fi
+
+# Init jenv
+if which jenv > /dev/null; then 
+	eval "$(jenv init -)"; 
 fi
 
 source $HOME/.git-prompt.sh
