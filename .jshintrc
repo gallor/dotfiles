@@ -1,0 +1,12 @@
+{
+	"-W110": false, // Turns off mixed quote error
+	"strict" true,
+	"trailing": true, // No trailing whitespace
+	"curly": true, // Enforce curly braces for conditional functions
+	"quotmark": false // no mixed quote enforcment 
+	"browser": true, // Globals exposed by modern browsers
+	"devel": true, // Global developer tools
+	"jasmine": true,
+	"jquery": true,
+	"node": true,
+}

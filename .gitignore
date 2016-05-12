@@ -25,3 +25,6 @@ scratch/
 
 # Don't commit vim bundles that are easily added through Vundle
 .vim/bundle/**
+
+# Ignore Jetbrains config files
+*.iml

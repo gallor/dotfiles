@@ -5,7 +5,7 @@
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{bash_prompt,exports,aliases,functions,extra,path}; do
+for file in ~/.{bash_prompt,exports,aliases,functions,extra,profile,path}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
@@ -60,3 +60,5 @@ if which jenv > /dev/null; then
 fi
 
 source $HOME/.git-prompt.sh
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*

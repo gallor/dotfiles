@@ -15,18 +15,21 @@ Plugin 'tmhedberg/matchit' " Matching configuration for %
 "Plugin 'SuperTab' "Allows you to use <Tab> for all your insert completion needs
 "Plugin 'godlygeek/tabular' "Line up text
 Plugin 'pangloss/vim-javascript' "Javascript syntax highlighting
+Plugin 'jelera/vim-javascript-syntax' " Additional JS syntax highlighting
 Plugin 'tpope/vim-surround' "provides mappings to easily delete, change and add surroundings like quotes, parenths etc
 Plugin 'tpope/vim-fugitive' "Vim wrapper, allow for git viewing in airline
 "Plugin 'tpope/vim-git' "syntax, indent, and filetype plugin files for git, gitcommit, gitconfig, gitrebase, and gitsendemail
 "Plugin 'plasticboy/vim-markdown' "Markdown support
 Plugin 'davidoc/taskpaper.vim' "Taskpaper support
-Plugin 'scrooloose/nerdcommenter' "Lots of commenting
+Plugin 'tpope/vim-commentary' " Simple commenting in vim 
+"Plugin 'scrooloose/nerdcommenter' "Lots of commenting
 Plugin 'scrooloose/nerdtree' "Tree navigation
 Plugin 'Xuyuanp/nerdtree-git-plugin' "Nerdtree git tags for files support
 Plugin 'scrooloose/syntastic' "Syntax check
 Plugin 'majutsushi/tagbar' "Browse the tags of the current file and get an overview of its structure.
 Plugin 'ctrlpvim/ctrlp.vim' "Full path fuzzy file, buffer, mru, tag, ... finder for Vim.
-Plugin 'bling/vim-airline' "Statusbar
+Plugin 'bling/vim-airline' "Statusbar 
+Plugin 'vim-airline/vim-airline-themes' "Airline themes
 Plugin 'othree/javascript-libraries-syntax.vim' " Javascript syntax library highlighting
 Plugin 'burnettk/vim-angular' " Angular functionality
 Plugin 'jiangmiao/auto-pairs' "Insert or delete brackets, parens, quotes in pair
@@ -35,6 +38,9 @@ Plugin 'altercation/vim-colors-solarized' "Solarized color theme
 Plugin 'chriskempson/vim-tomorrow-theme' "Tomorrow color theme
 Plugin 'w0ng/vim-hybrid' "Hybrid Solarized, codecademy, Jellybeans, and Tomorrow-Night
 Plugin 'Valloric/YouCompleteMe' " Code completion 
+Plugin 'marijnh/tern_for_vim' "Vim tern usage, greatly improves YouCompleteMe JS use
+Plugin 'elzr/vim-json' " JSON highlighting 
+"Plugin 'ryanoasis/vim-devicons' " Icons and gliffs for vim plugins
 
 call vundle#end()
 " -----------------------------------------------------------
@@ -66,6 +72,8 @@ hi NonText ctermbg=NONE
 set cursorline
 hi CursorLine ctermbg=234
 colorscheme Tomorrow-Night
+set term=xterm-256color
+set termencoding=utf-8
 
 " For Hybrid ColorScheme
 " let g:hybrid_custom_term_colors = 1
@@ -108,6 +116,19 @@ nmap <leader>bm :CtrlPMixed<cr>
 nmap <leader>bs :CtrlPMRU<cr>
 
 " -----------------------------------------------------------
+" Syntastic
+" -----------------------------------------------------------
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_javascript_checkers = ['jshint']
+" -----------------------------------------------------------
 " IndentLine
 " -----------------------------------------------------------
 let g:indentLine_color_term = 239 " Change Character color
@@ -124,25 +145,36 @@ let g:airline_detect_crypt = 1
 let g:airline#extension#syntastic#enabled = 1 " Enable syntastic integration
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#hunks#enabled=0
-" if !exists('g:airline_symbols')
-"	let g:airline_symbols = {}
-" endif
-" let g:airline_right_sep =''
-" let g:airline_left_sep =''
-" let g:airline_symbols.branch = '⎇ '
+
+if !exists('g:airline_symbols')
+let g:airline_symbols = {}
+endif
+
+let g:airline_symbols.space = "\ua0"
+
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
 
 let g:airline_section_a = airline#section#create(['mode',' ','branch'])
-let g:airline_section_b = airline#section#create(['%<%F'])
+"let g:airline_section_b = airline#section#create(['%<%F'])
+let g:airline_section_b = ''
 let g:airline_section_c = airline#section#create(['filetype','readonly'])
-let g:airline_section_x = 0
-let g:airline_section_y = 0
-let g:airline_section_z = airline#section#create(['%{getcwd()}'])
+let g:airline_section_x = ''
+let g:airline_section_y = ''
+let g:airline_section_z = ''
+"let g:airline_section_z = airline#section#create(['%{getcwd()}'])
 
 " -----------------------------------------------------------
 " NerdTree
 " -----------------------------------------------------------
 map <leader>n :NERDTreeToggle<CR> 
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif "Close vim if nerdtree is the last window open
+
 
 " -----------------------------------------------------------
 " TagBar
@@ -153,6 +185,7 @@ nmap <leader>t :TagbarToggle<CR>
 " Visual Updates
 " -----------------------------------------------------------
 filetype plugin indent on
+set guifont=Inconsolata\ for\ Powerline\ Nerd\ Font\ Complete\ Mono:h12
 set tabstop=4 " 4 spaces
 set shiftwidth=4 " Indenting with '>', use 4 spaces
 set expandtab " On pressing tab, insert 4 spaces
@@ -294,10 +327,10 @@ if has("autocmd")
 	" Enable file type detection
 	filetype on
 	" Treat .scss files as css
-	autocmd BufRead,BufNewFile *.scss set filetype css syntax=css
-	autocmd BufRead,BufNewFile *.less set filetype css syntax=css
+	autocmd BufRead,BufNewFile *.scss set filetype=css syntax=css
+	autocmd BufRead,BufNewFile *.less set filetype=css syntax=css
 	" Treat .json files as .js
-	autocmd BufNewFile,BufRead *.json set filetype json syntax=javascript
+	"autocmd BufNewFile,BufRead *.json set filetype=javascript 
 	" Treat .md files as Markdown
 	autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
 endif
