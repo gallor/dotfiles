@@ -4,13 +4,11 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
-doc/alaska/peapod-prototype
-/doc/alaska/styles/.sass-cache/
 __init__.py
 npm-debug.log
 .*/SolrSearchService.properties
 .classpath
-.idea/
+.idea/*
 .settings/
 .tomcatplugin
 .project
@@ -22,3 +20,6 @@ npm-debug.log
 *.crt
 *.iml
 .tern-project
+tags
+*.log
+.idea/codeStyleSettings.xml

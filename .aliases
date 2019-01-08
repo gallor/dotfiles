@@ -12,6 +12,7 @@ alias p="cd ~/dev"
 alias g="git"
 alias h="history"
 alias j="jobs"
+alias dev="cd ~/dev/"
 
 # Idiot proofing to commands
 alias mv='mv -i'

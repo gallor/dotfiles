@@ -1,0 +1,7 @@
+set number
+set relativenumber
+set surround
+
+nnoremap ; :
+nnoremap zC :action CollapseRegionRecursively<CR>
+nnoremap zO :action ExpandRegionRecursively<CR>

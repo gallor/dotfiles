@@ -184,3 +184,10 @@ printAnsiiTable() {
 	done 
                                                                                                                                 echo -e "\n"
 }
+function npm-do {
+    (PATH=$(npm bin):$PATH; eval $@;)
+}
+
+mochaDebug() {
+    ./node_modules/.bin/mocha --debug-brk --compilers js:babel-register $1
+}
