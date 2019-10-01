@@ -182,7 +182,7 @@ printAnsiiTable() {
 			echo -en "\033[48;5;${val}m  \033[m "
 		done
 	done 
-                                                                                                                                echo -e "\n"
+    echo -e "\n"
 }
 function npm-do {
     (PATH=$(npm bin):$PATH; eval $@;)
@@ -191,3 +191,17 @@ function npm-do {
 mochaDebug() {
     ./node_modules/.bin/mocha --debug-brk --compilers js:babel-register $1
 }
+
+# Git checkout new branch
+gco() {
+    git checkout $1; git pull; git checkout -b $2;
+}
+
+fd() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune \
+                  -o -type d -print 2> /dev/null | fzf +m) &&
+  cd "$dir"
+}
+
+

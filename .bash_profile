@@ -55,9 +55,10 @@ if [[ ! -f ~/.git-prompt.sh  ]]; then
 fi
 
 # Init jenv
-#if which jenv > /dev/null; then 
-#	eval "$(jenv init -)"; 
-#fi
+export PATH=$HOME/.jenv/bin:$PATH
+if which jenv > /dev/null; then 
+	eval "$(jenv init -)"; 
+fi
 
 source $HOME/.git-prompt.sh
 
@@ -66,3 +67,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+eval "$(jenv init -)"
+eval "$(jenv enable-plugin export)"
+source ~/.path

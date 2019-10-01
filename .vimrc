@@ -74,9 +74,11 @@ let g:hybrid_reduced_contrast = 1 " Remove this line if using the default palett
 " colorscheme Tomorrow-Night
 "let g:solarized_termcolors=256
 hi Normal ctermbg=NONE
-hi LineNr ctermbg=NONE ctermfg=245
+hi LineNr ctermbg=NONE ctermfg=247
 hi CursorLine ctermbg=234
 hi NonText ctermbg=NONE
+hi Comment ctermfg=247
+hi Visual ctermfg=0 ctermbg=250
 set synmaxcol=128
 set term=xterm-256color
 set termencoding=utf-8

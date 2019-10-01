@@ -1,0 +1,12 @@
+{
+  "suggest.echodocSupport": true,
+  "suggest.maxCompleteItemCount": 20,
+  "diagnostic.errorSign": "X",
+  "diagnostic.warningSign": "!",
+  "diagnostic.infoSign": ">>",
+  "typescript.validate.enable": false,
+  "javascript.validate.enable": false,
+  "typescript.suggest.enabled": false,
+  "javascript.suggest.enabled": false,
+  "suggest.autoTrigger": "trigger"
+}
