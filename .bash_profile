@@ -1,3 +1,7 @@
+# Source bashrc
+# if [ -f ~/.bashrc ]; then
+#   source ~/.bashrc
+# fi
 # Add `~/bin` to the `$PATH`
 # Removed adding bin to path here and moved to .path file
 # export PATH="$HOME/bin:$PATH";
@@ -54,12 +58,6 @@ if [[ ! -f ~/.git-prompt.sh  ]]; then
 	curl -o ~/.git-prompt.sh https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
 fi
 
-# Init jenv
-export PATH=$HOME/.jenv/bin:$PATH
-if which jenv > /dev/null; then 
-	eval "$(jenv init -)"; 
-fi
-
 source $HOME/.git-prompt.sh
 
 export NVM_DIR="$HOME/.nvm"
@@ -68,6 +66,6 @@ export NVM_DIR="$HOME/.nvm"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-eval "$(jenv init -)"
-eval "$(jenv enable-plugin export)"
-source ~/.path
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/ga89/.sdkman"
+[[ -s "/Users/ga89/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/ga89/.sdkman/bin/sdkman-init.sh"

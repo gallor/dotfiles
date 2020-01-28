@@ -1,7 +1,7 @@
 scriptencoding utf-8
 set encoding=utf-8
 
-source ~/.config/nvim/plugins.vim
+ source ~/.config/nvim/plugins.vim
 
 " -----------------------------------------------------------
 " change mapleader from \ to ,
@@ -20,20 +20,39 @@ syntax sync minlines=200 " Syntax highlighting 200 lines instead of always from 
 set termguicolors " enable 256 colors in iterm
 set background=dark
 set t_Co=256 " enable 256 colors in non-iterm terminal
-colorscheme hybrid
+try
+  let g:hybrid_custom_term_colors = 1
+  let g:hybrid_reduced_contrast = 1
+  colorscheme hybrid
+  hi LineNr ctermbg=NONE ctermfg=247 guifg=#9e9e9e
+  hi MatchParen guifg=#CDCDCD guibg=#60617A
+  hi Todo guibg=#7C6798
+catch
+  try
+    colorscheme monokai
+    " Clearing all the italic gui
+    hi jsFuncArgs gui=NONE
+    hi jsFuncArgRest gui=NONE
+    hi jsDocTags gui=NONE
+    hi typescriptFuncType gui=NONE
+    hi typescriptCall gui=NONE
+    hi typescriptArrowFuncArg gui=NONE
+  catch
+  endtry
+endtry
 
 hi Error gui=underline
 hi Normal ctermbg=NONE
-hi LineNr ctermbg=NONE ctermfg=247 guifg=#9e9e9e
 hi EndOfBuffer ctermfg=252 guifg=#d0d0d0
 hi CursorLine ctermbg=234 guibg=#1c1c1c
 hi NonText ctermbg=NONE
-hi Comment ctermfg=245 guifg=#8a8a8a
-hi Visual ctermfg=0 ctermbg=243 guibg=#767676
+hi Comment gui=NONE ctermfg=245 guifg=#8a8a8a
+hi Visual ctermbg=237 guibg=#484A4D
 
 " JS syntax highlighting
 hi def link jsObjectKey Structure
 hi def link jsObjectProp Tag
+
 
 set synmaxcol=128
 set termencoding=utf-8
@@ -47,10 +66,13 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
 " -----------------------------------------------------------
 " Visual Updates
 " -----------------------------------------------------------
-filetype plugin indent on
-set tabstop=2 " 4 spaces
-set shiftwidth=2 " Indenting with '>', use 4 spaces
-set softtabstop=2 " 4 spaces tabbing when in insert mode
+filetype on " Enable file type detection
+filetype plugin indent on " Enable filetype indentation
+set tabstop=2 " 2 spaces
+set shiftwidth=2 " Indenting with '>', use 2 spaces
+set softtabstop=2 " 2 spaces tabbing when in insert mode
+set autoindent " Keep the same indent as the line you're currently on
+set smartindent " Smart indents for new lines
 set nojoinspaces " Unset join spaces
 set splitright " Opening splits to right
 set splitbelow " Opening spluts below
@@ -58,14 +80,10 @@ set synmaxcol=250 " Setting syntax highlighting to the first 250 columns. Helps 
 set scrolloff=3 "Scrolling visual offset to three lines
 " set guifont=Inconsolata\ Nerd\ Font\ Complete\ Mono\ Windows\ Compatible:h11
 set guifont=InconsolataGo\ Nerd\ Font\ Complete:h11
-" set guifont="Inconsolata\ for\ Powerline":h11
-" set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Nerd\ Font\ Complete:h11
 
 " set showmatch " Highlights the matching bracket/paren 
 " hi MatchParen cterm=none ctermbg=green ctermfg=blue " to change the colors
 " of the showmatch
-set autoindent " Keep the same indent as the line you're currently on
-set smartindent " Smart indents for new lines
 set noshowmode " Don't show mode, airlien already shows it
 set title " Show the filename in the window titlebar
 set showcmd "Show the (partial) command as it's being typed
@@ -104,13 +122,11 @@ set shortmess+=c " Don't give ins-completion-menu messages
 nnoremap / /\v
 vnoremap / /\v
 
-
+set nofoldenable " disable folding on startup
 set ignorecase " case insensitive search, except when using capital letters
 set smartcase " if the search string has an upper case letter in it, the search will be case sensitive
 set confirm " if the search string has an upper case letter in it, the search will be case sensitive
 set incsearch " Searches are redefined as search term is typed
-
-nnoremap <leader>pwd :echo @%<CR>
 
 " Set backups
 " if has('persistent_undo')
@@ -143,7 +159,7 @@ nnoremap <F5> :checktime<CR>
 " set wrap
 set wrap
 set linebreak
-set textwidth=0
+set textwidth=90
 set wrapmargin=0
 
 " Disable arrow navigation
@@ -161,7 +177,8 @@ nnoremap <S-4> g$
 nnoremap <S-6> g^
 
 " Exit terminal input mode
-tnoremap <Esc> <C-\><C-n>
+au TermOpen * tnoremap <buffer> <Esc> <C-\><C-n>
+au FileType fzf tunmap <buffer> <ESC>
 
 " Create new horizontal split with terminal
 nnoremap <C-q> :30sp<cr>:term<cr>i
@@ -182,8 +199,14 @@ nnoremap <leader>h :bprev<cr>
 nnoremap <leader>bq :bp <BAR> bd #<cr>
 nnoremap <leader>bl :ls<cr>
 
+" Close all open buffers save the last one
+nnoremap <leader>bc :%bd\|e#<cr>
+
 " Makes </ auto close HTML tag
 " iabbrev </ </C-X><C-o>
+
+" Shortcuts to open vimrc and plugin files
+nnoremap <leader>vrc :e $HOME/.config/nvim/init.vim<cr>
 
 " Strip Trailing whitespace (,ss)
 function! StripWhitespace()
@@ -195,12 +218,21 @@ function! StripWhitespace()
 endfunction
 nnoremap <leader>ss :call StripWhitespace()<CR>
 
+function Foldsyn()
+  set foldmethod=syntax
+endfunction
+function FoldIndent()
+  set foldmethod=indent
+endfunction
+nnoremap <leader>zs :call Foldsyn()<CR>
+nnoremap <leader>zs :call FoldIndent()<CR>
+
 function! <SID>SynStack()
   if !exists("*synstack")
     return
   endif
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
+endfunction
 nnoremap <leader>sp :call <SID>SynStack()<CR>
 
 " Save a file as root (,W)
@@ -208,8 +240,6 @@ noremap <leader>W :w !sudo tee % > /dev/null<CR>
 
 " Automatic commands
 if has("autocmd")
-    " Enable file type detection
-    filetype on
     " Treat .scss files as css
     " autocmd BufRead,BufNewFile *.scss set filetype=css syntax=css
     " autocmd BufRead,BufNewFile *.less set filetype=css syntax=css
@@ -228,6 +258,9 @@ if has("autocmd")
     "autocmd BufWinLeave *.* mkview
     "autocmd BufWinEnter *.* silent loadview
 endif
+
+" Add a Remove command
+command! -complete=file -nargs=1 Trash :echo 'Trash: '.'<f-args>'.' '.(delete(<f-args>) == 0 ? 'SUCCEEDED' : 'FAILED')
 
 " Reload icons after init source
 if exists('g:loaded_webdevicons')

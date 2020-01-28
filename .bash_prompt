@@ -94,7 +94,7 @@ prompt_git() {
 # Printing git image for branch 
 function git_image {
 	if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
-		echo ' ⎇  ';
+		echo ' ⎇ ';
 	fi;
 }
 
@@ -128,9 +128,10 @@ else
     hostStyle="${yellow}";
 fi;
 
-PS1="\[${green}\]\w"; # working directory
-PS1+="\[${orange}\]\$(git_image)\[${white}\]\$(git_branch)\[${blue}\]\$(prompt_git)"; # Git repository details
-PS1+=" \[${white}\]→\[${reset}\] "; # `→` (and reset color)
+PS1="\n\[${blue}\][\u@\h] "; # user at computer
+PS1+="\[${green}\]\w\n"; # working directory
+PS1+="\[${white}\]\$(git_branch)\[${orange}\]\$(git_image)\[${blue}\]\$(prompt_git) "; # Git repository details
+PS1+="\[${white}\]➜ \[${reset}\] "; # `→` (and reset color)
 export PS1;
 
 PS2="\[${yellow}\]→ \[${reset}\]";

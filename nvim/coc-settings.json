@@ -1,6 +1,9 @@
 {
   "suggest.echodocSupport": true,
   "suggest.maxCompleteItemCount": 20,
+  "suggest.floatEnable": false,
+  "signature.target": "echo",
+  "coc.preferences.hoverTarget": "echo",
   "diagnostic.errorSign": "X",
   "diagnostic.warningSign": "!",
   "diagnostic.infoSign": ">>",
@@ -8,5 +11,7 @@
   "javascript.validate.enable": false,
   "typescript.suggest.enabled": false,
   "javascript.suggest.enabled": false,
-  "suggest.autoTrigger": "trigger"
+  "suggest.autoTrigger": "trigger",
+  "yaml.customTags": [ "!Ref", "!Sub", "!GetAtt" ],
+  "python.jediEnabled": false
 }
