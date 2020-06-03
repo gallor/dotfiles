@@ -1,1 +1,0 @@
-export PATH=${MAVEN_HOME}:${JAVA_HOME}:${ANDROID_TOOLS}:${PYTHONPATH}:/usr/local/bin:/usr/local/sbin:~/bin:$PATH

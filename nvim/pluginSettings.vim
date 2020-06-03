@@ -8,6 +8,7 @@ nnoremap <Leader>t :FzfBTags<CR>
 nnoremap <Leader>T :FzfTags<CR>
 " Have FZF list all tracked files plus untracked files minus your ignored files
 nnoremap <Leader>rg :Find<CR>
+nnoremap <Leader>rf :FindWithWord<CR>
 nnoremap <Leader>P :Files<CR>
 
 let g:fzf_layout = { 'down': '~20%' }
@@ -25,9 +26,18 @@ nnoremap <expr> <C-p> (len(system('git rev-parse')) ? ':FzfFiles' : ':FzfGFiles 
 " --color: Search color options
 command! -bang -nargs=* Find 
   \ call fzf#vim#grep(
-  \    'rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1,
+  \    'rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow 
+  \    --glob "!.git/*" --color "always" --glob "!*.lock"
+  \    --colors "match:bg:222,95,53" --colors "line:style:bold" --colors "path:fg:green" --colors "path:style:bold" 
+  \    --colors "line:fg:yellow" '.shellescape(<q-args>), 1,
   \    fzf#vim#with_preview(), <bang>0)
 
+command! -bang -nargs=* FindWithWord
+  \ call fzf#vim#grep(
+  \    'rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" 
+  \    --colors "match:bg:222,95,53" --colors "line:style:bold" --colors "path:fg:green" --colors "path:style:bold" 
+  \    --colors "line:fg:yellow" '.shellescape(expand("<cword>")), 1,
+  \    fzf#vim#with_preview(), <bang>0)
 " Files with preview
 command! -bang -nargs=? -complete=dir Files
   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
@@ -420,9 +430,9 @@ let g:airline#extensions#branch#format = 2
 let g:airline_theme='base16_twilight'
 " let g:airline#extensions#ale#enabled = 1 " Ale enabled
 let g:airline#extensions#tabline#enabled = 1 " Enable Vim Airline for list of buffers
-  let g:airline#extensions#tabline#buffers_label = 'b'
-  let g:airline#extensions#tabline#tabs_label = 't'
-  let g:airline#extensions#tabline#formatter = 'short_path'
+let g:airline#extensions#tabline#buffers_label = 'b'
+let g:airline#extensions#tabline#tabs_label = 't'
+let g:airline#extensions#tabline#formatter = 'short_path'
 " let g:airline#extensions#whitespace#enabled = 1
 let g:airline_detect_crypt = 1
 " let g:airline#extension#syntastic#enabled = 1 " Enable syntastic integration
@@ -494,6 +504,9 @@ autocmd BufEnter NERD_* setlocal nornu
 
 " Remove bookmarks and help text from NERDTree
 let g:NERDTreeMinimalUI=1
+
+" Automatically delete buffer of the file just deleted with NerdTree
+let NERDTreeAutoDeleteBuffer = 1
 
 " Custom icons for expandable/expanded directories
 " let g:NERDTreeDirArrowExpandable = '⬏'
@@ -597,12 +610,12 @@ let g:ale_linters = {
 let g:ale_sign_column_always = 1 " keep the sign gutter on all the time
 " highlight clear ALEErrorSign
 " highlight clear ALEWarningSign<Paste>
-" nmap <silent> [l <Plug>(ale_previous_wrap)
-" nmap <silent> ]l <Plug>(ale_next_wrap)
+nmap <silent> [l <Plug>(ale_previous_wrap)
+nmap <silent> ]l <Plug>(ale_next_wrap)
 nmap <silent> [l :lprevious<CR>
 nmap <silent> ]l :lnext<CR>
-nmap <silent> <leader>]l :lopen<CR>
-nmap <silent> <leader>[l :lclose<CR>
+nmap <silent> <leader>[l :lopen<CR>
+nmap <silent> <leader>]l :lclose<CR>
 
 let g:ale_lint_on_text_changed = 'never' " run linter on save
 
@@ -618,11 +631,11 @@ augroup END
 " GitGutter
 " -----------------------------------------------------------
 let g:gitgutter_map_keys = 0
-nmap <Leader>gp <Plug>GitGutterPreviewHunk
-nmap <Leader>gu <Plug>GitGutterUndoHunk
-nmap <Leader>gf <Plug>GitGutterFold
-nmap ]h <Plug>GitGutterNextHunk
-nmap [h <Plug>GitGutterPrevHunk
+nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
+nmap <Leader>gu <Plug>(GitGutterUndoHunk)
+nmap <Leader>gf <Plug>(GitGutterFold)
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
 
 " let g:gitgutter_sign_added = 'xx'
 " let g:gitgutter_sign_modified = 'yy'
@@ -648,12 +661,66 @@ nmap [h <Plug>GitGutterPrevHunk
 " set foldlevel=0  " close all folds
 
 " -----------------------------------------------------------
-" OrgMode
-" -----------------------------------------------------------
-let g:org_indent = 0
-
-" -----------------------------------------------------------
 " delimitMate
 " -----------------------------------------------------------
 let delimitMate_expand_cr = 1
 let delimitMate_expand_space = 1
+
+" -----------------------------------------------------------
+" PolyGlot
+" -----------------------------------------------------------
+let g:polyglot_disabled = ['python']
+
+
+" -----------------------------------------------------------
+" Ctrl-Space
+" -----------------------------------------------------------
+" let g:CtrlSpaceDefaultMappingKey = "<C-space> "
+"
+" " for more tuning of symbols: :help g:CtrlSpaceSymbols
+" if has("gui_running")
+"     " Settings for MacVim and Inconsolata font
+"     let g:CtrlSpaceSymbols = { "File": "◯", "CTab": "▣", "Tabs": "▢" }
+" endif
+"
+" if executable("ag")
+"     let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
+" endif
+"
+" let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
+" let g:CtrlSpaceSaveWorkspaceOnExit = 1
+
+" -----------------------------------------------------------
+" Semshri Python Highlighting
+" -----------------------------------------------------------
+hi semshiSelected ctermbg=238 guibg=#444444
+
+
+" -----------------------------------------------------------
+" NerdTree Git
+" -----------------------------------------------------------
+"  let g:NERDTreeIndicatorMapCustom = {
+    " \ 'Modified'  : '✹',
+    " \ 'Staged'    : '✚',
+    " \ 'Untracked' : '✭',
+    " \ 'Renamed'   : '➜',
+    " \ 'Unmerged'  : '═',
+    " \ 'Deleted'   : '✖',
+    " \ 'Dirty'     : '✗',
+    " \ 'Clean'     : '✔︎',
+    " \ 'Ignored'   : '☒',
+    " \ 'Unknown'   : '?'
+    " \ }
+
+" -----------------------------------------------------------
+" IndentLine
+" -----------------------------------------------------------
+let g:indentLine_setConceal = 0
+let g:indentLine_fileTypeExclude = ['md']
+
+
+" -----------------------------------------------------------
+" Vim Markdown 
+" -----------------------------------------------------------
+let vim_markdown_preview_toggle=2
+let vim_markdown_preview_browser='Google Chrome'

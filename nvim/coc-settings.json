@@ -12,6 +12,30 @@
   "typescript.suggest.enabled": false,
   "javascript.suggest.enabled": false,
   "suggest.autoTrigger": "trigger",
-  "yaml.customTags": [ "!Ref", "!Sub", "!GetAtt" ],
-  "python.jediEnabled": false
+  "yaml.customTags": [ "!Ref", "!Sub", "!GetAtt", "!Equals" ],
+  "python.jediEnabled": false,
+  "languageserver": {
+    "dockerfile": {
+      "command": "docker-langserver",
+      "filetypes": ["dockerfile"],
+      "args": ["--stdio"]
+    },
+    "bash": {
+      "command": "bash-language-server",
+      "args": ["start"],
+      "filetypes": ["sh"],
+      "ignoredRootPaths": ["~"]
+    },
+    "terraform": {
+			"command": "terraform-ls",
+			"args": ["serve"],
+			"filetypes": [
+				"terraform",
+				"tf"
+			],
+			"initializationOptions": {},
+			"settings": {}
+		}
+  }
 }
+

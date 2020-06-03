@@ -18,36 +18,72 @@ syntax sync minlines=200 " Syntax highlighting 200 lines instead of always from 
 " color settings
 " -----------------------------------------------------------
 set termguicolors " enable 256 colors in iterm
-set background=dark
 set t_Co=256 " enable 256 colors in non-iterm terminal
-try
-  let g:hybrid_custom_term_colors = 1
-  let g:hybrid_reduced_contrast = 1
-  colorscheme hybrid
-  hi LineNr ctermbg=NONE ctermfg=247 guifg=#9e9e9e
-  hi MatchParen guifg=#CDCDCD guibg=#60617A
-  hi Todo guibg=#7C6798
-catch
-  try
-    colorscheme monokai
-    " Clearing all the italic gui
-    hi jsFuncArgs gui=NONE
-    hi jsFuncArgRest gui=NONE
-    hi jsDocTags gui=NONE
-    hi typescriptFuncType gui=NONE
-    hi typescriptCall gui=NONE
-    hi typescriptArrowFuncArg gui=NONE
-  catch
-  endtry
-endtry
 
-hi Error gui=underline
-hi Normal ctermbg=NONE
-hi EndOfBuffer ctermfg=252 guifg=#d0d0d0
-hi CursorLine ctermbg=234 guibg=#1c1c1c
-hi NonText ctermbg=NONE
-hi Comment gui=NONE ctermfg=245 guifg=#8a8a8a
-hi Visual ctermbg=237 guibg=#484A4D
+" Change color schemes
+function! DarkTheme()
+  hi Error gui=underline
+  hi Normal ctermbg=NONE
+  hi EndOfBuffer ctermfg=252 guifg=#d0d0d0
+  hi CursorLine ctermbg=234 guibg=#1c1c1c
+  hi NonText ctermbg=NONE
+  hi Comment gui=NONE ctermfg=245 guifg=#8a8a8a
+  hi Visual ctermbg=237 guibg=#484A4D
+  try
+    colorscheme hybrid
+    let g:airline_theme='hybrid'
+    let g:hybrid_custom_term_colors = 1
+    let g:hybrid_reduced_contrast = 1
+    hi LineNr ctermbg=NONE ctermfg=247 guifg=#9e9e9e
+    hi MatchParen guifg=#CDCDCD guibg=#60617A
+    hi Todo guibg=#7C6798
+    set background=dark
+  catch
+    try
+      colorscheme monokai
+      " Clearing all the italic gui
+      hi jsFuncArgs gui=NONE
+      hi jsFuncArgRest gui=NONE
+      hi jsDocTags gui=NONE
+      hi typescriptFuncType gui=NONE
+      hi typescriptCall gui=NONE
+      hi typescriptArrowFuncArg gui=NONE
+    catch
+    endtry
+  endtry
+  if exists (':AirlineRefresh')
+    AirlineRefresh
+  endif
+endfunction
+
+function! Firewatch()
+  set background=dark
+  let g:two_firewatch_italics=1
+  colorscheme two-firewatch
+
+  let g:airline_theme='twofirewatch' " if you have Airline installed and want the associated theme
+  if exists (':AirlineRefresh')
+    AirlineRefresh
+  endif
+endfunction
+
+function! LightTheme()
+  set background=light
+  try
+    colorscheme PaperColor
+    let g:airline_theme='papercolor'
+  catch
+    try
+      colorscheme eclipse
+    catch
+    endtry
+  endtry
+  if exists (':AirlineRefresh')
+    AirlineRefresh
+  endif
+endfunction
+
+call DarkTheme()
 
 " JS syntax highlighting
 hi def link jsObjectKey Structure
@@ -185,7 +221,7 @@ nnoremap <C-q> :30sp<cr>:term<cr>i
 " Create and switch to it vertical split
 nnoremap <C-\> <C-w>v<C-w>l
 " Create and switch to it horizontal split
-nnoremap <leader>e :sp<C-w>j
+nnoremap <C--> :sp<C-w>j
 
 " Remaps C-h/j/k/l to move around in the splits
 nnoremap <C-J> <C-W><C-J>
@@ -208,6 +244,15 @@ nnoremap <leader>bc :%bd\|e#<cr>
 " Shortcuts to open vimrc and plugin files
 nnoremap <leader>vrc :e $HOME/.config/nvim/init.vim<cr>
 
+" -----------------------------------------------------------
+" VimDiff 
+" -----------------------------------------------------------
+:set diffopt+=iwhite
+
+" -----------------------------------------------------------
+" Functions
+" -----------------------------------------------------------
+
 " Strip Trailing whitespace (,ss)
 function! StripWhitespace()
 	let save_cursor = getpos('.')
@@ -225,7 +270,7 @@ function FoldIndent()
   set foldmethod=indent
 endfunction
 nnoremap <leader>zs :call Foldsyn()<CR>
-nnoremap <leader>zs :call FoldIndent()<CR>
+nnoremap <leader>zi :call FoldIndent()<CR>
 
 function! <SID>SynStack()
   if !exists("*synstack")
@@ -250,7 +295,9 @@ if has("autocmd")
     " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
     " Treat .md files as Markdown
-    autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
+    autocmd BufNewFile,BufRead *.md setlocal filetype=markdown textwidth=0
+    autocmd BufNewFile,BufRead *.dockerfile setlocal filetype=Dockerfile textwidth=0
+    autocmd FileType Dockerfile set textwidth=0
     " Set relative if enter buffer, or in visual/normal mode
     autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
     " Set absolute if leaving buffer or in insert mode

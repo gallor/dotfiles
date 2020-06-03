@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =0
+let g:netrw_dirhist_0='/Users/ga89/dev/nt/fos-jwt-validator'
+let g:netrw_dirhist_9='/Users/ga89/dev/nt/fos-jwt-validator/packages'
+let g:netrw_dirhist_8='/Users/ga89/dev/nt/fos-jwt-validator/packages/jwt-auth-base'
+let g:netrw_dirhist_7='/Users/ga89/dev/nt/fos-jwt-validator/packages'
+let g:netrw_dirhist_6='/Users/ga89/dev/nt/fos-jwt-validator'
+let g:netrw_dirhist_5='/Users/ga89/dev/nt'
+let g:netrw_dirhist_4='/Users/ga89/dev/nt/fos-jwt-validator'
+let g:netrw_dirhist_3='/Users/ga89/dev/git/dotfiles/nvim'
+let g:netrw_dirhist_2='/Users/ga89'
+let g:netrw_dirhist_1='/Users/ga89/dev/git/dotfiles/nvim'

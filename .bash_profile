@@ -9,7 +9,7 @@
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{bash_prompt,exports,aliases,functions,extra,profile,path}; do
+for file in ~/.{bash_prompt,exports,aliases,functions,extra,profile}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
@@ -33,12 +33,7 @@ for option in autocd globstar; do
     shopt -s "$option" 2> /dev/null;
 done;
 
-# Add tab completion for many Bash commands
-if which brew > /dev/null && [ -f "$(brew --prefix)/share/bash-completion/bash_completion" ]; then
-    source "$(brew --prefix)/share/bash-completion/bash_completion";
-elif [ -f /etc/bash_completion ]; then
-    source /etc/bash_completion;
-fi;
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
@@ -50,6 +45,10 @@ complete -W "NSGlobalDomain" defaults;
 # Add git-completion support for Git
 source $HOME/.git-completion.bash
 
+# Make sure AWS completion is added
+if [ -x "$(command -v aws)" ]; then
+  complete -C '/usr/local/bin/aws_completer' aws
+fi
 # source /usr/local/bin/git-prompt.sh
 
 # Print nickname for git/hg/bzr/svn version control in CWD
@@ -65,6 +64,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/ga89/.sdkman"
