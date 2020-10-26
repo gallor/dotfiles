@@ -1,7 +1,7 @@
 scriptencoding utf-8
 set encoding=utf-8
 
- source ~/.config/nvim/plugins.vim
+source ~/.config/nvim/plugins.vim
 
 " -----------------------------------------------------------
 " change mapleader from \ to ,
@@ -34,10 +34,10 @@ function! DarkTheme()
     let g:airline_theme='hybrid'
     let g:hybrid_custom_term_colors = 1
     let g:hybrid_reduced_contrast = 1
-    hi LineNr ctermbg=NONE ctermfg=247 guifg=#9e9e9e
-    hi MatchParen guifg=#CDCDCD guibg=#60617A
-    hi Todo guibg=#7C6798
     set background=dark
+    hi LineNr guifg=#9e9e9e
+    hi Todo guifg=#ffffff guibg=#EA4819
+    hi MatchParen guifg=#CDCDCD guibg=#60617A
   catch
     try
       colorscheme monokai
@@ -68,10 +68,10 @@ function! Firewatch()
 endfunction
 
 function! LightTheme()
-  set background=light
   try
     colorscheme PaperColor
     let g:airline_theme='papercolor'
+  set background=light
   catch
     try
       colorscheme eclipse
@@ -154,15 +154,24 @@ set laststatus=2 " Always show status line
 set shortmess=atI " Don't show the intro message when starting vim
 set shortmess+=c " Don't give ins-completion-menu messages
 "
-" Very magic search mode all non [0-9] and [A-Z] must be escaped
-nnoremap / /\v
-vnoremap / /\v
+" Very magic search mode all non [0-9] and [A-Z] must be escaped and case sensitive
+nnoremap / /\v\C
+vnoremap / /\v\C
 
 set nofoldenable " disable folding on startup
 set ignorecase " case insensitive search, except when using capital letters
 set smartcase " if the search string has an upper case letter in it, the search will be case sensitive
 set confirm " if the search string has an upper case letter in it, the search will be case sensitive
 set incsearch " Searches are redefined as search term is typed
+
+" t - autowrap text
+" c - autowrap comments
+" j - remove comment leader when makes sense
+" q - allow formatting of comments using 'gq'
+" l - long lines are not broken in insert mode
+set formatoptions=tcjql 
+
+set iskeyword+=_ " count underscore as part of the word
 
 " Set backups
 " if has('persistent_undo')
@@ -285,19 +294,15 @@ noremap <leader>W :w !sudo tee % > /dev/null<CR>
 
 " Automatic commands
 if has("autocmd")
-    " Treat .scss files as css
-    " autocmd BufRead,BufNewFile *.scss set filetype=css syntax=css
-    " autocmd BufRead,BufNewFile *.less set filetype=css syntax=css
-    " autocmd FileType less set omnifunc=csscomplete#CompleteCSS
-    " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-    " Treat .md files as Markdown
+    autocmd FocusLost * silent! wa " Auto save buffers when focus is moved 
     autocmd BufNewFile,BufRead *.md setlocal filetype=markdown textwidth=0
+    autocmd BufNewFile,BufRead *.taskpaper setlocal filetype=taskpaper textwidth=0 fo-=t
     autocmd BufNewFile,BufRead *.dockerfile setlocal filetype=Dockerfile textwidth=0
     autocmd FileType Dockerfile set textwidth=0
+    autocmd BufNewFile,BufRead *.hcl setlocal filetype=terraform textwidth=0
+    autocmd FileType terraform set textwidth=0
+    autocmd BufNewFile,BufRead *.py3 setlocal filetype=python textwidth=0
+    autocmd FileType python setlocal shiftwidth=2 softtabstop=2 expandtab fo=cjql
     " Set relative if enter buffer, or in visual/normal mode
     autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
     " Set absolute if leaving buffer or in insert mode

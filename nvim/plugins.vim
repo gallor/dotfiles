@@ -5,13 +5,11 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 "==== Editing ====="
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}} " JS Intellisense
-" Plug 'Shougo/denite.nvim' " Fuzzy file searching
 Plug '/usr/local/opt/fzf' " Fzf only if installed via homebrew
 Plug 'junegunn/fzf.vim' " Fuzzy file searching
 Plug 'Shougo/echodoc.vim' " Print function signatures in echo area
 Plug 'easymotion/vim-easymotion' " Improved motion in Vim
 Plug 'jiangmiao/auto-pairs'
-" Plug 'Raimondi/delimitMate' " insert mode auto completion
 Plug 'tpope/vim-repeat' " repeat support for vim-surround
 Plug 'tpope/vim-surround' " change 'surroundings'
 Plug 'tpope/vim-obsession' " save nvim session 
@@ -20,12 +18,8 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  } " markdo
 Plug 'rizzatti/dash.vim' " dash documentation
 Plug 'jceb/vim-orgmode' " Org mode
 Plug 'tmux-plugins/vim-tmux-focus-events' " Enable autoread for vim in tmux 
-" Plug 'vim-ctrlspace/vim-ctrlspace' " Workspace vim management
 Plug 'jremmen/vim-ripgrep' " search for words
 
-" Tmux/Neovim movement integration
-" Plug 'christoomey/vim-tmux-navigator'
-"
 " Snippet support
 " Plug 'Shougo/neosnippet'
 " Plug 'Shougo/neosnippet-snippets'
@@ -33,7 +27,6 @@ Plug 'jremmen/vim-ripgrep' " search for words
 "==== Git ====="
 Plug 'tpope/vim-fugitive' " add git operation commands
 Plug 'airblade/vim-gitgutter' " git signage in gutter
-
 
 "==== Development ===="
 " Plug 'HerringtonDarkholme/yats.vim' " Typescript syntax highlighting

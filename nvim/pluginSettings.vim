@@ -45,330 +45,6 @@ command! -bang -nargs=? -complete=dir Files
 " Floatin fzf window
 let $FZF_DEFAULT_OPTS='--layout=reverse'
 
-" if executable("rg")
-"     command! -bang -nargs=* Rg
-"           \ call fzf#vim#grep(
-"           \   'rg --column --line-number --no-heading --color=always --ignore-case
-" '.shellescape(<q-args>), 1,
-"           \   <bang>0 ? fzf#vim#with_preview('down:~20%')
-"           \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-"           \   <bang>0)
-"
-"     nnoremap <Leader>a :Rg
-" endif
-"
-" let g:fzf_layout = { 'window': 'call FloatingFZF()' }
-
-" function! FloatingFZF()
-"   let buf = nvim_create_buf(v:false, v:true)
-"   call setbufvar(buf, '&signcolumn', 'no')
-"
-"   let height = float2nr(&lines  / 2)
-"   let width = float2nr(&columns - (&columns * 2 / 10))
-"   let col = float2nr((&columns - width) / 2)
-"
-"   let opts = {
-"         \ 'relative': 'editor',
-"         \ 'row': 1,
-"         \ 'col': col,
-"         \ 'width': width,
-"         \ 'height': height
-"         \ }
-"
-"   let win = nvim_open_win(buf, v:true, opts)
-"   call setwinvar(win, '&relativenumber', 0)
-" endfunction
-
-" au FileType fzf set nonu nornu " set no number in fzf buffer
-
-" -----------------------------------------------------------
-" Denite
-" -----------------------------------------------------------
-" Recommendations from https://github.com/ctaylo21/jarvis
-" if has('nvim')
-"     call denite#custom#option('_', { 'split': 'floating' })
-" endif
-"
-" autocmd FileType denite call s:denite_my_settings()
-" function! s:denite_my_settings() abort
-"   nnoremap <silent><buffer><expr> <CR> denite#do_map('do_action')
-"   nnoremap <silent><buffer><expr> o denite#do_map('do_action')
-"   nnoremap <silent><buffer><expr> d denite#do_map('do_action', 'delete')
-"   nnoremap <silent><buffer><expr> p denite#do_map('do_action', 'preview')
-"   nnoremap <silent><buffer><expr> <ESC> denite#do_map('quit')
-"   nnoremap <silent><buffer><expr> q denite#do_map('quit')
-"
-"   nnoremap <silent><buffer><expr> i denite#do_map('open_filter_buffer')
-"   nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
-"   nnoremap <silent><buffer><expr> v denite#do_map('do_action', 'vsplit')
-"   nnoremap <silent><buffer><expr> h denite#do_map('do_action', 'split')
-" endfunction
-"
-" autocmd FileType denite-filter call s:denite_filter_my_settings()
-" function! s:denite_filter_my_settings() abort
-"   imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
-" endfunction
-"
-" " Use ripgrep for searching current directory for files
-" " By default, ripgrep will respect rules in .gitignore
-" "   --files: Print each file that would be searched (but don't search)
-" "   --glob:  Include or exclues files for searching that match the given glob
-" "            (aka ignore .git files)
-" call denite#custom#var('file/rec', 'command', ['rg', '--files', '--glob', '!.git'])
-"
-" " Use ripgrep in place of 'grep'
-" call denite#custom#var('grep', 'command', ['rg'])
-"
-" " Custom options for ripgrep
-" "   --vimgrep:  Show results with every match on it's own line
-" "   --hidden:   Search hidden directories and files
-" "   --heading:  Show the file name above clusters of matches from each file
-" "   --S:        Search case insensitively if the pattern is all lowercase
-" call denite#custom#var('grep', 'default_opts', ['--hidden', '--vimgrep', '--heading', '-S'])
-"
-" " Recommended defaults for ripgrep via Denite docs
-" call denite#custom#var('grep', 'recursive_opts', [])
-" call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
-" call denite#custom#var('grep', 'separator', ['--'])
-" call denite#custom#var('grep', 'final_opts', [])
-"
-" " Remove date from buffer list
-" call denite#custom#var('buffer', 'date_format', '')
-"
-" " Open file commands
-" call denite#custom#map('insert,normal', "<C-t>", '<denite:do_action:tabopen>')
-" call denite#custom#map('insert,normal', "<C-v>", '<denite:do_action:vsplit>')
-" call denite#custom#map('insert,normal', "<C-h>", '<denite:do_action:split>')
-"
-" " Custom options for Denite
-" "   auto_resize             - Auto resize the Denite window height automatically.
-" "   prompt                  - Customize denite prompt
-" "   direction               - Specify Denite window direction as directly below current pane
-" "   winminheight            - Specify min height for Denite window
-" "   highlight_mode_insert   - Specify h1-CursorLine in insert mode
-" "   prompt_highlight        - Specify color of prompt
-" "   highlight_matched_char  - Matched characters highlight
-" "   highlight_matched_range - matched range highlight
-" let s:denite_options = {'default' : {
-" \ 'split': 'floating',
-" \ 'start_filter': 1,
-" \ 'auto_resize': 1,
-" \ 'source_names': 'short',
-" \ 'prompt': 'λ:',
-" \ 'statusline': 0,
-" \ 'highlight_matched_char': 'WildMenu',
-" \ 'highlight_matched_range': 'Visual',
-" \ 'highlight_window_background': 'Visual',
-" \ 'highlight_prompt': 'StatusLine',
-" \ 'winrow': 1,
-" \ 'vertical_preview': 1
-" \ }}
-
-
-
-
-
-
-" " Change file/rec command.
-" call denite#custom#var('file/rec', 'command',
-"       \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-" " For ripgrep
-" " Note: It is slower than ag
-" call denite#custom#var('file/rec', 'command',
-"       \ ['rg', '--files', '--glob', '!.git'])
-" " For Pt(the platinum searcher)
-" " NOTE: It also supports windows.
-" call denite#custom#var('file/rec', 'command',
-"       \ ['pt', '--follow', '--nocolor', '--nogroup',
-"       \  (has('win32') ? '-g:' : '-g='), ''])
-" " For python script scantree.py
-" " Read bellow on this file to learn more about scantree.py
-" call denite#custom#var('file/rec', 'command', ['scantree.py'])
-"
-" " Change matchers.
-" call denite#custom#source(
-"       \ 'file_mru', 'matchers', ['matcher/fuzzy', 'matcher/project_files'])
-"
-" if has('nvim') && &runtimepath =~# '\/cpsm'
-"     call denite#custom#source(
-"             \ 'buffer,file_mru,file_old,file/rec,grep,mpc,line,neoyank',
-"             \ 'matchers', ['matcher/cpsm', 'matcher/fuzzy'])
-" endif
-"
-" " Change sorters.
-" call denite#custom#source(
-"       \ 'file/rec', 'sorters', ['sorter/sublime'])
-"
-" " Add custom menus
-" let s:menus = {}
-"
-" let s:menus.zsh = {
-"       \ 'description': 'Edit your import zsh configuration'
-"       \ }
-" let s:menus.zsh.file_candidates = [
-"       \ ['zshrc', '~/.config/zsh/.zshrc'],
-"       \ ['zshenv', '~/.zshenv'],
-"       \ ]
-"
-" let s:menus.my_commands = {
-"       \ 'description': 'Example commands'
-"       \ }
-" let s:menus.my_commands.command_candidates = [
-"       \ ['Split the window', 'vnew'],
-"       \ ['Open zsh menu', 'Denite menu:zsh'],
-"       \ ['Format code', 'FormatCode', 'go,python'],
-"       \ ]
-"
-" call denite#custom#var('menu', 'menus', s:menus)
-"
-" " Specify multiple paths in grep source
-" "call denite#start([{'name': 'grep',
-" "      \ 'args': [['a.vim', 'b.vim'], '', 'pattern']}])
-"
-" " Define alias
-" call denite#custom#alias('source', 'file/rec/git', 'file/rec')
-" call denite#custom#var('file/rec/git', 'command',
-"       \ ['git', 'ls-files', '-co', '--exclude-standard'])
-"
-" call denite#custom#alias('source', 'file/rec/py', 'file/rec')
-" call denite#custom#var('file/rec/py', 'command',['scantree.py'])
-"
-" " Change ignore_globs
-" call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
-"       \ [ '.git/', '.ropeproject/', '__pycache__/',
-"       \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
-"
-" " Custom action
-" " Note: lambda function is not supported in Vim8.
-" call denite#custom#action('file', 'test',
-"       \ {context -> execute('let g:foo = 1')})
-" call denite#custom#action('file', 'test2',
-"       \ {context -> denite#do_action(
-"       \  context, 'open', context['targets'])})
-"
-" " Custom options for ripgrep for default_opts
-" "   --vimgrep:  Show results with every match on it's own line
-" "   --hidden:   Search hidden directories and files
-" "   --heading:  Show the file name above clusters of matches from each file
-" "   --S:        Search case insensitively if the pattern is all lowercase
-" if executable('rg')
-"     " Ripgrep
-"     set grepprg=rg\ --vimgrep\ --no-heading\ -S
-"     set grepformat=%f:%l:%c:%m,%f:%l:%m
-"     call denite#custom#var('file/rec', 'command',
-"         \ ['rg', '--files', '--glob', '!.git'])
-"     call denite#custom#var('grep', 'command', ['rg', '--threads', '1'])
-"     call denite#custom#var('grep', 'recursive_opts', [])
-"     call denite#custom#var('grep', 'final_opts', [])
-"     call denite#custom#var('grep', 'separator', ['--'])
-"     call denite#custom#var('grep', 'default_opts',
-"         \ ['--hidden', '--vimgrep', '--heading', '-S'])
-" elseif executable('ag')
-"   " The Silver Searcher
-"   call denite#custom#var('file/rec', 'command',
-"         \ ['ag', '-U', '--hidden', '--follow', '--nocolor', '--nogroup', '-g', ''])
-"   " Setup ignore patterns in your .agignore file!
-"   " https://github.com/ggreer/the_silver_searcher/wiki/Advanced-Usage
-"   call denite#custom#var('grep', 'command', ['ag'])
-"   call denite#custom#var('grep', 'recursive_opts', [])
-"   call denite#custom#var('grep', 'pattern_opt', [])
-"   call denite#custom#var('grep', 'separator', ['--'])
-"   call denite#custom#var('grep', 'final_opts', [])
-"   call denite#custom#var('grep', 'default_opts',
-"         \ [ '--skip-vcs-ignores', '--vimgrep', '--smart-case', '--hidden' ])
-" elseif executable('ack')
-"     " Ack command
-"     call denite#custom#var('grep', 'command', ['ack'])
-"     call denite#custom#var('grep', 'recursive_opts', [])
-"     call denite#custom#var('grep', 'pattern_opt', ['--match'])
-"     call denite#custom#var('grep', 'separator', ['--'])
-"     call denite#custom#var('grep', 'final_opts', [])
-"     call denite#custom#var('grep', 'default_opts',
-"         \ ['--ackrc', $HOME.'/.config/ackrc', '-H',
-"         \ '--nopager', '--nocolor', '--nogroup', '--column'])
-"
-" endif
-"
-" call denite#custom#option('search', { 'start_filter': 0, 'no_empty': 1 })
-" call denite#custom#option('list', { 'start_filter': 0 })
-" call denite#custom#option('jump', { 'start_filter': 0 })
-" call denite#custom#option('git', { 'start_filter': 0 })
-"
-" " Recommended defaults for ripgrep via Denite docs
-" call denite#custom#var('grep', 'recursive_opts', [])
-" call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
-" call denite#custom#var('grep', 'separator', ['--'])
-" call denite#custom#var('grep', 'final_opts', [])
-"
-" " Remove date from buffer list
-" call denite#custom#var('buffer', 'date_format', '')
-"
-" " Disable internal statusline to use airline
-" call denite#custom#option('_', 'statusline', v:false)
-
-" Custom options for Denite
-"   auto_resize             - Auto resize the Denite window height automatically.
-"   prompt                  - Customize denite prompt ,
-"   direction               - Specify Denite window direction as directly below current pane
-"   winminheight            - Specify min height for Denite window
-"   highlight_mode_insert   - Specify h1-CursorLine in insert mode
-"   prompt_highlight        - Specify color of prompt
-"   highlight_matched_char  - Matched characters highlight
-"   highlight_matched_range - matched range highlight
-" let s:denite_options = {'default' : {
-"       \ 'split': 'floating',
-"       \ 'auto_resize': 1,
-"       \ 'prompt': 'λ',
-"       \ 'source_names': 'short',
-"       \ 'direction': 'belowright',
-"       \ 'winminheight': '20',
-"       \ 'winwidth': '&columns / 1.5',
-"       \ 'highlight_mode_insert': 'Normal',
-"       \ 'highlight_mode_normal': 'Normal',
-"       \ 'highlight_matched_char': 'Function',
-"       \ 'highlight_matched_range': 'Normal',
-"       \ 'highlight_matched_background': 'Normal',
-"       \ 'vertical_preview': 1,
-"       \ 'source-names': 'short',
-"       \ 'winrow': 1,
-"       \ 'reuse': 'true',
-"       \ }}
-"
-" Loop through denite options and enable them
-"function! s:profile(opts) abort
-  "for l:fname in keys(a:opts)
-    "for l:dopt in keys(a:opts[l:fname])
-      "call denite#custom#option(l:fname, l:dopt, a:opts[l:fname][l:dopt])
-    "endfor
-  "endfor
-"endfunction
-
-"call s:profile(s:denite_options)
-
-" === Denite shortcuts === "
-  "<Ctrl>p - Browse list of files in current directory
-  "<leader>p - Browser currently open buffers
-  "<leader>wg - Search current directory for occurences of word under cursor
-  "<leader>g - Search current directory for occurences of given term and
-  "close window if no results
-" nnoremap <C-p> :Denite file/rec -start-filter<CR>
-" nnoremap <leader>p :Denite buffer<CR>
-" nnoremap <leader>wg :DeniteCursorWord grep:.<CR>
-" nnoremap <leader>g :Denite grep:. -no-empty<CR>
-" " nnoremap <leader><Space>/ :DeniteBufferDir grep:.<CR>
-" nnoremap <leader>d :DeniteBufferDir file/rec -start-filter<CR>
-" nnoremap <leader>r :Denite -resume -cursor-pos=+1<CR>
-" " nnoremap <leader><C-r> :Denite register:.<CR>
-" " references source from LanguageClient
-"
-" hi link deniteMatchedChar Special
-"
-" " Quit filter window in denite filter window
-" autocmd FileType denite-filter call s:denite_filter_my_settings()
-"   function! s:denite_filter_my_settings() abort
-"     imap <silent><buffer> <C-c> <Plug>(denite_filter_quit)
-"   endfunction
-
 " -----------------------------------------------------------
 " Coc - https://github.com/neoclide/coc.nvim
 " -----------------------------------------------------------
@@ -427,7 +103,7 @@ let g:airline_extensions = ['branch', 'coc', 'ale', 'tabline', 'whitespace']
 let g:airline_skip_empty_sections = 1
 
 let g:airline#extensions#branch#format = 2
-let g:airline_theme='base16_twilight'
+" let g:airline_theme='base16_twilight'
 " let g:airline#extensions#ale#enabled = 1 " Ale enabled
 let g:airline#extensions#tabline#enabled = 1 " Enable Vim Airline for list of buffers
 let g:airline#extensions#tabline#buffers_label = 'b'
@@ -473,7 +149,8 @@ function! AirlineInit()
     let g:airline_section_a = airline#section#create(['mode'])
     let g:airline_section_b = airline#section#create(['branch'])
     " let g:airline_section_b = airline#section#create(['hunks', 'branch'])
-    let g:airline_section_c = ''
+    " let g:airline_section_c = '%{getcwd()}'
+    let g:airline_section_c = '%F'
     let g:airline_section_x = airline#section#create(['filetype','readonly'])
     let g:airline_section_y = airline#section#create_right(['file', '%l', '%L'])
     let g:airline_section_z = ''
@@ -499,8 +176,8 @@ nnoremap <leader>f :NERDTreeFind<CR>
 let g:NERDTreeShowHidden=1
 
 " Hide Line Numbers
-let g:NERDTreeShowLineNumbers=0
-autocmd BufEnter NERD_* setlocal nornu
+let g:NERDTreeShowLineNumbers=1
+" autocmd BufEnter NERD_* setlocal nornu
 
 " Remove bookmarks and help text from NERDTree
 let g:NERDTreeMinimalUI=1
@@ -580,13 +257,11 @@ nmap <leader>z :JsDoc<CR>
 " Vim's default buffer
 vnoremap <leader>p "_dP
 
-
 " -----------------------------------------------------------
 " MISC
 " -----------------------------------------------------------
 " Automaticaly close nvim if NERDTree is only thing left open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
 
 " -----------------------------------------------------------
 " ALE
@@ -606,7 +281,9 @@ let g:ale_fixers = {
 \}
 let g:ale_linters = {
 \   'javascript': ['eslint'],
+\   'sh': ['language_server'],
 \}
+
 let g:ale_sign_column_always = 1 " keep the sign gutter on all the time
 " highlight clear ALEErrorSign
 " highlight clear ALEWarningSign<Paste>
@@ -648,18 +325,6 @@ nmap [h <Plug>(GitGutterPrevHunk)
 " GitGutterDelete       " at least one removed line (default: links to DiffDelete)
 " GitGutterChangeDelete " a changed line followed by at least one removed line (default: links to GitGutterChange)
 
-
-" -----------------------------------------------------------
-" Dash
-" -----------------------------------------------------------
-" nnoremap <C-k> <Plug>DashSearch
-
-" -----------------------------------------------------------
-" AnyFold
-" -----------------------------------------------------------
-" autocmd Filetype * AnyFoldActivate " activate for all filetypes
-" set foldlevel=0  " close all folds
-
 " -----------------------------------------------------------
 " delimitMate
 " -----------------------------------------------------------
@@ -671,30 +336,10 @@ let delimitMate_expand_space = 1
 " -----------------------------------------------------------
 let g:polyglot_disabled = ['python']
 
-
-" -----------------------------------------------------------
-" Ctrl-Space
-" -----------------------------------------------------------
-" let g:CtrlSpaceDefaultMappingKey = "<C-space> "
-"
-" " for more tuning of symbols: :help g:CtrlSpaceSymbols
-" if has("gui_running")
-"     " Settings for MacVim and Inconsolata font
-"     let g:CtrlSpaceSymbols = { "File": "◯", "CTab": "▣", "Tabs": "▢" }
-" endif
-"
-" if executable("ag")
-"     let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
-" endif
-"
-" let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
-" let g:CtrlSpaceSaveWorkspaceOnExit = 1
-
 " -----------------------------------------------------------
 " Semshri Python Highlighting
 " -----------------------------------------------------------
 hi semshiSelected ctermbg=238 guibg=#444444
-
 
 " -----------------------------------------------------------
 " NerdTree Git
@@ -718,9 +363,21 @@ hi semshiSelected ctermbg=238 guibg=#444444
 let g:indentLine_setConceal = 0
 let g:indentLine_fileTypeExclude = ['md']
 
-
 " -----------------------------------------------------------
 " Vim Markdown 
 " -----------------------------------------------------------
 let vim_markdown_preview_toggle=2
 let vim_markdown_preview_browser='Google Chrome'
+
+" -----------------------------------------------------------
+" NerdTree Syntax Highlight
+" -----------------------------------------------------------
+let g:NERDTreeLimitedSyntax = 1 " Limit the syntax highlighting to improve lag
+let g:NERDTreeHighlightCursorline = 0 " Disable cursor line highlighting to improve lag
+
+" Additional configs if the above does not help solve lag
+" let g:NERDTreeSyntaxDisableDefaultExtensions = 1
+" let g:NERDTreeSyntaxDisableDefaultExactMatches = 1
+" let g:NERDTreeSyntaxDisableDefaultPatternMatches = 1
+" let g:NERDTreeSyntaxEnabledExtensions = ['c', 'h', 'c++', 'cpp', 'php', 'rb', 'js', 'css', 'html'] " enabled extensions with default colors
+" let g:NERDTreeSyntaxEnabledExactMatches = ['node_modules', 'favicon.ico'] " enabled exact matches with default colors

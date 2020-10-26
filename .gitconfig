@@ -88,7 +88,7 @@
   # local branches automatically track remote branch they were created off of
   autosetupmerge = always
   # local branches will automatically rebase on top of the tracked branch on git pull
-  autosetuprebase = always
+  # autosetuprebase = always
 
 [rebase]
   # stashes uncommitted changes to a local stash to rebase

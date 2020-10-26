@@ -11,6 +11,7 @@ alias dt="cd ~/Desktop"
 alias g="git"
 alias h="history"
 alias dev="cd ~/dev/"
+alias ws="watson"
 
 # Application config
 alias fzf="fzf --height=25% --layout=reverse --prompt=λ"
@@ -143,3 +144,6 @@ alias repl="node ~/dev/js/repl/repl.js"
 # Alias Python3 to Python command
 alias python=python3
 alias pip=pip3
+
+# Forces TMUX into 256 color mode
+alias tmux="tmux -2"

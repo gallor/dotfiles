@@ -7,3 +7,5 @@ export NVM_DIR="$HOME/.nvm"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # fix for fzf completion in tmux
 complete -o nospace -o plusdirs -F _fzf_dir_completion cd
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
