@@ -10,8 +10,6 @@ let g:coc_global_extensions = [
   \ 'coc-json',
   \ 'coc-python'
   \ ]
-Plug '/usr/local/opt/fzf' " Fzf only if installed via homebrew
-Plug 'junegunn/fzf.vim' " Fuzzy file searching
 Plug 'Shougo/echodoc.vim' " Print function signatures in echo area
 Plug 'easymotion/vim-easymotion' " Improved motion in Vim
 Plug 'jiangmiao/auto-pairs'
@@ -24,6 +22,14 @@ Plug 'rizzatti/dash.vim' " dash documentation
 Plug 'jceb/vim-orgmode' " Org mode
 Plug 'tmux-plugins/vim-tmux-focus-events' " Enable autoread for vim in tmux 
 Plug 'jremmen/vim-ripgrep' " search for words
+
+if isdirectory('/usr/local/opt/fzf')
+  Plug '/usr/local/opt/fzf' " Fzf only if installed via homebrew
+else
+  Plug 'junegunn/fzf',  { 'do': { -> fzf#install() } } " Fuzzy file searching if not via homebrew
+endif
+
+Plug 'junegunn/fzf.vim' " Fuzzy file searching
 
 " Snippet support
 " Plug 'Shougo/neosnippet'

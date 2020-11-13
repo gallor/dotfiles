@@ -75,6 +75,9 @@
       fi \
   }; f"
 
+  # Checks out all my submodules
+  sup = !sh -c "git submodule update --init --recursive && git submodule status"
+
 	# Quick shortcuts 
 	st = status
 	co = checkout
