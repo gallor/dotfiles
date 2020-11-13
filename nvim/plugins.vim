@@ -5,11 +5,6 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 "==== Editing ====="
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}} " JS Intellisense
-let g:coc_global_extensions = [
-  \ 'coc-tsserver',
-  \ 'coc-json',
-  \ 'coc-python'
-  \ ]
 Plug 'Shougo/echodoc.vim' " Print function signatures in echo area
 Plug 'easymotion/vim-easymotion' " Improved motion in Vim
 Plug 'jiangmiao/auto-pairs'

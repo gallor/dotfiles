@@ -48,6 +48,14 @@ let $FZF_DEFAULT_OPTS='--layout=reverse'
 " -----------------------------------------------------------
 " Coc - https://github.com/neoclide/coc.nvim
 " -----------------------------------------------------------
+let g:coc_global_extensions = [
+  \ 'coc-tsserver',
+  \ 'coc-json',
+  \ 'coc-python',
+  \ 'coc-actions',
+  \ 'coc-prettier'
+  \ ]
+
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
@@ -76,10 +84,12 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
+  if coc#float#has_float()
+    call coc#float#has_float()
+  elseif (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
   else
-    call CocAction('doHover')
+    call CocActionAsync('doHover')
   endif
 endfunction
 
@@ -95,6 +105,17 @@ xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
 
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Fix autofix problem of current line
+nmap <leader>cf <Plug>(coc-fix-current)
+
+" Remap for codeAction of selected region
+function! s:cocActionsOpenFromSelected(type) abort
+  execute 'CocCommand actions.open ' . a:type
+endfunction
+
+xmap <silent> <leader>ca :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
+nmap <silent> <leader>ca :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
 
 " Automatically installs and uses coc-eslint if eslint exists in the node modules
 " if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
@@ -286,14 +307,14 @@ if g:colors_name == 'monokai'
   hi ALEWarningSign guibg=#303030
 endif
 
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['eslint'],
-\}
-let g:ale_linters = {
-\   'javascript': ['eslint'],
-\   'sh': ['language_server'],
-\}
+" let g:ale_fixers = {
+" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+" \   'javascript': ['eslint'],
+" \}
+" let g:ale_linters = {
+" \   'javascript': ['eslint'],
+" \   'sh': ['language_server'],
+" \}
 
 let g:ale_sign_column_always = 1 " keep the sign gutter on all the time
 " highlight clear ALEErrorSign

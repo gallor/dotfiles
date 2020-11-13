@@ -25,7 +25,6 @@ set t_Co=256 " enable 256 colors in non-iterm terminal
 function! DarkTheme()
   hi Error gui=underline
   hi Normal ctermbg=NONE
-  hi clear SignColumn
   hi EndOfBuffer ctermfg=252 guifg=#d0d0d0
   hi CursorLine ctermbg=234 guibg=#1c1c1c
   hi NonText ctermbg=NONE
@@ -40,6 +39,7 @@ function! DarkTheme()
     hi LineNr guifg=#9e9e9e
     hi Todo guifg=#ffffff guibg=#EA4819
     hi MatchParen guifg=#CDCDCD guibg=#60617A
+    hi clear SignColumn
   catch
     try
       colorscheme monokai
