@@ -8,6 +8,7 @@
   "diagnostic.warningSign": "!",
   "diagnostic.infoSign": ">>",
   "diagnostic.checkCurrentLine": true,
+  "diagnostic.displayByAle": true,
   "tsserver.enable": true,
   "typescript.validate.enable": true,
   "javascript.validate.enable": true,
@@ -41,6 +42,7 @@
 			"initializationOptions": {},
 			"settings": {}
 		}
-  }
+  },
+  "coc.preferences.extensionUpdateCheck": "daily"
 }
 

@@ -90,6 +90,10 @@
   # local branches will automatically rebase on top of the tracked branch on git pull
   # autosetuprebase = always
 
+[pull]
+  # rebaseing upbranch when pulling down
+  rebase = true
+
 [rebase]
   # stashes uncommitted changes to a local stash to rebase
   autostash = true
@@ -104,7 +108,7 @@
 
 [core]
   # Use custom `.gitignore` and `.gitattributes`
-  excludesfile = /Users/ga89/.gitignore_global
+  excludesfile = /Users/gallor/.gitignore_global
   attributesfile = ~/.gitattributes
 
   # Treat spaces before tabs and all kinds of trailing whitespace as an error

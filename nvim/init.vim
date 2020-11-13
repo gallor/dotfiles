@@ -1,6 +1,7 @@
 scriptencoding utf-8
 set encoding=utf-8
 
+let g:polyglot_disabled = ['python']
 source ~/.config/nvim/plugins.vim
 
 " -----------------------------------------------------------
@@ -24,6 +25,7 @@ set t_Co=256 " enable 256 colors in non-iterm terminal
 function! DarkTheme()
   hi Error gui=underline
   hi Normal ctermbg=NONE
+  hi clear SignColumn
   hi EndOfBuffer ctermfg=252 guifg=#d0d0d0
   hi CursorLine ctermbg=234 guibg=#1c1c1c
   hi NonText ctermbg=NONE
@@ -71,7 +73,7 @@ function! LightTheme()
   try
     colorscheme PaperColor
     let g:airline_theme='papercolor'
-  set background=light
+    set background=light
   catch
     try
       colorscheme eclipse
@@ -295,6 +297,9 @@ noremap <leader>W :w !sudo tee % > /dev/null<CR>
 " Automatic commands
 if has("autocmd")
     autocmd FocusLost * silent! wa " Auto save buffers when focus is moved 
+    autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart " rescans for syntax on buffers for large tsx files
+    autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear " stops rescans on leave for tsx files
+    autocmd BufNewFile,BufRead *.jsx set filetype=javascript.jsx
     autocmd BufNewFile,BufRead *.md setlocal filetype=markdown textwidth=0
     autocmd BufNewFile,BufRead *.taskpaper setlocal filetype=taskpaper textwidth=0 fo-=t
     autocmd BufNewFile,BufRead *.dockerfile setlocal filetype=Dockerfile textwidth=0

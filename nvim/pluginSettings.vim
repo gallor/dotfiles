@@ -68,7 +68,7 @@ inoremap <silent><expr> <c-space> coc#refresh()
 " Coc only does snippet and additional edit on confirm.
 inoremap <silent><expr> <C-cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
- " autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+" autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -96,6 +96,16 @@ xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
+" Automatically installs and uses coc-eslint if eslint exists in the node modules
+" if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
+"   let g:coc_global_extensions += ['coc-eslint']
+" endif
+" 
+" if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
+"   let g:coc_global_extensions += ['coc-prettier']
+" endif
+
+
 " -----------------------------------------------------------
 " Airline
 " -----------------------------------------------------------
@@ -104,7 +114,7 @@ let g:airline_skip_empty_sections = 1
 
 let g:airline#extensions#branch#format = 2
 " let g:airline_theme='base16_twilight'
-" let g:airline#extensions#ale#enabled = 1 " Ale enabled
+let g:airline#extensions#ale#enabled = 1 " Ale enabled
 let g:airline#extensions#tabline#enabled = 1 " Enable Vim Airline for list of buffers
 let g:airline#extensions#tabline#buffers_label = 'b'
 let g:airline#extensions#tabline#tabs_label = 't'
@@ -266,6 +276,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " -----------------------------------------------------------
 " ALE
 " -----------------------------------------------------------
+let g:ale_disable_lsp = 1 " Disables language server since integrating with Coc
 let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '⚠'
 hi ALEErrorSign ctermbg=NONE ctermfg=red guifg=red
@@ -334,7 +345,6 @@ let delimitMate_expand_space = 1
 " -----------------------------------------------------------
 " PolyGlot
 " -----------------------------------------------------------
-let g:polyglot_disabled = ['python']
 
 " -----------------------------------------------------------
 " Semshri Python Highlighting
