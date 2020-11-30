@@ -128,9 +128,10 @@ else
     hostStyle="${yellow}";
 fi;
 
-PS1="\n\[${blue}\][\u@\h] "; # user at computer
-PS1+="\[${green}\]\w\n"; # working directory
-PS1+="\[${bold}\]\[${white}\]\[\e[40m\]\$(git_branch)\[${orange}\]\$(git_image)\[${blue}\]\$(prompt_git) "; # Git repository details
+# PS1="\n\[${blue}\][\u@\h] "; # user at computer
+PS1="\n\[${blue}\][\u] "; # user at computer
+PS1+="\[${green}\]\w"; # working directory
+PS1+="\n\[${bold}\]\[${white}\]\[\e[40m\]\$(git_branch)\[${orange}\]\$(git_image)\[${blue}\]\$(prompt_git) "; # Git repository details
 PS1+="\[${white}\]➜ \[${reset}\] "; # `→` (and reset color)
 export PS1;
 

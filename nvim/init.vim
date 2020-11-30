@@ -21,24 +21,32 @@ syntax sync minlines=200 " Syntax highlighting 200 lines instead of always from 
 set termguicolors " enable 256 colors in iterm
 set t_Co=256 " enable 256 colors in non-iterm terminal
 
+" Enable True colors
+if (has("nvim"))
+  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
+
 " Change color schemes
 function! DarkTheme()
-  hi Error gui=underline
-  hi Normal ctermbg=NONE
-  hi EndOfBuffer ctermfg=252 guifg=#d0d0d0
-  hi CursorLine ctermbg=234 guibg=#1c1c1c
-  hi NonText ctermbg=NONE
-  hi Comment gui=NONE ctermfg=245 guifg=#8a8a8a
-  hi Visual ctermbg=237 guibg=#484A4D
+  " hi Error gui=underline
+  " hi Normal ctermbg=NONE
+  " hi EndOfBuffer ctermfg=252 guifg=#d0d0d0
+  " hi CursorLine ctermbg=234 guibg=#1c1c1c
+  " hi NonText ctermbg=NONE
+  " hi Comment gui=NONE ctermfg=245 guifg=#8a8a8a
+  " hi Visual ctermbg=237 guibg=#484A4D
   try
-    colorscheme hybrid
-    let g:airline_theme='hybrid'
-    let g:hybrid_custom_term_colors = 1
-    let g:hybrid_reduced_contrast = 1
     set background=dark
+    colorscheme hybrid_material
+    " colorscheme hybrid
+    let g:airline_theme='hybrid'
+    " let g:hybrid_custom_term_colors = 1
+    " let g:hybrid_reduced_contrast = 1
+    " set background=dark
     hi LineNr guifg=#9e9e9e
-    hi Todo guifg=#ffffff guibg=#EA4819
-    hi MatchParen guifg=#CDCDCD guibg=#60617A
+    " hi Todo guifg=#ffffff guibg=#EA4819
+    " hi MatchParen guifg=#CDCDCD guibg=#60617A
     hi clear SignColumn
   catch
     try
@@ -71,9 +79,9 @@ endfunction
 
 function! LightTheme()
   try
-    colorscheme PaperColor
-    let g:airline_theme='papercolor'
     set background=light
+    colorscheme hybrid_material
+    let g:airline_theme = "hybrid"
   catch
     try
       colorscheme eclipse

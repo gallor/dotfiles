@@ -340,6 +340,7 @@ augroup END
 " GitGutter
 " -----------------------------------------------------------
 let g:gitgutter_map_keys = 0
+let g:gitgutter_preview_win_floating = 1 " To use floating/popup windows for hunk previews
 nmap <Leader>gp <Plug>(GitGutterPreviewHunk)
 nmap <Leader>gu <Plug>(GitGutterUndoHunk)
 nmap <Leader>gf <Plug>(GitGutterFold)
@@ -351,11 +352,16 @@ nmap [h <Plug>(GitGutterPrevHunk)
 " let g:gitgutter_sign_removed = 'zz'
 " let g:gitgutter_sign_removed_first_line = '^^'
 " let g:gitgutter_sign_modified_removed = 'ww'
+
 " Highlights
-" GitGutterAdd          " an added line             (default: links to DiffAdd)
-" GitGutterChange       " a changed line            (default: links to DiffChange)
-" GitGutterDelete       " at least one removed line (default: links to DiffDelete)
-" GitGutterChangeDelete " a changed line followed by at least one removed line (default: links to GitGutterChange)
+" (default: links to DiffAdd)
+hi GitGutterAdd guibg=NONE ctermbg=NONE  
+" (default: links to DiffChange)
+hi GitGutterChange guibg=NONE ctermbg=NONE
+" (default: links to DiffDelete)
+hi GitGutterDelete guibg=NONE ctermbg=NONE
+" (default: links to GitGutterChange)
+hi GitGutterChangeDelete guibg=NONE ctermbg=NONE
 
 " -----------------------------------------------------------
 " delimitMate
@@ -395,10 +401,28 @@ let g:indentLine_setConceal = 0
 let g:indentLine_fileTypeExclude = ['md']
 
 " -----------------------------------------------------------
-" Vim Markdown 
+" Vim Markdown Preview
 " -----------------------------------------------------------
 let vim_markdown_preview_toggle=2
 let vim_markdown_preview_browser='Google Chrome'
+
+" -----------------------------------------------------------
+" Vim Markdown Syntax
+" -----------------------------------------------------------
+" disable header folding
+let g:vim_markdown_folding_disabled = 1
+
+" do not use conceal feature, the implementation is not so good
+let g:vim_markdown_conceal = 0
+
+" disable math tex conceal feature
+let g:tex_conceal = ""
+let g:vim_markdown_math = 1
+
+" support front matter of various format
+let g:vim_markdown_frontmatter = 1  " for YAML format
+let g:vim_markdown_toml_frontmatter = 1  " for TOML format
+let g:vim_markdown_json_frontmatter = 1  " for JSON format
 
 " -----------------------------------------------------------
 " NerdTree Syntax Highlight

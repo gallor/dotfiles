@@ -12,7 +12,7 @@ Plug 'tpope/vim-repeat' " repeat support for vim-surround
 Plug 'tpope/vim-surround' " change 'surroundings'
 Plug 'tpope/vim-obsession' " save nvim session 
 Plug 'tpope/vim-eunuch' "Unix shell commands
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  } " markdown preview support
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'rizzatti/dash.vim' " dash documentation
 Plug 'jceb/vim-orgmode' " Org mode
 Plug 'tmux-plugins/vim-tmux-focus-events' " Enable autoread for vim in tmux 
@@ -46,10 +46,13 @@ Plug 'hashivim/vim-terraform' " Terraform support
 "==== Syntax ===="
 Plug 'w0rp/ale' " linting engine engine
 Plug 'sheerun/vim-polyglot' " Syntax engine loads libraries only on demand,
+Plug 'plasticboy/vim-markdown'
+Plug 'godlygeek/tabular' " tabular plugin is used to format tables
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " Python syntax
 
 "==== UI ===="
 Plug 'davidoc/taskpaper.vim' " Taskpaper support
+Plug 'kristijanhusak/vim-hybrid-material' " Light and dark theme based on hybrid
 Plug 'w0ng/vim-hybrid' " colorscheme
 Plug 'vim-scripts/eclipse.vim' " colorscehme 
 Plug 'vim-scripts/summerfruit256.vim' " colorscheme 

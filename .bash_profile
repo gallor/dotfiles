@@ -9,7 +9,7 @@
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{bash_prompt,exports,aliases,functions,extra,profile}; do
+for file in ~/.{bash_prompt,aliases,functions,extra,profile}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
@@ -65,6 +65,9 @@ export NVM_DIR="$HOME/.nvm"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# fix for fzf completion in tmux
+complete -o nospace -o plusdirs -F _fzf_dir_completion cd
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/ga89/.sdkman"
