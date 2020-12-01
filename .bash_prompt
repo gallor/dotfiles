@@ -117,22 +117,24 @@ function git_branch {
 # Highlight the user name when logged in as root.
 if [[ "${USER}" == "root" ]]; then
     userStyle="${red}";
+    userIcon="$"
 else
-    userStyle="${green}";
+    userStyle="${blue}";
+    userIcon="➜"
 fi;
 
 # Highlight the hostname when connected via SSH.
 if [[ "${SSH_TTY}" ]]; then
-    hostStyle="${bold}${red}";
+    hostStyle="\n\[${yellow}\][\u@\h]"
 else
-    hostStyle="${yellow}";
+    # hostStyle="${blue}";
+    hostStyle="\n\[${blue}\][\u]"
 fi;
 
-# PS1="\n\[${blue}\][\u@\h] "; # user at computer
-PS1="\n\[${blue}\][\u] "; # user at computer
-PS1+="\[${green}\]\w"; # working directory
+PS1="${hostStyle}" # user @ hostname at computer
+PS1+="\[${green}\] \w"; # working directory
 PS1+="\n\[${bold}\]\[${white}\]\[\e[40m\]\$(git_branch)\[${orange}\]\$(git_image)\[${blue}\]\$(prompt_git) "; # Git repository details
-PS1+="\[${white}\]➜ \[${reset}\] "; # `→` (and reset color)
+PS1+="\[${white}\]${userIcon} \[${reset}\] "; # `→` (and reset color)
 export PS1;
 
 PS2="\[${yellow}\]→ \[${reset}\]";
