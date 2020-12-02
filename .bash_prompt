@@ -9,6 +9,11 @@ elif infocmp xterm-256color >/dev/null 2>&1; then
     export TERM='xterm-256color';
 fi;
 
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+
 if tput setaf 1 &> /dev/null; then
     tput sgr0; # reset colors
     bold=$(tput bold);
