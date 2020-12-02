@@ -114,18 +114,21 @@ function! s:cocActionsOpenFromSelected(type) abort
   execute 'CocCommand actions.open ' . a:type
 endfunction
 
-xmap <silent> <leader>ca :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
-nmap <silent> <leader>ca :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
+xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
+nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
 
 " Automatically installs and uses coc-eslint if eslint exists in the node modules
 " if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
 "   let g:coc_global_extensions += ['coc-eslint']
 " endif
-" 
+"
 " if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
 "   let g:coc_global_extensions += ['coc-prettier']
 " endif
 
+" Coc-prettier formating
+vmap <leader>gf  <Plug>(coc-format-selected)
+nmap <leader>gf  <Plug>(coc-format-selected)
 
 " -----------------------------------------------------------
 " Airline
