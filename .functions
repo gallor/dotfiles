@@ -154,7 +154,7 @@ function get_version_ctl_branch() {
 	done
 }
 
-get_styled_version_ctl_branch() {
+function get_styled_version_ctl_branch() {
 	CUR_BRANCH=$(get_version_ctl_branch "$1")
 	if [[ "${CUR_BRANCH}" =~ ^.*(master).*$  ]]; then
 		printf "\033[38;5;257m${CUR_BRANCH}\033[00m"
@@ -163,7 +163,7 @@ get_styled_version_ctl_branch() {
 	fi
 }
 
-ansiiTable() {
+function ansiiTable() {
     # generates an 8 bit color table (256 colors) for reference,
 	# using the ANSI CSI+SGR \033[48;5;${val}m for background and
 	# \033[38;5;${val}m for text (see "ANSI Code" on Wikipedia)
@@ -193,7 +193,7 @@ function npm-do {
     (PATH=$(npm bin):$PATH; eval $@;)
 }
 
-mochaDebug() {
+function mochaDebug() {
     ./node_modules/.bin/mocha --debug-brk --compilers js:babel-register $1
 }
 
@@ -257,14 +257,6 @@ vg() {
   fi
 }
 
-# checkout git branch
-fbr() {
-  local branches branch
-  branches=$(git --no-pager branch -vv) &&
-  branch=$(echo "$branches" | fzf +m) &&
-  git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
-}
-
 # fstash - easier way to deal with stashes
 # type fstash to get a list of your stashes
 # enter shows you the contents of the stash
@@ -302,6 +294,15 @@ gco() {
       git checkout $branch; git pull;
     fi
 }
+
+
+# gcoa() {
+#     local branch=$(git branch --all | fzf)
+#
+#     if [[ $branch ]]; then
+#       git checkout $branch; git switch -c ;
+#     fi
+# }
 
 # tm - create new tmux session, or switch to existing one. Works from within tmux too. (@bag-man)
 # `tm` will allow you to select your tmux session via fzf.
@@ -359,17 +360,17 @@ bdp() {
 # and display a info quickview window for the currently marked application
 install() {
     local token
-    token=$(brew search --casks | fzf-tmux --query="$1" +m --preview 'brew cask info {}')
+    token=$(brew search --casks | fzf-tmux --query="$1" +m --preview 'brew info {}')
 
     if [ "x$token" != "x" ]
     then
         echo "(I)nstall or open the (h)omepage of $token"
         read input
         if [ $input = "i" ] || [ $input = "I" ]; then
-            brew cask install $token
+            brew install --cask $token
         fi
         if [ $input = "h" ] || [ $input = "H" ]; then
-            brew cask home $token
+            brew home $token
         fi
     fi
 }
@@ -379,17 +380,17 @@ install() {
 # and display a info quickview window for the currently marked application
 uninstall() {
     local token
-    token=$(brew cask list | fzf-tmux --query="$1" +m --preview 'brew cask info {}')
+    token=$(brew list --casks | fzf-tmux --query="$1" +m --preview 'brew info {}')
 
     if [ "x$token" != "x" ]
     then
         echo "(U)ninstall or open the (h)omepage of $token"
         read input
         if [ $input = "u" ] || [ $input = "U" ]; then
-            brew cask uninstall $token
+            brew uninstall $token
         fi
         if [ $input = "h" ] || [ $token = "h" ]; then
-            brew cask home $token
+            brew home $token
         fi
     fi
 }

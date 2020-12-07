@@ -58,3 +58,6 @@ export RVM_HOME=$HOME/.rvm/bin
 export RUBY_HOME=/usr/local/opt/ruby/bin
 
 export GEM_HOME=/usr/local/lib/ruby/gems/2.7.0/bin
+
+export HOMEBREW_CASK_OPTS='--appdir=~/Applications'
+
