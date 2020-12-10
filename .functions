@@ -296,13 +296,13 @@ gco() {
 }
 
 
-# gcoa() {
-#     local branch=$(git branch --all | fzf)
-#
-#     if [[ $branch ]]; then
-#       git checkout $branch; git switch -c ;
-#     fi
-# }
+gcoa() {
+    local branch=$(git branch --all | fzf)
+
+    if [[ $branch ]]; then
+      git checkout $branch; git switch -c ;
+    fi
+}
 
 # tm - create new tmux session, or switch to existing one. Works from within tmux too. (@bag-man)
 # `tm` will allow you to select your tmux session via fzf.
