@@ -295,12 +295,21 @@ gco() {
     fi
 }
 
+grm() {
+  local branch=$(git branch | fzf)
+
+  if [[ $branch ]]; then
+    git branch -D $branch  
+  fi
+}
+
 
 gcoa() {
     local branch=$(git branch --all | fzf)
 
     if [[ $branch ]]; then
-      git checkout $branch; git switch -c ;
+      local newBranch=$(echo $branch | sed "s/remotes\/origin\///");
+      git checkout -b $newBranch $branch;
     fi
 }
 
