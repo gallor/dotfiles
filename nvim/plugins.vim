@@ -14,7 +14,6 @@ Plug 'tpope/vim-obsession' " save nvim session
 Plug 'tpope/vim-eunuch' "Unix shell commands
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'rizzatti/dash.vim' " dash documentation
-Plug 'jceb/vim-orgmode' " Org mode
 Plug 'tmux-plugins/vim-tmux-focus-events' " Enable autoread for vim in tmux 
 Plug 'jremmen/vim-ripgrep' " search for words
 
@@ -37,6 +36,7 @@ Plug 'airblade/vim-gitgutter' " git signage in gutter
 "==== Development ===="
 " Plug 'HerringtonDarkholme/yats.vim' " Typescript syntax highlighting
 " Plug 'heavenshell/vim-jsdoc' " Generate JSDoc commands based on function signatures
+Plug 'leafgarland/typescript-vim' " Typescript syntax
 Plug 'pangloss/vim-javascript' " JS highlighting and indenting
 Plug 'greatghoul/vim-web-indent' 
 Plug 'hashivim/vim-terraform' " Terraform support
@@ -44,7 +44,7 @@ Plug 'hashivim/vim-terraform' " Terraform support
 " Plug 'othree/yajs.vim' " Improved syntax highlighting and indentation
 
 "==== Syntax ===="
-Plug 'w0rp/ale' " linting engine engine
+Plug 'dense-analysis/ale' " linting engine engine
 Plug 'sheerun/vim-polyglot' " Syntax engine loads libraries only on demand,
 Plug 'plasticboy/vim-markdown'
 Plug 'godlygeek/tabular' " tabular plugin is used to format tables
@@ -63,6 +63,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin' " Git integration in NerdTree
 Plug 'scrooloose/nerdcommenter' " commenting
 Plug 'NLKNguyen/papercolor-theme' " colorscheme
 Plug 'rakr/vim-two-firewatch' " colorscheme
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' } " Styled component syntax
 " Plug 'tpope/vim-vinegar' " directory browser
 
 " Status line

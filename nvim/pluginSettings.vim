@@ -84,16 +84,19 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 function! s:show_documentation()
-  if coc#float#has_float()
-    call coc#float#has_float()
-  elseif (index(['vim','help'], &filetype) >= 0)
+  if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
-  else
+  elseif (coc#rpc#ready())
     call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
@@ -109,26 +112,37 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " Fix autofix problem of current line
 nmap <leader>cf <Plug>(coc-fix-current)
 
-" Remap for codeAction of selected region
-function! s:cocActionsOpenFromSelected(type) abort
-  execute 'CocCommand actions.open ' . a:type
-endfunction
-
-xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
-nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
-
-" Automatically installs and uses coc-eslint if eslint exists in the node modules
-" if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
-"   let g:coc_global_extensions += ['coc-eslint']
-" endif
+" " Remap for codeAction of selected region
+" function! s:cocActionsOpenFromSelected(type) abort
+"   execute 'CocCommand actions.open ' . a:type
+" endfunction
 "
-" if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
-"   let g:coc_global_extensions += ['coc-prettier']
-" endif
+" xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
+" nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
 
-" Coc-prettier formating
-vmap <leader>gf  <Plug>(coc-format-selected)
+
+" Formatting selected code.
+xmap <leader>gf  <Plug>(coc-format-selected)
 nmap <leader>gf  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>do  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " -----------------------------------------------------------
 " Airline
@@ -375,7 +389,8 @@ let delimitMate_expand_space = 1
 " -----------------------------------------------------------
 " PolyGlot
 " -----------------------------------------------------------
-
+let g:javascript_plugin_jsdoc = 1
+"
 " -----------------------------------------------------------
 " Semshri Python Highlighting
 " -----------------------------------------------------------
@@ -439,3 +454,8 @@ let g:NERDTreeHighlightCursorline = 0 " Disable cursor line highlighting to impr
 " let g:NERDTreeSyntaxDisableDefaultPatternMatches = 1
 " let g:NERDTreeSyntaxEnabledExtensions = ['c', 'h', 'c++', 'cpp', 'php', 'rb', 'js', 'css', 'html'] " enabled extensions with default colors
 " let g:NERDTreeSyntaxEnabledExactMatches = ['node_modules', 'favicon.ico'] " enabled exact matches with default colors
+
+" -----------------------------------------------------------
+" Typescript Vim
+" -----------------------------------------------------------
+let g:typescript_indent_disable = 1
