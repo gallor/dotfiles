@@ -324,14 +324,10 @@ if g:colors_name == 'monokai'
   hi ALEWarningSign guibg=#303030
 endif
 
-" let g:ale_fixers = {
-" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-" \   'javascript': ['eslint'],
-" \}
-" let g:ale_linters = {
-" \   'javascript': ['eslint'],
-" \   'sh': ['language_server'],
-" \}
+let g:ale_linters= {
+\   'javascript': ['eslint'],
+\   'typescript': ['tslint']
+\}
 
 let g:ale_sign_column_always = 1 " keep the sign gutter on all the time
 " highlight clear ALEErrorSign
