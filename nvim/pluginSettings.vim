@@ -7,7 +7,7 @@ nnoremap <Leader>e :FzfHistory<CR>
 nnoremap <Leader>t :FzfBTags<CR>
 nnoremap <Leader>T :FzfTags<CR>
 " Have FZF list all tracked files plus untracked files minus your ignored files
-nnoremap <Leader>rg :Find<CR>
+" nnoremap <Leader>rg :Find<CR>
 nnoremap <Leader>rf :FindWithWord<CR>
 nnoremap <Leader>P :Files<CR>
 
@@ -326,7 +326,8 @@ endif
 
 let g:ale_linters= {
 \   'javascript': ['eslint'],
-\   'typescript': ['tslint']
+\   'typescript': ['tslint'],
+\   'typescriptreact': ['tslint']
 \}
 
 let g:ale_sign_column_always = 1 " keep the sign gutter on all the time
@@ -368,13 +369,13 @@ nmap [h <Plug>(GitGutterPrevHunk)
 
 " Highlights
 " (default: links to DiffAdd)
-hi GitGutterAdd guibg=NONE ctermbg=NONE  
+hi GitGutterAdd guibg=none ctermbg=none  
 " (default: links to DiffChange)
-hi GitGutterChange guibg=NONE ctermbg=NONE
+hi GitGutterChange guibg=none ctermbg=none
 " (default: links to DiffDelete)
-hi GitGutterDelete guibg=NONE ctermbg=NONE
+hi GitGutterDelete guibg=none ctermbg=none
 " (default: links to GitGutterChange)
-hi GitGutterChangeDelete guibg=NONE ctermbg=NONE
+hi GitGutterChangeDelete guibg=none ctermbg=none
 
 " -----------------------------------------------------------
 " delimitMate
