@@ -4,7 +4,7 @@
 
 [alias]
   # View abbreviated SHA, description, and history graph of the latest 20 commits
-  l = log --pretty=oneline -n 20 --graph --abbrev-commit
+  hist = log --pretty=oneline -n 20 --graph --abbrev-commit
 
   # View the current working tree status using the short format
   s = status -s
@@ -22,7 +22,7 @@
   c = clone --recursive
 
   # Commit all changes by providing message
-  ca = "!f() { git add -A && git commit -m $1; }; f"
+  ca = "!f() { git add -A && git commit -m \"$1\"; }; f"
 
   # Switch to a branch, creating it if necessary
   go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
@@ -76,7 +76,7 @@
   }; f"
 
   # Checks out all my submodules
-  sup = !sh -c "git submodule update --init --recursive && git submodule status"
+  sup = "!git submodule update --init --recursive && git submodule status"
 
 	# Quick shortcuts 
 	st = status
@@ -85,7 +85,6 @@
 	up = rebase
 	ci = commit
 	pu = push -u origin HEAD
-	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
 
 [branch]
   # local branches automatically track remote branch they were created off of
