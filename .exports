@@ -45,7 +45,7 @@ export PIPPATH=$HOME/Library/Python/3.8/bin
 # --follow: Follow symlinks
 # --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
-export BAT_THEME="Monokai Extended"
+export BAT_THEME="base16"
 export FZF_COMPLETION_OPTS="--prompt 'λ ' --preview '(bat --color=alawys {} || cat {} || tree -C {}) 2> /dev/null | head -200'"
 
 export FZF_CTRL_T_OPTS="$FZF_COMPLETION_OPTS"

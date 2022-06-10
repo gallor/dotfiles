@@ -222,6 +222,8 @@ inoremap <left> <nop>
 inoremap <right> <nop>
 nnoremap j gj
 nnoremap k gk
+vnoremap j gj
+vnoremap k gk
 nnoremap <S-4> g$
 nnoremap <S-6> g^
 

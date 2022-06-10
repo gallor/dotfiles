@@ -16,7 +16,6 @@
   "javascript.suggest.enabled": true,
   "javascript.suggestionActions.enabled": false,
   "typescript.suggestionActions.enabled": false,
-  "prettier.disableSuccessMessage": true,
   "suggest.autoTrigger": "trigger",
   "yaml.customTags": [ "!Ref", "!Sub", "!GetAtt", "!Equals" ],
   "python.jediEnabled": true,

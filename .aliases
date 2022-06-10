@@ -14,7 +14,7 @@ alias dev="cd ~/dev/"
 alias ws="watson"
 
 # Application config
-alias fzf="fzf --height=25% --layout=reverse --prompt=λ"
+alias fzf="fzf --height=25% --layout=reverse --prompt='λ '"
 
 # Idiot proofing to commands
 alias mv='mv -i'
@@ -25,11 +25,37 @@ alias rm='rm -i'
 alias df='df -h'
 alias du='du -h'
 
+# Git
+alias ga='git add'
+alias gap='git add --patch'
+alias gl='git pull'
+alias gp='git push'
+alias gd='git diff'
+alias gdc='git diff --cached'
+alias gcb='git checkout -b'
+alias gc='git commit'
+alias gca='git commit -a'
+alias gb='git branch'
+alias gs='git status -s'
+alias gm='git commit -m'
+alias gma='git commit -am'
+alias gra='git remote add'
+alias grr='git remote rm'
+alias gg='git g'
+alias gsg='git sgrep'
+# grs: git reset submodules
+alias grs="git submodule foreach --recursive | tac | sed 's/Entering //' | xargs -n1 -i bash -c 'echo {} && cd {} && git clean -ffd && git reset --hard'"
+
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
     colorflag="--color"
 else # OS X `ls`
     colorflag="-G"
+fi
+
+# Use Bat for Cat
+if [ -x /usr/bin/bat ]; then
+  alias cat='bat'
 fi
 
 if [ -x /usr/bin/dircolors ]; then

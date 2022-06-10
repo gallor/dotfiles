@@ -80,7 +80,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # fix for fzf completion in tmux
-complete -o nospace -o plusdirs -F _fzf_dir_completion cd
+# complete -o nospace -o plusdirs -F _fzf_dir_completion cd
+
+source ~/.local/opt/fzf-obc/bin/fzf-obc.bash
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/ga89/.sdkman"

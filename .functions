@@ -288,11 +288,11 @@ fstash() {
 
 # Git checkout new branch
 gco() {
-    local branch=$(git branch | fzf)
+  local branch=$(git branch | fzf)
 
-    if [[ $branch ]]; then
-      git checkout $branch; git pull;
-    fi
+  if [[ $branch ]]; then
+    git checkout $branch; git pull;
+  fi
 }
 
 grm() {
@@ -305,12 +305,13 @@ grm() {
 
 
 gcoa() {
-    local branch=$(git branch --all | fzf)
+  git fetch --all;
+  local branch=$(git branch --all | fzf)
 
-    if [[ $branch ]]; then
-      local newBranch=$(echo $branch | sed "s/remotes\/origin\///");
-      git checkout -b $newBranch $branch;
-    fi
+  if [[ $branch ]]; then
+    local newBranch=$(echo $branch | sed "s/remotes\/origin\///");
+    git checkout -b $newBranch $branch;
+  fi
 }
 
 # tm - create new tmux session, or switch to existing one. Works from within tmux too. (@bag-man)

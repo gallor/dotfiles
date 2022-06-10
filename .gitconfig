@@ -1,7 +1,6 @@
 [user]
 	name = Grant Allor
-	email = thelistener13+git@gmail.com
-
+	email = gallor@drwholdings.com
 [alias]
   # View abbreviated SHA, description, and history graph of the latest 20 commits
   hist = log --pretty=oneline -n 20 --graph --abbrev-commit
@@ -94,7 +93,7 @@
 
 [pull]
   # rebaseing upbranch when pulling down
-  rebase = true
+  rebase = false
 
 [rebase]
   # stashes uncommitted changes to a local stash to rebase
