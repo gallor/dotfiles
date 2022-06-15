@@ -151,19 +151,16 @@
 [diff]
   # Detect copies as well as renames
   renames = copies
-	tool = diffmerge
+	tool = vscode
 
-[difftool "diffmerge"]
-	cmd = diffmerge \"$LOCAL\" \"$REMOTE\"
+[difftool "vscode"]
+  cmd = code --wait --diff $LOCAL $REMOTE
 
 [merge]
-	tool = diffmerge
+  tool = vscode
 
-[mergetool "diffmerge"]
-	cmd = "diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$(if test -f \"$BASE\"; then echo \"$BASE\"; else echo \"$LOCAL\"; fi)\" \"$REMOTE\""
-	trustExitCode = true
-  # Include summaries of merged commits in newly created merge commit messages
-  log = true
+[mergetool "vscode"]
+  cmd = code --wait $MERGED
 
 [help]
     # Automatically correct and execute mistyped commands
