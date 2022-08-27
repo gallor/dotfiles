@@ -84,10 +84,11 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
+  if (coc#float#has_float() == 0)
+  " if (coc#rpc#ready())
+    silent call CocActionAsync('doHover')
+  elseif (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
   else
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif
@@ -95,8 +96,18 @@ endfunction
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" function! ShowDocIfNoDiagnostic(timer_id)
+"   if (coc#float#has_float() == 0)
+"     silent call CocActionAsync('doHover')
+"   endif
+" endfunction
+"
+" function! s:show_hover_doc()
+"   call timer_start(2000, 'ShowDocIfNoDiagnostic')
+" endfunction
+"
+" autocmd CursorHoldI * silent call <SID>show_hover_doc()
+" autocmd CursorHold * silent call <SID>show_hover_doc()
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
@@ -456,3 +467,7 @@ let g:NERDTreeHighlightCursorline = 0 " Disable cursor line highlighting to impr
 " Typescript Vim
 " -----------------------------------------------------------
 let g:typescript_indent_disable = 1
+
+" -----------------------------------------------------------
+" OrgMode 
+" -----------------------------------------------------------

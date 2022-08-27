@@ -6,10 +6,12 @@
 # Removed adding bin to path here and moved to .path file
 # export PATH="$HOME/bin:$PATH";
 
+export PATH=$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:${RVM_HOME}:${RUBY_HOME}:${GEM_HOME}:${MAVEN_HOME}:${JAVA_HOME}:${ANDROID_TOOLS}:${PYTHONPATH}:${PIPPATH}:/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/findutils/libexec/gnubin:/usr/local/bin:/usr/local/sbin:~/bin:$PATH
+
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{bash_prompt,aliases,functions,extra,path,exports}; do
+for file in ~/.{bash_prompt,aliases,functions,exports,extra}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
@@ -82,7 +84,7 @@ export NVM_DIR="$HOME/.nvm"
 # fix for fzf completion in tmux
 # complete -o nospace -o plusdirs -F _fzf_dir_completion cd
 
-source ~/.local/opt/fzf-obc/bin/fzf-obc.bash
+source $HOME/.local/opt/fzf-obc/bin/fzf-obc.bash
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/ga89/.sdkman"

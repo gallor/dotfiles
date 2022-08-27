@@ -194,7 +194,7 @@ set nowritebackup
 " Key Remapping, Line Numbering
 " -----------------------------------------------------------
 nnoremap ; :
-" set lazyredraw " fixes horizontal scrolling with relativenumber on
+set lazyredraw " fixes horizontal scrolling with relativenumber on
 set relativenumber
 set number
 
