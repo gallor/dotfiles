@@ -3,7 +3,10 @@
 
 
 # >>>> Vagrant command completion (start)
-. /opt/vagrant/embedded/gems/2.2.14/gems/vagrant-2.2.14/contrib/bash/completion.sh
+VAGRANT_COMPLETION=/opt/vagrant/embedded/gems/2.2.14/gems/vagrant-2.2.14/contrib/bash/completion.sh
+if [ -f "$VAGRANT_COMPLETION" ]; then
+    . VAGRANT_COMPLETION
+fi
 # <<<<  Vagrant command completion (end)
 
 # >>> conda initialize >>>
