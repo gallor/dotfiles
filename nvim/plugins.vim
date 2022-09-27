@@ -58,13 +58,14 @@ Plug 'vim-scripts/eclipse.vim' " colorscehme
 Plug 'vim-scripts/summerfruit256.vim' " colorscheme 
 Plug 'crusoexia/vim-monokai' " colorschem 
 Plug 'Yggdroot/indentLine' " Indent line guides 
-Plug 'scrooloose/nerdtree' " File explorer
-Plug 'Xuyuanp/nerdtree-git-plugin' " Git integration in NerdTree
+" Plug 'scrooloose/nerdtree' " File explorer
+" Plug 'Xuyuanp/nerdtree-git-plugin' " Git integration in NerdTree
 Plug 'scrooloose/nerdcommenter' " commenting
 Plug 'NLKNguyen/papercolor-theme' " colorscheme
 Plug 'rakr/vim-two-firewatch' " colorscheme
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' } " Styled component syntax
-" Plug 'tpope/vim-vinegar' " directory browser
+Plug 'kyazdani42/nvim-web-devicons' " File icons for explorer
+Plug 'kyazdani42/nvim-tree.lua' " File Explorer
 
 " Status line
 Plug 'vim-airline/vim-airline'

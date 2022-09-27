@@ -112,15 +112,6 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " Fix autofix problem of current line
 nmap <leader>cf <Plug>(coc-fix-current)
 
-" " Remap for codeAction of selected region
-" function! s:cocActionsOpenFromSelected(type) abort
-"   execute 'CocCommand actions.open ' . a:type
-" endfunction
-"
-" xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
-" nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
-
-
 " Formatting selected code.
 xmap <leader>gf  <Plug>(coc-format-selected)
 nmap <leader>gf  <Plug>(coc-format-selected)
@@ -211,14 +202,34 @@ autocmd User AirlineAfterInit call AirlineInit()
 " Smartly uniquify buffers names with similar filename, suppressing common parts of paths.
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 
+
+" -----------------------------------------------------------
+" Nvim-Tree
+" -----------------------------------------------------------
+lua << EOF
+vim.g.loaded = 1
+vim.g.loaded_netrwPlugin = 1
+
+require("nvim-tree").setup({
+  renderer = {
+    group_empty = true
+  },
+  filters = {
+    dotfiles = true
+  },
+})
+EOF
+nnoremap <leader>n :NvimTreeToggle<CR>
+nnoremap <leader>f :NvimTreeFindFileToggle<CR>
+
 " -----------------------------------------------------------
 " Nerdtree
 " -----------------------------------------------------------
 " === Nerdtree shorcuts === "
 "  <leader>n - Toggle NERDTree on/off
 "  <leader>f - Opens current file location in NERDTree
-nnoremap <leader>n :NERDTreeToggle<CR>
-nnoremap <leader>f :NERDTreeFind<CR>
+"nnoremap <leader>n :NERDTreeToggle<CR>
+"nnoremap <leader>f :NERDTreeFind<CR>
 
 " Show hidden files/directories
 let g:NERDTreeShowHidden=1
