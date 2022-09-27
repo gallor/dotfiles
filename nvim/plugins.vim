@@ -16,6 +16,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
 Plug 'rizzatti/dash.vim' " dash documentation
 Plug 'tmux-plugins/vim-tmux-focus-events' " Enable autoread for vim in tmux 
 Plug 'jremmen/vim-ripgrep' " search for words
+Plug 'mg979/vim-visual-multi', {'branch': 'master'} " Multiple Visual Mode
 
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' " Fzf only if installed via homebrew
@@ -29,6 +30,7 @@ Plug 'junegunn/fzf.vim' " Fuzzy file searching
 " Plug 'Shougo/neosnippet'
 " Plug 'Shougo/neosnippet-snippets'
 "
+
 "==== Git ====="
 Plug 'tpope/vim-fugitive' " add git operation commands
 Plug 'airblade/vim-gitgutter' " git signage in gutter
@@ -74,6 +76,9 @@ Plug 'vim-airline/vim-airline-themes'
 " Icons
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+"==== OrgMode ====="
+Plug 'kristijanhusak/orgmode.nvim', 
 
 call plug#end()
 

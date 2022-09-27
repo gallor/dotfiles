@@ -115,13 +115,13 @@ set autoindent " Keep the same indent as the line you're currently on
 set smartindent " Smart indents for new lines
 set nojoinspaces " Unset join spaces
 set splitright " Opening splits to right
-set splitbelow " Opening spluts below
+set splitbelow " Opening splits below
 set synmaxcol=250 " Setting syntax highlighting to the first 250 columns. Helps with speed for long lines
 set scrolloff=3 "Scrolling visual offset to three lines
 " set guifont=Inconsolata\ Nerd\ Font\ Complete\ Mono\ Windows\ Compatible:h11
 set guifont=InconsolataGo\ Nerd\ Font\ Complete:h11
 
-" set showmatch " Highlights the matching bracket/paren 
+" set showmatch " Highlights the matching bracket/paren
 " hi MatchParen cterm=none ctermbg=green ctermfg=blue " to change the colors
 " of the showmatch
 set noshowmode " Don't show mode, airlien already shows it
@@ -194,7 +194,7 @@ set nowritebackup
 " Key Remapping, Line Numbering
 " -----------------------------------------------------------
 nnoremap ; :
-" set lazyredraw " fixes horizontal scrolling with relativenumber on
+set lazyredraw " fixes horizontal scrolling with relativenumber on
 set relativenumber
 set number
 

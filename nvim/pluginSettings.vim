@@ -61,10 +61,19 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
+
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+inoremap <silent><expr> <C-x><C-z> coc#pum#visible() ? coc#pum#stop() : "\<C-x>\<C-z>"
+" remap for complete to use tab and <cr>
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+    \ coc#pum#visible() ? coc#pum#next(1):
+    \ <SID>check_back_space() ? "\<Tab>" :
+    \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+inoremap <silent><expr> <c-space> coc#refresh()
+
+hi CocSearch ctermfg=12 guifg=#18A3FF
+hi CocMenuSel ctermbg=109 guibg=#13354A
 
 "Close preview window when completion is done.
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
@@ -84,19 +93,30 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
+  if (coc#float#has_float() == 0)
+  " if (coc#rpc#ready())
+    silent call CocActionAsync('doHover')
+  elseif (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
   else
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
 
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent><leader>K :call <SID>show_documentation()<CR>
 
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" function! ShowDocIfNoDiagnostic(timer_id)
+"   if (coc#float#has_float() == 0)
+"     silent call CocActionAsync('doHover')
+"   endif
+" endfunction
+"
+" function! s:show_hover_doc()
+"   call timer_start(2000, 'ShowDocIfNoDiagnostic')
+" endfunction
+"
+" autocmd CursorHoldI * silent call <SID>show_hover_doc()
+" autocmd CursorHold * silent call <SID>show_hover_doc()
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
@@ -467,3 +487,7 @@ let g:NERDTreeHighlightCursorline = 0 " Disable cursor line highlighting to impr
 " Typescript Vim
 " -----------------------------------------------------------
 let g:typescript_indent_disable = 1
+
+" -----------------------------------------------------------
+" OrgMode 
+" -----------------------------------------------------------
