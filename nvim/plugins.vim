@@ -12,7 +12,7 @@ Plug 'tpope/vim-repeat' " repeat support for vim-surround
 Plug 'tpope/vim-surround' " change 'surroundings'
 Plug 'tpope/vim-obsession' " save nvim session 
 Plug 'tpope/vim-eunuch' "Unix shell commands
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+" Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'rizzatti/dash.vim' " dash documentation
 Plug 'tmux-plugins/vim-tmux-focus-events' " Enable autoread for vim in tmux 
 Plug 'jremmen/vim-ripgrep' " search for words
