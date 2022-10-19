@@ -3,9 +3,8 @@
 
 
 # >>>> Vagrant command completion (start)
-VAGRANT_COMPLETION=/opt/vagrant/embedded/gems/2.2.14/gems/vagrant-2.2.14/contrib/bash/completion.sh
-if [ -f "$VAGRANT_COMPLETION" ]; then
-    . VAGRANT_COMPLETION
+if [ -f "/opt/vagrant/embedded/gems/2.2.14/gems/vagrant-2.2.14/contrib/bash/completion.sh" ]; then
+    . /opt/vagrant/embedded/gems/2.2.14/gems/vagrant-2.2.14/contrib/bash/completion.sh
 fi
 # <<<<  Vagrant command completion (end)
 

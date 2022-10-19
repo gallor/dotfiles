@@ -72,11 +72,6 @@ inoremap <silent><expr> <TAB>
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 
-" Make <CR> to accept selected completion item or notify coc.nvim to format
-" <C-g>u breaks current undo, please make your own choice.
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
 function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
@@ -125,19 +120,6 @@ endfunction
 
 nnoremap <silent><leader>K :call <SID>show_documentation()<CR>
 
-" function! ShowDocIfNoDiagnostic(timer_id)
-"   if (coc#float#has_float() == 0)
-"     silent call CocActionAsync('doHover')
-"   endif
-" endfunction
-"
-" function! s:show_hover_doc()
-"   call timer_start(2000, 'ShowDocIfNoDiagnostic')
-" endfunction
-"
-" autocmd CursorHoldI * silent call <SID>show_hover_doc()
-" autocmd CursorHold * silent call <SID>show_hover_doc()
-
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
 
@@ -176,71 +158,96 @@ command! -nargs=0 Format :call CocAction('format')
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " -----------------------------------------------------------
-" Airline
+" BufferLine
 " -----------------------------------------------------------
-let g:airline_extensions = ['branch', 'coc', 'ale', 'tabline', 'whitespace']
-let g:airline_skip_empty_sections = 1
+lua << EOF
+require('bufferline').setup {
+      \ options = {
+      \   diagnostics = "coc"
+      \ }
+    \ }
+EOF
 
-let g:airline#extensions#branch#format = 2
-" let g:airline_theme='base16_twilight'
-let g:airline#extensions#ale#enabled = 1 " Ale enabled
-let g:airline#extensions#tabline#enabled = 1 " Enable Vim Airline for list of buffers
-let g:airline#extensions#tabline#buffers_label = 'b'
-let g:airline#extensions#tabline#tabs_label = 't'
-let g:airline#extensions#tabline#formatter = 'short_path'
-" let g:airline#extensions#whitespace#enabled = 1
-let g:airline_detect_crypt = 1
-" let g:airline#extension#syntastic#enabled = 1 " Enable syntastic integration
-" let g:airline#extensions#branch#enabled = 1 " Enable git branch
-let g:airline#extensions#coc#enabled = 1 " Enable Coc
-let g:airline#extensions#hunks#enabled = 0 " Enable git hunk
-" Custom setup that removes filetype/whitespace from default vim airline bar
-let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'z', 'warning', 'error']]
+" -----------------------------------------------------------
+" WebIcons 
+" -----------------------------------------------------------
+lua << EOF
+require('nvim-web-devicons').setup{}
+EOF
 
-" Do not draw separators for empty sections (only for the active window) >
-" let g:airline_skip_empty_sections = 1
+" -----------------------------------------------------------
+" LuaLine
+" -----------------------------------------------------------
+lua << END
+require('lualine').setup {
+      \ options = {
+        \   component_separators = { left = '', right = '' },
+        \   section_separators = { left = '', right = '' }
+      \ },
+      \ sections = {
+        \   lualine_x = {'filetype'}
+      \ }
+    \ }
+END
+" -----------------------------------------------------------
+" Wilder
+" -----------------------------------------------------------
+call wilder#setup({
+      \ 'modes': [':', '/', '/?'],
+      \ 'next_key': '<Tab>',
+      \ 'previous_key': '<S-Tab>',
+      \ 'accept_key': '<C-y>',
+      \ 'reject_key': '<C-e>'
+      \ })
 
-let airline#extensions#coc#stl_format_err = '%E{[%e(#%fe)]}'
+call wilder#set_option('pipeline', [
+      \   wilder#branch(
+      \     wilder#cmdline_pipeline(),
+      \     wilder#search_pipeline(),
+      \   ),
+      \ ])
 
-let airline#extensions#coc#stl_format_warn = '%W{[%w(#%fw)]}'
+ call wilder#set_option('pipeline', [
+      \   wilder#branch(
+      \     wilder#cmdline_pipeline({
+      \       'language': 'python',
+      \       'fuzzy': 1,
+      \       'sorter': wilder#python_difflib_sorter(),
+      \       'debounce': 30,
+      \     }),
+      \     wilder#python_search_pipeline({
+      \       'pattern': wilder#python_fuzzy_pattern(),
+      \       'sorter': wilder#python_difflib_sorter(),
+      \       'engine': 're',
+      \       'debounce': 30,
+      \     }),
+      \   ),
+      \ ])
 
-" Configure error/warning section to use coc.nvim
-" let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
-" let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
+call wilder#set_option('renderer', wilder#popupmenu_renderer({
+      \ 'highlighter': wilder#basic_highlighter(),
+      \ 'highlights': {
+      \   'accent': wilder#make_hl('WilderAccent', 'Pmenu', [{}, {}, {'foreground': '#f4468f'}]),
+      \ },
+      \ 'left': [
+      \   ' ', wilder#popupmenu_devicons(),
+      \ ],
+      \ 'right': [
+      \   ' ', wilder#popupmenu_scrollbar(),
+      \ ],
+      \ }))
 
-" Hide the Nerdtree status line to avoid clutter
-let g:NERDTreeStatusline = ''
+call wilder#set_option('renderer', wilder#renderer_mux({
+      \ ':': wilder#popupmenu_renderer(),
+      \ '/': wilder#wildmenu_renderer(),
+      \ }))
 
-" Disable vim-airline in preview mode
-let g:airline_exclude_preview = 1
-" Enable powerline font support
-let g:airline_powerline_fonts = 1
-" Enable caching of syntax highlighting groups
-let g:airline_highlighting_cache = 1
-
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-let g:airline_symbols.space = "\ua0"
-let g:airline_symbols.branch = ''
-
-function! AirlineInit()
-    let g:airline_section_a = airline#section#create(['mode'])
-    let g:airline_section_b = airline#section#create(['branch'])
-    " let g:airline_section_b = airline#section#create(['hunks', 'branch'])
-    " let g:airline_section_c = '%{getcwd()}'
-    let g:airline_section_c = '%F'
-    let g:airline_section_x = airline#section#create(['filetype','readonly'])
-    let g:airline_section_y = airline#section#create_right(['file', '%l', '%L'])
-    let g:airline_section_z = ''
-    let g:airline_section_warning = ''
-endfunction
-autocmd User AirlineAfterInit call AirlineInit()
-""let g:airline_section_b = airline#section#create(['%<%F'])
-
-" let g:airline_skip_empty_sections = 1
-" Smartly uniquify buffers names with similar filename, suppressing common parts of paths.
-let g:airline#extensions#tabline#formatter = 'unique_tail'
+call wilder#set_option('renderer', wilder#popupmenu_renderer(wilder#popupmenu_border_theme({
+      \ 'highlights': {
+      \   'border': 'Normal',
+      \ },
+      \ 'border': 'rounded',
+      \ })))
 
 
 " -----------------------------------------------------------
@@ -250,53 +257,9 @@ lua << EOF
 vim.g.loaded = 1
 vim.g.loaded_netrwPlugin = 1
 
-require("nvim-tree").setup({
-  renderer = {
-    group_empty = true
-  },
-  filters = {
-    dotfiles = true
-  },
-})
+require("nvim-tree").setup()
 EOF
 nnoremap <leader>n :NvimTreeToggle<CR>
-nnoremap <leader>f :NvimTreeFindFileToggle<CR>
-
-" -----------------------------------------------------------
-" Nerdtree
-" -----------------------------------------------------------
-" === Nerdtree shorcuts === "
-"  <leader>n - Toggle NERDTree on/off
-"  <leader>f - Opens current file location in NERDTree
-"nnoremap <leader>n :NERDTreeToggle<CR>
-"nnoremap <leader>f :NERDTreeFind<CR>
-
-" Show hidden files/directories
-let g:NERDTreeShowHidden=1
-
-" Hide Line Numbers
-let g:NERDTreeShowLineNumbers=1
-" autocmd BufEnter NERD_* setlocal nornu
-
-" Remove bookmarks and help text from NERDTree
-let g:NERDTreeMinimalUI=1
-
-" Automatically delete buffer of the file just deleted with NerdTree
-let NERDTreeAutoDeleteBuffer = 1
-
-" Custom icons for expandable/expanded directories
-" let g:NERDTreeDirArrowExpandable = '⬏'
-" let g:NERDTreeDirArrowCollapsible = '⬎'
-
-" If more than one window and previous buffer was NERDTree, go back to it.
-autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" && winnr('$') > 1 | b# | endif
-
-" Close vim if NERDtree is only buffer open
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-" Hide certain files and directories from NERDTree
-let g:NERDTreeIgnore = ['^\.DS_Store$', '^tags$', '\.git$[[dir]]', '\.idea$[[dir]]', '\.sass-cache$', '\.vscode$']
-
 
 " -----------------------------------------------------------
 " Nerd Commenter
@@ -491,23 +454,6 @@ let g:vim_markdown_toml_frontmatter = 1  " for TOML format
 let g:vim_markdown_json_frontmatter = 1  " for JSON format
 
 " -----------------------------------------------------------
-" NerdTree Syntax Highlight
-" -----------------------------------------------------------
-let g:NERDTreeLimitedSyntax = 1 " Limit the syntax highlighting to improve lag
-let g:NERDTreeHighlightCursorline = 0 " Disable cursor line highlighting to improve lag
-
-" Additional configs if the above does not help solve lag
-" let g:NERDTreeSyntaxDisableDefaultExtensions = 1
-" let g:NERDTreeSyntaxDisableDefaultExactMatches = 1
-" let g:NERDTreeSyntaxDisableDefaultPatternMatches = 1
-" let g:NERDTreeSyntaxEnabledExtensions = ['c', 'h', 'c++', 'cpp', 'php', 'rb', 'js', 'css', 'html'] " enabled extensions with default colors
-" let g:NERDTreeSyntaxEnabledExactMatches = ['node_modules', 'favicon.ico'] " enabled exact matches with default colors
-
-" -----------------------------------------------------------
 " Typescript Vim
 " -----------------------------------------------------------
 let g:typescript_indent_disable = 1
-
-" -----------------------------------------------------------
-" OrgMode 
-" -----------------------------------------------------------

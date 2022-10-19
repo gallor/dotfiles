@@ -20,9 +20,6 @@ Thumbs.db
 .s3cfg
 .aws/
 
-# Repo scratch directory
-scratch/
-
 # Don't commit vim bundles that are easily added through Vundle
 .vim/bundle/**
 

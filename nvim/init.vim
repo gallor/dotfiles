@@ -4,15 +4,9 @@ set encoding=utf-8
 let g:polyglot_disabled = ['python']
 source ~/.config/nvim/plugins.vim
 
-" -----------------------------------------------------------
-" change mapleader from \ to ,
-" -----------------------------------------------------------
-let mapleader = ","
+let mapleader = "," " change mapleader from \ to ,
 
-" -----------------------------------------------------------
-"  Enable syntax highlighting
-" -----------------------------------------------------------
-syntax on
+syntax on " Enable syntax highlighting
 syntax sync minlines=200 " Syntax highlighting 200 lines instead of always from start
  
 " -----------------------------------------------------------
@@ -27,72 +21,11 @@ if (has("nvim"))
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 endif
 
-" Change color schemes
-function! DarkTheme()
-  " hi Error gui=underline
-  " hi Normal ctermbg=NONE
-  " hi EndOfBuffer ctermfg=252 guifg=#d0d0d0
-  " hi NonText ctermbg=NONE
-  " hi Comment gui=NONE ctermfg=245 guifg=#8a8a8a
-  " hi Visual ctermbg=237 guibg=#484A4D
-  try
-    set background=dark
-    colorscheme hybrid_material
-    let g:airline_theme='hybrid'
-    hi LineNr guifg=#9e9e9e
-    hi CursorLine ctermbg=234 guibg=#1c1c1c
-    hi clear SignColumn
-  catch
-    try
-      colorscheme monokai
-      " Clearing all the italic gui
-      hi jsFuncArgs gui=NONE
-      hi jsFuncArgRest gui=NONE
-      hi jsDocTags gui=NONE
-      hi typescriptFuncType gui=NONE
-      hi typescriptCall gui=NONE
-      hi typescriptArrowFuncArg gui=NONE
-    catch
-    endtry
-  endtry
-  if exists (':AirlineRefresh')
-    AirlineRefresh
-  endif
-endfunction
-
-function! Firewatch()
-  set background=dark
-  let g:two_firewatch_italics=1
-  colorscheme two-firewatch
-
-  let g:airline_theme='twofirewatch' " if you have Airline installed and want the associated theme
-  if exists (':AirlineRefresh')
-    AirlineRefresh
-  endif
-endfunction
-
-function! LightTheme()
-  try
-    set background=light
-    colorscheme hybrid_material
-    let g:airline_theme = "hybrid"
-  catch
-    try
-      colorscheme eclipse
-    catch
-    endtry
-  endtry
-  if exists (':AirlineRefresh')
-    AirlineRefresh
-  endif
-endfunction
-
-call DarkTheme()
-
 " JS syntax highlighting
 hi def link jsObjectKey Structure
 hi def link jsObjectProp Tag
 
+colorscheme hybrid_material
 
 set synmaxcol=128
 set termencoding=utf-8
@@ -118,7 +51,6 @@ set splitright " Opening splits to right
 set splitbelow " Opening splits below
 set synmaxcol=250 " Setting syntax highlighting to the first 250 columns. Helps with speed for long lines
 set scrolloff=3 "Scrolling visual offset to three lines
-" set guifont=Inconsolata\ Nerd\ Font\ Complete\ Mono\ Windows\ Compatible:h11
 set guifont=InconsolataGo\ Nerd\ Font\ Complete:h11
 
 " set showmatch " Highlights the matching bracket/paren
@@ -159,8 +91,8 @@ set shortmess=atI " Don't show the intro message when starting vim
 set shortmess+=c " Don't give ins-completion-menu messages
 "
 " Very magic search mode all non [0-9] and [A-Z] must be escaped and case sensitive
-nnoremap / /\v\C
-vnoremap / /\v\C
+" nnoremap / /\v\C
+" vnoremap / /\v\C
 
 set nofoldenable " disable folding on startup
 set ignorecase " case insensitive search, except when using capital letters
@@ -313,12 +245,34 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.py3 setlocal filetype=python textwidth=0
     autocmd FileType python setlocal shiftwidth=2 softtabstop=2 expandtab fo=cjql
     " Set relative if enter buffer, or in visual/normal mode
-    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+    " autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+    autocmd BufEnter * call s:quit_current_win()
     " Set absolute if leaving buffer or in insert mode
-    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+    " autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
     "autocmd BufWinLeave *.* mkview
     "autocmd BufWinEnter *.* silent loadview
 endif
+
+" Quit Nvim if we have only one window, and its filetype match our pattern
+function! s:quit_current_win() abort
+  let l:quit_filetypes = ['NvimTree']
+
+  let l:should_quit = v:true
+
+  let l:tabwins = nvim_tabpage_list_wins(0)
+  for w in l:tabwins
+    let l:buf = nvim_win_get_buf(w)
+    let l:bf = getbufvar(l:buf, '&filetype')
+
+    if index(l:quit_filetypes, l:bf) == -1
+      let l:should_quit = v:false
+    endif
+  endfor
+
+  if l:should_quit
+    qall
+  endif
+endfunction
 
 " Add a Remove command
 command! -complete=file -nargs=1 Trash :echo 'Trash: '.'<f-args>'.' '.(delete(<f-args>) == 0 ? 'SUCCEEDED' : 'FAILED')
