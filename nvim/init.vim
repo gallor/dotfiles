@@ -26,6 +26,7 @@ hi def link jsObjectKey Structure
 hi def link jsObjectProp Tag
 
 colorscheme hybrid_material
+highlight clear SignColumn
 
 set synmaxcol=128
 set termencoding=utf-8
