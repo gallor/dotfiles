@@ -56,7 +56,6 @@ Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " Python syntax
 Plug 'davidoc/taskpaper.vim' " Taskpaper support
 Plug 'kristijanhusak/vim-hybrid-material' " Light and dark theme based on hybrid
 Plug 'w0ng/vim-hybrid' " colorscheme
-Plug 'vim-scripts/eclipse.vim' " colorscehme 
 Plug 'vim-scripts/summerfruit256.vim' " colorscheme 
 Plug 'crusoexia/vim-monokai' " colorschem 
 Plug 'Yggdroot/indentLine' " Indent line guides 
@@ -66,9 +65,8 @@ Plug 'rakr/vim-two-firewatch' " colorscheme
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' } " Styled component syntax
 Plug 'kyazdani42/nvim-web-devicons' " File icons for explorer
 Plug 'kyazdani42/nvim-tree.lua' " File Explorer
-Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
+Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
 Plug 'nvim-lualine/lualine.nvim' " Status Line 
-Plug 'kyazdani42/nvim-web-devicons' " Icons
 
 "==== OrgMode ====="
 Plug 'kristijanhusak/orgmode.nvim', 

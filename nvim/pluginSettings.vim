@@ -158,37 +158,34 @@ command! -nargs=0 Format :call CocAction('format')
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " -----------------------------------------------------------
-" BufferLine
-" -----------------------------------------------------------
-lua << EOF
-require('bufferline').setup {
-      \ options = {
-      \   diagnostics = "coc"
-      \ }
-    \ }
-EOF
-
-" -----------------------------------------------------------
+" Lua Plugins:
 " WebIcons 
+" Bufferline
+" LuaLine
+" NvimTree
 " -----------------------------------------------------------
 lua << EOF
 require('nvim-web-devicons').setup{}
-EOF
-
-" -----------------------------------------------------------
-" LuaLine
-" -----------------------------------------------------------
-lua << END
+require('bufferline').setup{
+  \
+  \ }
 require('lualine').setup {
       \ options = {
-        \   component_separators = { left = '', right = '' },
-        \   section_separators = { left = '', right = '' }
+      \   component_separators = { left = '', right = '' },
+      \   section_separators = { left = '', right = '' }
       \ },
       \ sections = {
-        \   lualine_x = {'filetype'}
+      \   lualine_x = {'filetype'}
       \ }
     \ }
-END
+vim.g.loaded = 1
+vim.g.loaded_netrwPlugin = 1
+
+require("nvim-tree").setup()
+EOF
+
+nnoremap <leader>n :NvimTreeToggle<CR>
+
 " -----------------------------------------------------------
 " Wilder
 " -----------------------------------------------------------
@@ -251,17 +248,6 @@ call wilder#set_option('renderer', wilder#popupmenu_renderer(wilder#popupmenu_bo
 
 
 " -----------------------------------------------------------
-" Nvim-Tree
-" -----------------------------------------------------------
-lua << EOF
-vim.g.loaded = 1
-vim.g.loaded_netrwPlugin = 1
-
-require("nvim-tree").setup()
-EOF
-nnoremap <leader>n :NvimTreeToggle<CR>
-
-" -----------------------------------------------------------
 " Nerd Commenter
 " -----------------------------------------------------------
 " Add spaces after comment delimiters by default
@@ -292,7 +278,7 @@ let g:javascript_plugin_jsdoc = 1
 " Syntax and Syntastic
 " -----------------------------------------------------------
 " Highlight jsx syntax even in non .jsx files
-let g:jsx_ext_required = 1
+  let g:jsx_ext_required = 1
 "
 " set statusline+=%#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}
