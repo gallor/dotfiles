@@ -83,7 +83,7 @@
 	br = branch
 	up = rebase
 	ci = commit
-	pu = push -u origin HEAD
+	pu = push origin HEAD
 
 [branch]
   # local branches automatically track remote branch they were created off of

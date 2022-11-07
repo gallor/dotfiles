@@ -325,6 +325,14 @@ tm() {
   session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
 }
 
+cm() {
+  local env=$(conda env list | sed '1,2d' | awk '{print $1}' | fzf)
+
+  if [[ $env ]]; then
+    conda activate $env
+  fi
+}
+
 # Install (one or multiple) selected application(s)
 # using "brew search" as source input
 # mnemonic [B]rew [I]nstall [P]lugin
