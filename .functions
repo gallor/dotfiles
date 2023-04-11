@@ -253,7 +253,7 @@ vg() {
 
   if [[ -n $file ]]
   then
-     vim $file
+     nvim $file
   fi
 }
 
@@ -303,7 +303,6 @@ grm() {
   fi
 }
 
-
 gcoa() {
   git fetch --all;
   local branch=$(git branch --all | fzf)
@@ -325,6 +324,7 @@ tm() {
   session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
 }
 
+# Get a list of conda environments to pick one to activate
 cm() {
   local env=$(conda env list | sed '1,2d' | awk '{print $1}' | fzf)
 

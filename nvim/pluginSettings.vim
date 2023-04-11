@@ -51,16 +51,11 @@ let $FZF_DEFAULT_OPTS='--layout=reverse'
 let g:coc_global_extensions = [
   \ 'coc-tsserver',
   \ 'coc-json',
-  \ 'coc-python',
   \ 'coc-actions',
-  \ 'coc-prettier'
+  \ 'coc-prettier',
+  \ 'coc-docker',
+  \ 'coc-pyright'
   \ ]
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
 
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 inoremap <silent><expr> <C-x><C-z> coc#pum#visible() ? coc#pum#stop() : "\<C-x>\<C-z>"
@@ -77,16 +72,6 @@ function! CheckBackspace() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
-
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-inoremap <silent><expr> <c-space> coc#refresh()
-
 hi CocSearch ctermfg=12 guifg=#18A3FF
 hi CocMenuSel ctermbg=109 guibg=#13354A
 
@@ -98,9 +83,8 @@ inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
-inoremap <silent><expr> <C-cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+noremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
-" autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -138,6 +122,7 @@ nmap <leader>cf <Plug>(coc-fix-current)
 xmap <leader>gf  <Plug>(coc-format-selected)
 nmap <leader>gf  <Plug>(coc-format-selected)
 
+
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
@@ -155,7 +140,7 @@ nmap <leader>qf  <Plug>(coc-fix-current)
 command! -nargs=0 Format :call CocAction('format')
 
 " Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+command! -nargs=? Fold :call CocAction('fold', <f-args>)
 
 " -----------------------------------------------------------
 " Lua Plugins:
@@ -443,3 +428,9 @@ let g:vim_markdown_json_frontmatter = 1  " for JSON format
 " Typescript Vim
 " -----------------------------------------------------------
 let g:typescript_indent_disable = 1
+
+
+" -----------------------------------------------------------
+" Toggle Term
+" -----------------------------------------------------------
+lua require("toggleterm").setup()

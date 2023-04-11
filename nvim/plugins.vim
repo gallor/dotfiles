@@ -25,6 +25,8 @@ else
   Plug 'junegunn/fzf',  { 'do': { -> fzf#install() } } " Fuzzy file searching if not via homebrew
 endif
 
+Plug 'akinsho/toggleterm.nvim', {'tag' : '*'} " Toggle the terminal
+
 Plug 'junegunn/fzf.vim' " Fuzzy file searching
 Plug 'gelguy/wilder.nvim', { 'do': ':UpdateRemotePlugins'}
 

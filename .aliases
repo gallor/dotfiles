@@ -15,7 +15,7 @@ alias music="cd ~/Music"
 alias ws="watson"
 
 # Application config
-alias fzf="fzf --height=25% --layout=reverse --prompt='λ '"
+alias fzf="fzf --height=10% --layout=reverse --prompt='λ '"
 
 # Idiot proofing to commands
 alias mv='mv -i'

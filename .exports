@@ -46,10 +46,11 @@ export PIPPATH=$HOME/Library/Python/3.8/bin
 # --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 export BAT_THEME="Monokai Extended"
-export FZF_COMPLETION_OPTS="--prompt 'λ ' --preview '(bat --color=alawys {} || cat {} || tree -C {}) 2> /dev/null | head -200'"
+export FZF_COMPLETION_OPTS="--prompt 'λ ' --preview '(bat --color=alawys {} || cat {} || tree -C {}) 2> /dev/null | head -10'"
 export FZF_CTRL_T_OPTS="$FZF_COMPLETION_OPTS"
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*" --glob "!node_modules/*"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_TMUX_HEIGHT="20%"
 
 export RIPGREP_CONFIG_PATH=$HOME/.config/ripgrep/rc
 
