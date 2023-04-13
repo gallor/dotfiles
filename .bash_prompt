@@ -138,7 +138,7 @@ fi;
 
 PS1="${hostStyle}" # user @ hostname at computer
 PS1+="\[${green}\] \w"; # working directory
-PS1+="\n\[${bold}\]\[${white}\]\[\e[40m\]\$(git_branch)\[${orange}\]\$(git_image)\[${blue}\]\$(prompt_git) "; # Git repository details
+PS1+="\n\[${bold}\]\[${white}\]\$(git_branch)\[${orange}\]\$(git_image)\[${blue}\]\$(prompt_git) "; # Git repository details
 PS1+="\[${white}\]${userIcon} \[${reset}\] "; # `→` (and reset color)
 export PS1;
 

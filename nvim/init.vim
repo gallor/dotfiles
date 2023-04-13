@@ -200,6 +200,15 @@ nnoremap <leader>vrc :e $HOME/.config/nvim/init.vim<cr>
 " -----------------------------------------------------------
 " Functions
 " -----------------------------------------------------------
+function LightColor()
+  set background=light
+  colorscheme PaperColor
+endfunction
+
+function DarkColor()
+  set background=dark
+  colorschema hybrid_material
+endfunction
 
 " Strip Trailing whitespace (,ss)
 function! StripWhitespace()
