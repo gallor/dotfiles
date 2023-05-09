@@ -437,3 +437,8 @@ function drm() {
 
   [ -n "$cid" ] && docker rm "$cid"
 }
+
+# Download Playlist Album from Youtube
+function ytAlbum() {
+    yt-dlp -f "bestaudio[ext=m4a]"  --ppa "ffmpeg: -c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"" --cookies-from-browser firefox --convert-thumbnails jpg --embed-thumbnail --embed-metadata --parse-metadata "playlist_index:%(track_number)s" --output "%(album)s/%(title)s.%(ext)s" $1
+}

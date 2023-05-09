@@ -2,17 +2,16 @@ scriptencoding utf-8
 set encoding=utf-8
 
 let g:polyglot_disabled = ['python']
+set termguicolors " enable 256 colors in iterm
 source ~/.config/nvim/plugins.vim
-
 let mapleader = "," " change mapleader from \ to ,
 
 syntax on " Enable syntax highlighting
 syntax sync minlines=200 " Syntax highlighting 200 lines instead of always from start
- 
+
 " -----------------------------------------------------------
 " color settings
 " -----------------------------------------------------------
-set termguicolors " enable 256 colors in iterm
 set t_Co=256 " enable 256 colors in non-iterm terminal
 
 " Enable True colors
@@ -25,7 +24,8 @@ endif
 hi def link jsObjectKey Structure
 hi def link jsObjectProp Tag
 
-colorscheme hybrid_material
+" colorscheme hybrid_material
+colorscheme two-firewatch
 highlight clear SignColumn
 
 set synmaxcol=128
@@ -106,7 +106,7 @@ set incsearch " Searches are redefined as search term is typed
 " j - remove comment leader when makes sense
 " q - allow formatting of comments using 'gq'
 " l - long lines are not broken in insert mode
-set formatoptions=tcjql 
+set formatoptions=tcjql
 
 set iskeyword+=_ " count underscore as part of the word
 
@@ -193,7 +193,7 @@ nnoremap <leader>bc :%bd\|e#<cr>
 nnoremap <leader>vrc :e $HOME/.config/nvim/init.vim<cr>
 
 " -----------------------------------------------------------
-" VimDiff 
+" VimDiff
 " -----------------------------------------------------------
 :set diffopt+=iwhite
 
@@ -212,11 +212,11 @@ endfunction
 
 " Strip Trailing whitespace (,ss)
 function! StripWhitespace()
-	let save_cursor = getpos('.')
-	let old_query = getreg('/')
-	:%s/\s\+$//e
-	call setpos('.', save_cursor)
-	call setreg('/', old_query)
+  let save_cursor = getpos('.')
+  let old_query = getreg('/')
+  :%s/\s\+$//e
+  call setpos('.', save_cursor)
+  call setreg('/', old_query)
 endfunction
 nnoremap <leader>ss :call StripWhitespace()<CR>
 
@@ -242,7 +242,7 @@ noremap <leader>W :w !sudo tee % > /dev/null<CR>
 
 " Automatic commands
 if has("autocmd")
-    autocmd FocusLost * silent! wa " Auto save buffers when focus is moved 
+    autocmd FocusLost * silent! wa " Auto save buffers when focus is moved
     autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart " rescans for syntax on buffers for large tsx files
     autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear " stops rescans on leave for tsx files
     autocmd BufNewFile,BufRead *.jsx set filetype=javascript.jsx
@@ -293,7 +293,7 @@ if exists('g:loaded_webdevicons')
 endif
 
 try
-source ~/.config/nvim/pluginSettings.vim 
+source ~/.config/nvim/pluginSettings.vim
 catch
     echo "Plugins didn't work" . v:exception
 endtry
