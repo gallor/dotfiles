@@ -11,6 +11,8 @@
   "diagnostic.checkCurrentLine": true,
   "diagnostic.displayByAle": true,
   "tsserver.enable": true,
+  "python.formatting.provider": "black",
+  "python.pythonPath": "${env:HOME}/conda-path",
   "typescript.validate.enable": true,
   "javascript.validate.enable": true,
   "typescript.suggest.enabled": true,
@@ -19,7 +21,6 @@
   "typescript.suggestionActions.enabled": false,
   "suggest.autoTrigger": "trigger",
   "yaml.customTags": [ "!Ref", "!Sub", "!GetAtt", "!Equals" ],
-  "python.jediEnabled": true,
   "python.linting.enabled": false,
   "languageserver": {
     "bash": {

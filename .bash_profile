@@ -6,7 +6,7 @@
 # Removed adding bin to path here and moved to .path file
 # export PATH="$HOME/bin:$PATH";
 
-export PATH=$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:${RVM_HOME}:${RUBY_HOME}:${GEM_HOME}:${MAVEN_HOME}:${JAVA_HOME}:${ANDROID_TOOLS}:${PYTHONPATH}:${PIPPATH}:/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/findutils/libexec/gnubin:/usr/local/bin:/usr/local/sbin:~/bin:$PATH
+export PATH=$HOME/.local/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:${RVM_HOME}:${RUBY_HOME}:${GEM_HOME}:${MAVEN_HOME}:${JAVA_HOME}:${ANDROID_TOOLS}:${PYTHONPATH}:${PIPPATH}:/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/findutils/libexec/gnubin:/usr/local/bin:/usr/local/sbin:~/bin:$PATH
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.

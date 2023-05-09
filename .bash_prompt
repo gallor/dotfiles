@@ -45,6 +45,15 @@ else
 	ochre="\033[38;5;95m"
 fi;
 
+# Add conda environment to prompt
+conda_env() {
+    if [ ! -z "$CONDA_DEFAULT_ENV" ]; then
+        echo "($CONDA_DEFAULT_ENV) "
+    else
+        return;
+    fi
+}
+
 prompt_git() {
     local s='';
     #local branchName='';
@@ -136,8 +145,9 @@ else
     hostStyle="\n\[${blue}\][\u]"
 fi;
 
-PS1="${hostStyle}" # user @ hostname at computer
-PS1+="\[${green}\] \w"; # working directory
+PS1="${hostStyle} " # user @ hostname at computer
+PS1+="\[${cyan}\$(conda_env)" # conda env if active
+PS1+="\[${green}\]\w"; # working directory
 PS1+="\n\[${bold}\]\[${white}\]\$(git_branch)\[${orange}\]\$(git_image)\[${blue}\]\$(prompt_git) "; # Git repository details
 PS1+="\[${white}\]${userIcon} \[${reset}\] "; # `→` (and reset color)
 export PS1;
