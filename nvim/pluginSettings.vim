@@ -149,12 +149,11 @@ command! -nargs=? Fold :call CocAction('fold', <f-args>)
 " LuaLine
 " NvimTree
 " -----------------------------------------------------------
-lua << EOF
-require('nvim-web-devicons').setup{}
-require('bufferline').setup{
+:lua require('nvim-web-devicons').setup{}
+:lua require('bufferline').setup{
   \
   \ }
-require('lualine').setup {
+:lua require('lualine').setup {
       \ options = {
       \   component_separators = { left = '', right = '' },
       \   section_separators = { left = '', right = '' }
@@ -163,11 +162,21 @@ require('lualine').setup {
       \   lualine_x = {'filetype'}
       \ }
     \ }
-vim.g.loaded = 1
-vim.g.loaded_netrwPlugin = 1
+:lua vim.g.loaded = 1
+:lua vim.g.loaded_netrwPlugin = 1
 
-require("nvim-tree").setup()
-EOF
+:lua require("nvim-tree").setup({
+  \ log = {
+  \  enable = true,
+  \  truncate = true,
+  \  types = {
+  \    diagnostics = true,
+  \    git = true,
+  \    profile = true,
+  \    watcher = true,
+  \  }
+  \ }
+  \ })
 
 nnoremap <leader>n :NvimTreeToggle<CR>
 
@@ -264,15 +273,6 @@ let g:javascript_plugin_jsdoc = 1
 " -----------------------------------------------------------
 " Highlight jsx syntax even in non .jsx files
   let g:jsx_ext_required = 1
-"
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-"
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
 
 " -----------------------------------------------------------
 " Additional Key mappings 
@@ -289,12 +289,6 @@ nmap <leader>z :JsDoc<CR>
 " Used when you want to paste over something without it getting copied to
 " Vim's default buffer
 vnoremap <leader>p "_dP
-
-" -----------------------------------------------------------
-" MISC
-" -----------------------------------------------------------
-" Automaticaly close nvim if NERDTree is only thing left open
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " -----------------------------------------------------------
 " ALE
@@ -346,12 +340,6 @@ nmap <Leader>gf <Plug>(GitGutterFold)
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
 
-" let g:gitgutter_sign_added = 'xx'
-" let g:gitgutter_sign_modified = 'yy'
-" let g:gitgutter_sign_removed = 'zz'
-" let g:gitgutter_sign_removed_first_line = '^^'
-" let g:gitgutter_sign_modified_removed = 'ww'
-
 " Highlights
 " (default: links to DiffAdd)
 hi GitGutterAdd guibg=none ctermbg=none  
@@ -377,22 +365,6 @@ let g:javascript_plugin_jsdoc = 1
 " Semshri Python Highlighting
 " -----------------------------------------------------------
 hi semshiSelected ctermbg=238 guibg=#444444
-
-" -----------------------------------------------------------
-" NerdTree Git
-" -----------------------------------------------------------
-"  let g:NERDTreeIndicatorMapCustom = {
-    " \ 'Modified'  : '✹',
-    " \ 'Staged'    : '✚',
-    " \ 'Untracked' : '✭',
-    " \ 'Renamed'   : '➜',
-    " \ 'Unmerged'  : '═',
-    " \ 'Deleted'   : '✖',
-    " \ 'Dirty'     : '✗',
-    " \ 'Clean'     : '✔︎',
-    " \ 'Ignored'   : '☒',
-    " \ 'Unknown'   : '?'
-    " \ }
 
 " -----------------------------------------------------------
 " IndentLine
@@ -429,8 +401,23 @@ let g:vim_markdown_json_frontmatter = 1  " for JSON format
 " -----------------------------------------------------------
 let g:typescript_indent_disable = 1
 
-
 " -----------------------------------------------------------
 " Toggle Term
 " -----------------------------------------------------------
 lua require("toggleterm").setup()
+" -----------------------------------------------------------
+" NeoFormat
+" -----------------------------------------------------------
+" Enable alignment
+let g:neoformat_basic_format_align = 1
+
+" Enable trimming of trailing whitespace
+let g:neoformat_basic_format_trim = 1
+
+" Look for formatter executable in the node_modules/.bin in
+" current working directory or one of its parents
+let g:neoformat_try_node_exe = 1
+
+" let g:neoformat_javascript_jsbeautify = {
+"     \ 'try_node_exe': 1
+"     \ }
