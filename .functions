@@ -286,6 +286,19 @@ fstash() {
   done
 }
 
+gru() {
+  CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+  read -p "Main branch: [${CURRENT_BRANCH}] " MAIN_BRANCH
+  if [ -z "$MAIN_BRANCH" ]; then
+     MAIN_BRANCH=${CURRENT_BRANCH}
+  fi
+  echo $MAIN_BRANCH 
+  git fetch upstream $MAIN_BRANCH
+  git pull --rebase upstream $CURRENT_BRANCH
+  git push --force
+  git fetch upstream
+}
+
 # Git checkout new branch
 gco() {
   local branch=$(git branch | fzf)
