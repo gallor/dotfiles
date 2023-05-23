@@ -48,20 +48,30 @@ function installNvim() {
   nvim --headless +PlugInstall +q
 }
 
+function installTmuxPlugins() {
+	if [[ ! -d ~/.tmux/plugins/tpm ]]; then
+		mkdir -p ~/.tmux/plugins/tpm
+	fi
+	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+	git clone git@github.com:imomaliev/tmux-bash-completion.git ../tmux-bash-completion
+}
+
+function runAll() {
+	syncDotfiles;
+	syncNeovimAndRG;
+	setupFzfObc
+	installNvim
+	installNode
+	installTmuxPlugins
+}
+
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
-    syncDotfiles;
-    syncNeovimAndRG;
-    setupFzfObc
-    installNvim
-		installNode
+	runAll
 else
     read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
     echo "";
     if [[ $REPLY =~ ^[Yy]$ ]]; then
-        syncDotfiles;
-        syncNeovimAndRG;
-	setupFzfObc
-	installNvim
+			runAll
     fi;
 fi;
 
