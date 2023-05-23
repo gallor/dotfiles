@@ -3,7 +3,7 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-alias home="cd ~"  
+alias home="cd ~"
 
 # Shortcuts
 alias dl="cd ~/Downloads"
@@ -54,7 +54,7 @@ else # OS X `ls`
 fi
 
 # Use Bat for Cat
-if [ -x /usr/bin/bat ]; then
+if [ -x /usr/bin/bat ] || [ -x ${HOME}/.local/bin/bat ]; then
   alias cat='bat'
 fi
 
