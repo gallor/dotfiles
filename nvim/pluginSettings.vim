@@ -24,18 +24,18 @@ nnoremap <expr> <C-p> (len(system('git rev-parse')) ? ':FzfFiles' : ':FzfGFiles 
 " --follow: Follow symlinks
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
-command! -bang -nargs=* Find 
+command! -bang -nargs=* Find
   \ call fzf#vim#grep(
-  \    'rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow 
+  \    'rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow
   \    --glob "!.git/*" --color "always" --glob "!*.lock"
-  \    --colors "match:bg:222,95,53" --colors "line:style:bold" --colors "path:fg:green" --colors "path:style:bold" 
+  \    --colors "match:bg:222,95,53" --colors "line:style:bold" --colors "path:fg:green" --colors "path:style:bold"
   \    --colors "line:fg:yellow" '.shellescape(<q-args>), 1,
   \    fzf#vim#with_preview(), <bang>0)
 
 command! -bang -nargs=* FindWithWord
   \ call fzf#vim#grep(
-  \    'rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" 
-  \    --colors "match:bg:222,95,53" --colors "line:style:bold" --colors "path:fg:green" --colors "path:style:bold" 
+  \    'rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always"
+  \    --colors "match:bg:222,95,53" --colors "line:style:bold" --colors "path:fg:green" --colors "path:style:bold"
   \    --colors "line:fg:yellow" '.shellescape(expand("<cword>")), 1,
   \    fzf#vim#with_preview(), <bang>0)
 " Files with preview
@@ -54,7 +54,8 @@ let g:coc_global_extensions = [
   \ 'coc-actions',
   \ 'coc-prettier',
   \ 'coc-docker',
-  \ 'coc-pyright'
+  \ 'coc-pyright',
+	\ 'coc-sh'
   \ ]
 
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
@@ -144,7 +145,7 @@ command! -nargs=? Fold :call CocAction('fold', <f-args>)
 
 " -----------------------------------------------------------
 " Lua Plugins:
-" WebIcons 
+" WebIcons
 " Bufferline
 " LuaLine
 " NvimTree
@@ -259,7 +260,7 @@ let g:NERDCommentEmptyLines = 1
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
 
-" Enable NERDCommenterToggle to check all selected lines is commented or not 
+" Enable NERDCommenterToggle to check all selected lines is commented or not
 let g:NERDToggleCheckAllLines = 1
 
 " -----------------------------------------------------------
@@ -275,7 +276,7 @@ let g:javascript_plugin_jsdoc = 1
   let g:jsx_ext_required = 1
 
 " -----------------------------------------------------------
-" Additional Key mappings 
+" Additional Key mappings
 " -----------------------------------------------------------
 " === Easy-motion shortcuts ==="
 "   <leader>w - Easy-motion highlights first word letters bi-directionally
@@ -299,7 +300,7 @@ let g:ale_sign_warning = '⚠'
 hi ALEErrorSign ctermbg=NONE ctermfg=red guifg=red
 hi ALEWarningSign ctermbg=NONE ctermfg=yellow guifg=yellow
 if g:colors_name == 'monokai'
-  hi ALEErrorSign guibg=#303030 
+  hi ALEErrorSign guibg=#303030
   hi ALEWarningSign guibg=#303030
 endif
 
@@ -342,7 +343,7 @@ nmap [h <Plug>(GitGutterPrevHunk)
 
 " Highlights
 " (default: links to DiffAdd)
-hi GitGutterAdd guibg=none ctermbg=none  
+hi GitGutterAdd guibg=none ctermbg=none
 " (default: links to DiffChange)
 hi GitGutterChange guibg=none ctermbg=none
 " (default: links to DiffDelete)

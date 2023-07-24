@@ -173,14 +173,10 @@ alias pumpitup="osascript -e 'set volume 7'"
 alias reload="exec $SHELL -l"
 
 # Launch Notes with Vim taskpaper wrapper
-alias notes="vim ~/Dropbox/Notes/Notes.taskpaper"
+alias notes="nvim ~/Dropbox/Notes/Notes.taskpaper"
 
 # Node Repl that's extendable
 alias repl="node ~/dev/js/repl/repl.js"
-
-# Alias Python3 to Python command
-alias python=python3
-alias pip=pip3
 
 # Forces TMUX into 256 color mode
 alias tmux="tmux -2"

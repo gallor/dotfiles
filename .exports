@@ -36,9 +36,6 @@ export MAVEN_HOME=$HOME/dev/java/lib/apache-maven-3.5.4/bin
 export CLICOLOR=1
 export LSCOLORS=ExfxcxDxBxhxhxhxhxcxcx
 
-export PYTHONPATH=/usr/local/opt/python/bin
-export PIPPATH=$HOME/Library/Python/3.8/bin
-
 # --files: List files that would be searched but do not search
 # --no-ignore: Do not respect .gitignore, etc...
 # --hidden: Search hidden files and folders
