@@ -1,4 +1,4 @@
-# Switch Profile in iTmrm 2
+#z Switch Profile in iTmrm 2
 function it2prof() {
   echo -e "\033]50;SetProfile=$1\a";
 }
@@ -134,7 +134,7 @@ function get_version_ctl_branch() {
 		for vcs in git hg svn bzr; do
 			if [[ -d "$dir/.$vcs"  ]] && hash "$vcs" &>/dev/null; then
 				case "$vcs" in
-					git) __git_ps1 "${1:-(%s) }"; return;; 
+					git) __git_ps1 "${1:-(%s) }"; return;;
 					hg) nick=$(hg branch 2>dev/null);;
 					svn) nick=$(svn info 2>/dev/null\
 						| grep -e '^Repository Root:'\
@@ -185,7 +185,7 @@ function ansiiTable() {
 			let "val = i+j"
 			echo -en "\033[48;5;${val}m  \033[m "
 		done
-	done 
+	done
     echo -e "\n"
 }
 
@@ -287,12 +287,12 @@ fstash() {
 }
 
 gru() {
-  CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-  read -p "Main branch: [${CURRENT_BRANCH}] " MAIN_BRANCH
-  if [ -z "$MAIN_BRANCH" ]; then
-     MAIN_BRANCH=${CURRENT_BRANCH}
-  fi
-  echo $MAIN_BRANCH 
+	if [[ ! $(git config --get remote.upstream.url)  ]]; then
+		read -p "Upstream Git Url: " ORIGIN_REPO
+		git remote add upstream $ORIGIN_REPO
+	fi
+	MAIN_BRANCH=$(git remote show upstream | grep "HEAD branch" | sed 's/.*: //')
+	CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
   git fetch upstream $MAIN_BRANCH
   git pull --rebase upstream $CURRENT_BRANCH
   git push --force
@@ -312,7 +312,7 @@ grm() {
   local branch=$(git branch | fzf)
 
   if [[ $branch ]]; then
-    git branch -D $branch  
+    git branch -D $branch
   fi
 }
 
@@ -345,6 +345,17 @@ cm() {
     conda deactivate
     conda activate $env
   fi
+}
+
+# Remove conda environment
+cr() {
+	local env=$(conda env list | sed '1,2d' | awk '{print $1}' | fzf)
+
+	if [[ $env ]]; then
+		conda deactivate
+		conda activate base
+		conda env remove -n $env
+	fi
 }
 
 # Install (one or multiple) selected application(s)
@@ -387,7 +398,7 @@ bdp() {
   fi
 }
 
-# Install or open the webpage for the selected application 
+# Install or open the webpage for the selected application
 # using brew cask search as input source
 # and display a info quickview window for the currently marked application
 install() {
@@ -407,8 +418,8 @@ install() {
     fi
 }
 
-# Uninstall or open the webpage for the selected application 
-# using brew list as input source (all brew cask installed applications) 
+# Uninstall or open the webpage for the selected application
+# using brew list as input source (all brew cask installed applications)
 # and display a info quickview window for the currently marked application
 uninstall() {
     local token

@@ -40,11 +40,17 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
 " -----------------------------------------------------------
 " Visual Updates
 " -----------------------------------------------------------
+"
+set tabstop     =4
+set softtabstop =4
+set shiftwidth  =4
+
 filetype on " Enable file type detection
 filetype plugin indent on " Enable filetype indentation
 set tabstop=2 " 2 spaces
 set shiftwidth=2 " Indenting with '>', use 2 spaces
 set softtabstop=2 " 2 spaces tabbing when in insert mode
+set expandtab " On pressing tab, insert 4 spaces. Has to be after set binary so expandtab is not reset
 set autoindent " Keep the same indent as the line you're currently on
 set smartindent " Smart indents for new lines
 set nojoinspaces " Unset join spaces
@@ -83,8 +89,6 @@ set updatetime=100 " time to write to swap file. improve experience for diagnost
 " Don't add empty newlines at the end of files
 set binary
 set noeol
-
-set expandtab " On pressing tab, insert 4 spaces. Has to be after set binary so expandtab is not reset
 
 set backspace=indent,eol,start " Backspace over autoindent, line breaks, and start of insert
 set laststatus=2 " Always show status line
@@ -253,7 +257,7 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.hcl setlocal filetype=terraform textwidth=0
     autocmd FileType terraform set textwidth=0
     autocmd BufNewFile,BufRead *.py3 setlocal filetype=python textwidth=0
-    autocmd FileType python setlocal shiftwidth=2 softtabstop=2 expandtab fo=cjql
+    autocmd FileType python setlocal shiftwidth=2 softtabstop=2 fo=cjql
     " Set relative if enter buffer, or in visual/normal mode
     " autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
     autocmd BufEnter * call s:quit_current_win()
