@@ -128,8 +128,8 @@ set nowritebackup
 " -----------------------------------------------------------
 nnoremap ; :
 set lazyredraw " fixes horizontal scrolling with relativenumber on
-set relativenumber
 set number
+set norelativenumber
 
 nnoremap <silent> <leader><space> :noh<cr>
 nnoremap <tab> %

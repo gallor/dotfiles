@@ -321,7 +321,7 @@ gcoa() {
   local branch=$(git branch --all | fzf)
 
   if [[ $branch ]]; then
-    local newBranch=$(echo $branch | sed "s/remotes\/origin\///");
+    local newBranch=$(echo $branch | sed "s/remotes\/(origin|upstream)\///");
     git checkout -b $newBranch $branch;
   fi
 }
@@ -348,13 +348,20 @@ cm() {
 }
 
 # Remove conda environment
-cr() {
+crm() {
 	local env=$(conda env list | sed '1,2d' | awk '{print $1}' | fzf)
 
 	if [[ $env ]]; then
 		conda deactivate
 		conda activate base
 		conda env remove -n $env
+	fi
+}
+
+# Deactivate current conda env
+cdd() {
+	if [[ $CONDA_DEFAULT_ENV  ]]; then
+		conda deactivate
 	fi
 }
 
@@ -455,11 +462,18 @@ function ds() {
 }
 
 # Select a docker container to remove
-function drm() {
+function dcrm() {
   local cid
   cid=$(docker ps -a | sed 1d | fzf -q "$1" | awk '{print $1}')
 
   [ -n "$cid" ] && docker rmi "$cid"
+}
+
+# Select a docker image to remove
+function dirm() {
+	local cid
+	cid=$(docker image list | sed 1d | fzf -q "$1" | awk '{print $3}')
+	[ -n "$cid" ] && docker rmi -f "$cid"
 }
 
 # Download Playlist Album from Youtube
