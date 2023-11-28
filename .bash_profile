@@ -6,13 +6,13 @@
 # Removed adding bin to path here and moved to .path file
 # export PATH="$HOME/bin:$PATH";
 
-export PATH=$HOME/.local/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:${RVM_HOME}:${RUBY_HOME}:${GEM_HOME}:${MAVEN_HOME}:${JAVA_HOME}:${ANDROID_TOOLS}:${PYTHONPATH}:${PIPPATH}:/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/findutils/libexec/gnubin:/usr/local/bin:/usr/local/sbin:~/bin:$PATH
+export PATH=$HOME/.local/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:${RVM_HOME}:${RUBY_HOME}:${GEM_HOME}:${MAVEN_HOME}:${JAVA_HOME}:/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/findutils/libexec/gnubin:/usr/local/bin:/usr/local/sbin:/usr/bin:~/bin:/snap/bin:$PATH
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
 for file in ~/.{bash_prompt,aliases,functions,exports,extra}; do
-    [ -r "$file" ] && [ -f "$file" ] && source "$file";
+		[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
 
@@ -73,6 +73,11 @@ fi
 
 source $HOME/.git-prompt.sh
 
+# Add in conda init if only bash profile run
+if ! which conda &> /dev/null; then
+  . "/home/gallor/miniforge3/etc/profile.d/conda.sh"
+fi
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -85,7 +90,3 @@ export NVM_DIR="$HOME/.nvm"
 # complete -o nospace -o plusdirs -F _fzf_dir_completion cd
 
 source $HOME/.local/opt/fzf-obc/bin/fzf-obc.bash
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/Users/ga89/.sdkman"
-[[ -s "/Users/ga89/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/ga89/.sdkman/bin/sdkman-init.sh"

@@ -335,6 +335,7 @@ augroup CloseLoclistWindowGroup
   autocmd QuitPre * if empty(&buftype) | lclose | endif
 augroup END
 
+" ALE automatically open a window for loclist
 " let g:ale_open_list = 1
 
 " -----------------------------------------------------------

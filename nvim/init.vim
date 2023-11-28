@@ -25,8 +25,9 @@ hi def link jsObjectKey Structure
 hi def link jsObjectProp Tag
 
 " colorscheme hybrid_material
-colorscheme two-firewatch
+colorscheme PaperColor
 highlight clear SignColumn
+set background=light
 
 set synmaxcol=128
 set termencoding=utf-8
@@ -40,17 +41,12 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
 " -----------------------------------------------------------
 " Visual Updates
 " -----------------------------------------------------------
-"
-set tabstop     =4
-set softtabstop =4
-set shiftwidth  =4
-
 filetype on " Enable file type detection
 filetype plugin indent on " Enable filetype indentation
 set tabstop=2 " 2 spaces
 set shiftwidth=2 " Indenting with '>', use 2 spaces
 set softtabstop=2 " 2 spaces tabbing when in insert mode
-set expandtab " On pressing tab, insert 4 spaces. Has to be after set binary so expandtab is not reset
+set expandtab " On pressing tab, insert 2 spaces. Has to be after set binary so expandtab is not reset
 set autoindent " Keep the same indent as the line you're currently on
 set smartindent " Smart indents for new lines
 set nojoinspaces " Unset join spaces
@@ -132,8 +128,8 @@ set nowritebackup
 " -----------------------------------------------------------
 nnoremap ; :
 set lazyredraw " fixes horizontal scrolling with relativenumber on
-set relativenumber
 set number
+set norelativenumber
 
 nnoremap <silent> <leader><space> :noh<cr>
 nnoremap <tab> %
@@ -207,11 +203,13 @@ nnoremap <leader>vrc :e $HOME/.config/nvim/init.vim<cr>
 function LightColor()
   set background=light
   colorscheme PaperColor
+	highlight clear SignColumn
 endfunction
 
 function DarkColor()
   set background=dark
-  colorschema hybrid_material
+  colorscheme hybrid_material
+	highlight clear SignColumn
 endfunction
 
 " Insert Header Snippet
@@ -262,7 +260,8 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.hcl setlocal filetype=terraform textwidth=0
     autocmd FileType terraform set textwidth=0
     autocmd BufNewFile,BufRead *.py3 setlocal filetype=python textwidth=0
-    autocmd FileType python setlocal shiftwidth=2 softtabstop=2 fo=cjql
+    autocmd FileType python setlocal shiftwidth=4 softtabstop=4 tabstop=4 fo=cjql
+
     " Set relative if enter buffer, or in visual/normal mode
     " autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
     autocmd BufEnter * call s:quit_current_win()
