@@ -58,7 +58,7 @@ Plug 'scrooloose/nerdcommenter' " commenting
 Plug 'NLKNguyen/papercolor-theme' " colorscheme
 Plug 'rakr/vim-two-firewatch' " colorscheme
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' } " Styled component syntax
-Plug 'kyazdani42/nvim-web-devicons' " File icons for explorer
+Plug 'nvim-tree/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua' " File Explorer
 Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
 Plug 'nvim-lualine/lualine.nvim' " Status Line

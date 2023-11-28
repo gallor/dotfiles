@@ -468,13 +468,13 @@ function ytAlbum() {
 }
 
 function ytAudioTrack() {
-    yt-dlp -f 'bestaudio[ext=m4a]' -x --ppa "ffmpeg: -aac_pns 0 -c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"" --convert-thumbnails jpg --embed-thumbnail --embed-metadata -o '%(title)s.%(ext)s' $1
+    yt-dlp -f 'bestaudio[ext=m4a]' -x --ppa "ffmpeg: -aac_pns 0 -c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"" --cookies-from-browser firefox --convert-thumbnails jpg --embed-thumbnail --embed-metadata -o '%(title)s.%(ext)s' $1
 }
 
 function ytVideo() {
-    yt-dlp -f 'bv[height>=720][ext=mp4]+ba[ext=m4a]' --embed-thumbnail --embed-metadata --merge-output-format mp4 -o '%(title)s.%(ext)s' $1 '%(channel_id)s/%(playlist_id)s/%(id)s.%(ext)s'
+    yt-dlp -f 'bv[height>=720][ext=mp4]+ba[ext=m4a]' --embed-thumbnail --cookies-from-browser firefox --embed-metadata --merge-output-format mp4 -o '%(title)s.%(ext)s' $1 '%(channel_id)s/%(playlist_id)s/%(id)s.%(ext)s'
 }
 
 function ytPlaylist() {
-        yt-dlp -f 'bv*[height>=720]+ba' --download-archive vides.txt $1 
+        yt-dlp -f 'bv*[height>=720]+ba' --cookies-from-browser firefox --download-archive vides.txt $1 
     }

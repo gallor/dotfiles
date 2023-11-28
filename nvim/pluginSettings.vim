@@ -150,7 +150,14 @@ command! -nargs=? Fold :call CocAction('fold', <f-args>)
 " LuaLine
 " NvimTree
 " -----------------------------------------------------------
-:lua require('nvim-web-devicons').setup{}
+:lua require('nvim-web-devicons').setup{
+      \ override_by_extension = {
+      \ ["txt"] = {
+          \ icon = "",
+          \ name = "Text"
+          \ }
+          \ }
+  \ }
 :lua require('bufferline').setup{
   \
   \ }
