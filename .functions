@@ -321,7 +321,7 @@ gcoa() {
   local branch=$(git branch --all | fzf)
 
   if [[ $branch ]]; then
-    local newBranch=$(echo $branch | sed "s/remotes\/(origin|upstream)\///");
+    local newBranch=$(echo $branch | sed -E "s/remotes\/(origin|upstream)\///");
     git checkout -b $newBranch $branch;
   fi
 }
@@ -332,7 +332,7 @@ gcoa() {
 tm() {
   [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
   if [ $1 ]; then
-    tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
+    tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -v -s $1 && tmux $change -v -t "$1"); return
   fi
   session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
 }

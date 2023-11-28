@@ -12,7 +12,6 @@ alias g="git"
 alias h="history"
 alias dev="cd ~/dev/"
 alias music="cd ~/Music"
-alias ws="watson"
 
 # Application config
 alias fzf="fzf --height=10% --layout=reverse --prompt='λ '"

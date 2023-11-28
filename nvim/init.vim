@@ -46,7 +46,7 @@ filetype plugin indent on " Enable filetype indentation
 set tabstop=2 " 2 spaces
 set shiftwidth=2 " Indenting with '>', use 2 spaces
 set softtabstop=2 " 2 spaces tabbing when in insert mode
-set expandtab " On pressing tab, insert 4 spaces. Has to be after set binary so expandtab is not reset
+set expandtab " On pressing tab, insert 2 spaces. Has to be after set binary so expandtab is not reset
 set autoindent " Keep the same indent as the line you're currently on
 set smartindent " Smart indents for new lines
 set nojoinspaces " Unset join spaces
