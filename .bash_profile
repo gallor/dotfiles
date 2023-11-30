@@ -74,8 +74,8 @@ fi
 source $HOME/.git-prompt.sh
 
 # Add in conda init if only bash profile run
-if ! which conda &> /dev/null; then
-  . "/home/gallor/miniforge3/etc/profile.d/conda.sh"
+if ! which conda &> /dev/null && [[ -f "/home/gallor/miniforge3/etc/profile.d/conda.sh" ]]; then
+  . "/home/gallor/miniconda3/etc/profile.d/conda.sh"
 fi
 
 export NVM_DIR="$HOME/.nvm"
