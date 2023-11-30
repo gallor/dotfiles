@@ -212,6 +212,9 @@ function DarkColor()
 	highlight clear SignColumn
 endfunction
 
+" Insert Header Snippet
+:command -nargs=1 Header :normal! i=================<cr># <args><cr>=================<cr><ESC>
+
 " Strip Trailing whitespace (,ss)
 function! StripWhitespace()
   let save_cursor = getpos('.')
@@ -238,6 +241,8 @@ function! <SID>SynStack()
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunction
 nnoremap <leader>sp :call <SID>SynStack()<CR>
+
+
 
 " Save a file as root (,W)
 noremap <leader>W :w !sudo tee % > /dev/null<CR>

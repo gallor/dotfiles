@@ -150,7 +150,14 @@ command! -nargs=? Fold :call CocAction('fold', <f-args>)
 " LuaLine
 " NvimTree
 " -----------------------------------------------------------
-:lua require('nvim-web-devicons').setup{}
+:lua require('nvim-web-devicons').setup{
+      \ override_by_extension = {
+      \ ["txt"] = {
+          \ icon = "",
+          \ name = "Text"
+          \ }
+          \ }
+  \ }
 :lua require('bufferline').setup{
   \
   \ }
@@ -423,3 +430,14 @@ let g:neoformat_try_node_exe = 1
 " let g:neoformat_javascript_jsbeautify = {
 "     \ 'try_node_exe': 1
 "     \ }
+
+
+" -----------------------------------------------------------
+" Taskpaper
+" -----------------------------------------------------------
+let g:task_paper_follow_move = 0
+let g:task_paper_search_hide_done = 1
+
+" highlight-args
+" let g:task_paper_styles={'wait': 'ctermfg=Blue guifg=Blue', 'FAIL': 'ctermbg=Red guibg=Red'}
+
