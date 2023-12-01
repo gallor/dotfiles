@@ -57,6 +57,9 @@ if [ -x /usr/bin/bat ] || [ -x ${HOME}/.local/bin/bat ]; then
   alias cat='bat'
 fi
 
+# Conda
+alias mamba='micromamba'
+
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
