@@ -55,7 +55,8 @@ let g:coc_global_extensions = [
   \ 'coc-prettier',
   \ 'coc-docker',
   \ 'coc-pyright',
-	\ 'coc-sh'
+	\ 'coc-sh',
+  \ '@yaegassy/coc-ruff'
   \ ]
 
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
