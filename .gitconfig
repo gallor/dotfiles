@@ -77,7 +77,7 @@
   # Checks out all my submodules
   sup = "!git submodule update --init --recursive && git submodule status"
 
-	# Quick shortcuts 
+	# Quick shortcuts
 	st = status
 	co = checkout
 	br = branch
@@ -126,6 +126,9 @@
   precomposeunicode = false
 
   editor = nvim
+
+[advice]
+  addIgnoredFile = false
 
 [color]
     # Use colors in Git commands that are capable of colored output when

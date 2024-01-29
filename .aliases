@@ -26,7 +26,8 @@ alias df='df -h'
 alias du='du -h'
 
 # Git
-alias ga='git add'
+alias ga='git add -u'
+alias gaa='git add -A'
 alias gap='git add --patch'
 alias gl='git pull'
 alias gp='git push'
@@ -56,9 +57,6 @@ fi
 if [ -x /usr/bin/bat ] || [ -x ${HOME}/.local/bin/bat ]; then
   alias cat='bat'
 fi
-
-# Conda
-alias mamba='micromamba'
 
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"

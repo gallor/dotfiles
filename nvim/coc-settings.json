@@ -11,8 +11,6 @@
   "diagnostic.checkCurrentLine": true,
   "diagnostic.displayByAle": true,
   "tsserver.enable": true,
-  "python.formatting.provider": "black",
-  "python.pythonPath": "${env:HOME}/conda-path",
   "typescript.validate.enable": true,
   "javascript.validate.enable": true,
   "typescript.suggest.enabled": true,
@@ -22,6 +20,11 @@
   "suggest.autoTrigger": "trigger",
   "yaml.customTags": [ "!Ref", "!Sub", "!GetAtt", "!Equals" ],
   "python.linting.enabled": false,
+  "python.linting.mypyEnabled": false,
+  "pyright.enable": false,
+  "ruff.enableExperimentalFormatter": true,
+  "python.formatting.provider": "none",
+  "python.pythonPath": "${env:HOME}/conda-path",
   "languageserver": {
     "bash": {
       "command": "bash-language-server",

@@ -2,6 +2,7 @@
 function it2prof() {
   echo -e "\033]50;SetProfile=$1\a";
 }
+
 # Simple calculator
 function calc() {
     local result="";
@@ -339,7 +340,7 @@ tm() {
 
 # Get a list of conda environments to pick one to activate
 cm() {
-  local env=$(conda env list | sed '1,2d' | awk '{print $1}' | fzf)
+  local env=$(conda env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
 
   if [[ $env ]]; then
     conda deactivate
@@ -349,12 +350,12 @@ cm() {
 
 # Remove conda environment
 crm() {
-	local env=$(conda env list | sed '1,2d' | awk '{print $1}' | fzf)
+	local env=$(conda env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
 
 	if [[ $env ]]; then
 		conda deactivate
 		conda activate base
-		conda env remove -n $env
+		conda env remove -n $env --all
 	fi
 }
 
@@ -448,9 +449,12 @@ uninstall() {
 # Select a docker container to start and attach to
 function da() {
   local cid
-  cid=$(docker ps -a | sed 1d | fzf -1 -q "$1" | awk '{print $1}')
+  cid=$(docker ps -a | sed 1d | fzf -q "$1" | awk '{print $1}')
 
-  [ -n "$cid" ] && docker start "$cid" && docker attach "$cid"
+  if [ -n "$cid" ]; then
+      docker start "$cid"
+      docker attach "$cid"
+  fi
 }
 
 # Select a running docker container to stop
@@ -466,7 +470,7 @@ function dcrm() {
   local cid
   cid=$(docker ps -a | sed 1d | fzf -q "$1" | awk '{print $1}')
 
-  [ -n "$cid" ] && docker rmi "$cid"
+  [ -n "$cid" ] && docker rm "$cid"
 }
 
 # Select a docker image to remove
@@ -474,6 +478,14 @@ function dirm() {
 	local cid
 	cid=$(docker image list | sed 1d | fzf -q "$1" | awk '{print $3}')
 	[ -n "$cid" ] && docker rmi -f "$cid"
+}
+
+function dlist() {
+    docker ps -a
+}
+
+function dilist() {
+    docker image list
 }
 
 # Download Playlist Album from Youtube
@@ -490,5 +502,5 @@ function ytVideo() {
 }
 
 function ytPlaylist() {
-        yt-dlp -f 'bv*[height>=720]+ba' --cookies-from-browser firefox --download-archive vides.txt $1 
+        yt-dlp -f 'bv*[height>=720]+ba' --cookies-from-browser firefox --download-archive vides.txt $1
     }
