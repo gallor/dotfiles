@@ -384,8 +384,8 @@ let g:indentLine_fileTypeExclude = ['md']
 " -----------------------------------------------------------
 " Vim Markdown Preview
 " -----------------------------------------------------------
-let vim_markdown_preview_toggle=2
-let vim_markdown_preview_browser='Google Chrome'
+" let vim_markdown_preview_toggle=2
+" let vim_markdown_preview_browser='Google Chrome'
 
 " -----------------------------------------------------------
 " Vim Markdown Syntax
