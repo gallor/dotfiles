@@ -392,7 +392,7 @@ let g:indentLine_fileTypeExclude = ['md']
 " Vim Markdown Syntax
 " -----------------------------------------------------------
 " disable header folding
-let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_folding_disabled = 0
 
 " do not use conceal feature, the implementation is not so good
 let g:vim_markdown_conceal = 0
@@ -405,6 +405,7 @@ let g:vim_markdown_math = 1
 let g:vim_markdown_frontmatter = 1  " for YAML format
 let g:vim_markdown_toml_frontmatter = 1  " for TOML format
 let g:vim_markdown_json_frontmatter = 1  " for JSON format
+let g:vim_markdown_new_list_item_indent = 0 " disable auto indent on list item
 
 " -----------------------------------------------------------
 " Typescript Vim
