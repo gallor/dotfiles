@@ -341,6 +341,11 @@ tm() {
 # Get a list of conda environments to pick one to activate
 cm() {
   local env=$(conda env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
+  local current_env=$(conda env list | grep \* | awk '{print $1}')
+
+  if [[ $current_env == 'base' ]]; then
+    conda activate $env
+  fi
 
   if [[ $env ]]; then
     conda deactivate
@@ -353,9 +358,10 @@ crm() {
 	local env=$(conda env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
 
 	if [[ $env ]]; then
+    echo "Removing $env"
 		conda deactivate
 		conda activate base
-		conda env remove -n $env --all
+		conda remove -n $env --all
 	fi
 }
 
@@ -363,6 +369,7 @@ crm() {
 cdd() {
 	if [[ $CONDA_DEFAULT_ENV  ]]; then
 		conda deactivate
+    conda activate base
 	fi
 }
 
@@ -504,3 +511,5 @@ function ytVideo() {
 function ytPlaylist() {
         yt-dlp -f 'bv*[height>=720]+ba' --cookies-from-browser firefox --download-archive vides.txt $1
     }
+
+
