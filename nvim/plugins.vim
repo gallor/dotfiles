@@ -12,7 +12,7 @@ Plug 'tpope/vim-surround' " change 'surroundings'
 Plug 'tpope/vim-obsession' " save nvim session
 Plug 'tpope/vim-eunuch' "Unix shell commands
 Plug 'Raimondi/delimitMate' " Autoclosing
-" Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
 Plug 'rizzatti/dash.vim' " dash documentation
 Plug 'tmux-plugins/vim-tmux-focus-events' " Enable autoread for vim in tmux
 Plug 'jremmen/vim-ripgrep' " search for words
@@ -43,7 +43,7 @@ Plug 'hashivim/vim-terraform' " Terraform support
 "==== Syntax ===="
 Plug 'dense-analysis/ale' " linting engine engine
 Plug 'sheerun/vim-polyglot' " Syntax engine loads libraries only on demand,
-Plug 'plasticboy/vim-markdown'
+Plug 'preservim/vim-markdown' " Markdown syntax, matching and mappings
 Plug 'godlygeek/tabular' " tabular plugin is used to format tables
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " Python syntax
 
@@ -67,4 +67,3 @@ Plug 'nvim-lualine/lualine.nvim' " Status Line
 Plug 'kristijanhusak/orgmode.nvim',
 
 call plug#end()
-
