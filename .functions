@@ -512,4 +512,38 @@ function ytPlaylist() {
         yt-dlp -f 'bv*[height>=720]+ba' --cookies-from-browser firefox --download-archive vides.txt $1
     }
 
+function gitRepo() {
+    local repo=$1
+    local os=$2
+
+    if [[ -z $repo ]]; then
+        echo "Repo must be specified"
+        return 1
+    fi
+
+    if [[ -z $os ]]; then
+        os = "all"
+    fi
+
+    local releases=$(curl -s https://api.github.com/repos/$repo/releases/latest)
+    local assets_length=$(echo $releases | jq '.assets | length')
+
+    if [[ $assets_length -gt 0 ]]; then
+
+        if [[ $os == "all" ]]; then
+            name = $(echo $releases | jq -r '.assets[] | .name' | fzf)
+        else
+            name = $(echo $releases | jq -r --arg os "$os" '.assets[] | select(.name | contains($os)) | .name)' | fzf)
+        fi
+        if [[ -n $name ]]; then
+            wget $(echo $releases | jq -r --arg name "$name" '.assets[] | select(.name | contains($name)) | .browser_download_url')
+        else
+            echo "No name specified. Canceling download"
+        fi
+    else
+        echo "No assets available"
+        return 1
+    fi
+
+}
 

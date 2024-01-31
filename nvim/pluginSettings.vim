@@ -386,11 +386,11 @@ let g:indentLine_fileTypeExclude = ['md']
 " Vim Markdown Preview
 " -----------------------------------------------------------
 " let vim_markdown_preview_toggle=2
-" let vim_markdown_preview_browser='Google Chrome'
+" let g:instant_markdown_browser = "googe chrome"
 
 " -----------------------------------------------------------
 " Vim Markdown Syntax
-" -----------------------------------------------------------
+" ------------l-----------------------------------------------
 " disable header folding
 let g:vim_markdown_folding_disabled = 0
 
