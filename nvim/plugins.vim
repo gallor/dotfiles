@@ -51,6 +51,7 @@ Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " Python syntax
 Plug 'cweagans/vim-taskpaper' " Taskpaper support
 Plug 'kristijanhusak/vim-hybrid-material' " Light and dark theme based on hybrid
 Plug 'w0ng/vim-hybrid' " colorscheme
+Plug 'Mofiqul/dracula.nvim'
 Plug 'vim-scripts/summerfruit256.vim' " colorscheme
 Plug 'crusoexia/vim-monokai' " colorschem
 Plug 'Yggdroot/indentLine' " Indent line guides
