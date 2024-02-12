@@ -25,7 +25,6 @@ hi def link jsObjectKey Structure
 hi def link jsObjectProp Tag
 
 " colorscheme hybrid_material
-" colorscheme PaperColooc
 colorscheme dracula-soft
 highlight clear SignColumn
 " set background=light
