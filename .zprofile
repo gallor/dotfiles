@@ -1,4 +1,8 @@
-eval $($(which brew) shellenv)
+if [[ -d /opt/homebrew ]]; then
+  eval $(/opt/homebrew/bin/brew shellenv)
+elif [[ -e /usr/local/bin/brew ]]; then
+  eval $(/usr/local/bin/brew shellenv)
+fi
 
 export EDITOR=nvim
 export PAGER=less
