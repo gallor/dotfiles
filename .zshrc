@@ -16,6 +16,9 @@ zplug "romkatv/powerlevel10k", as:theme, depth:1
 zplug "jeffreytse/zsh-vi-mode"
 zplug "zsh-users/zsh-autosuggestions"
 zplug "unixorn/fzf-zsh-plugin"
+# zplug "marionrichert/zsh-autocomplete"
+zplug "zsh-users/zsh-completions"
+
 
 zplug "zdharma/fast-syntax-highlighting", defer:2
 zplug load
