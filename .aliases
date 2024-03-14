@@ -4,6 +4,7 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias home="cd ~"
+alias grep='grep --color=auto'
 
 # Shortcuts
 alias dl="cd ~/Downloads"
@@ -15,6 +16,7 @@ alias music="cd ~/Music"
 
 # Application config
 alias fzf="fzf --height=10% --layout=reverse --prompt='λ '"
+alias clock="tty-clock -c -B -C 6 -f %D"
 
 # Idiot proofing to commands
 alias mv='mv -i'

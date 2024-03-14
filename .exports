@@ -34,7 +34,6 @@ export MAVEN_HOME=$HOME/dev/java/lib/apache-maven-3.5.4/bin
 
 # Command Line Colors
 export CLICOLOR=1
-export LSCOLORS=ExfxcxDxBxhxhxhxhxcxcx
 
 # --files: List files that would be searched but do not search
 # --no-ignore: Do not respect .gitignore, etc...
