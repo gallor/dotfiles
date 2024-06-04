@@ -12,6 +12,8 @@ alias g="git"
 alias h="history"
 alias dev="cd ~/dev/"
 alias music="cd ~/Music"
+alias clock="tty-clock -c -B -C 6 -f %D"
+
 
 # Application config
 alias fzf="fzf --height=10% --layout=reverse --prompt='λ '"
@@ -24,6 +26,7 @@ alias rm='rm -i'
 # Humanize
 alias df='df -h'
 alias du='du -h'
+alias du1='du -h -c -d 1'
 
 # Git
 alias ga='git add -u'
@@ -171,9 +174,6 @@ alias pumpitup="osascript -e 'set volume 7'"
 
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
-
-# Launch Notes with Vim taskpaper wrapper
-alias notes="nvim ~/Dropbox/Notes/Notes.taskpaper"
 
 # Node Repl that's extendable
 alias repl="node ~/dev/js/repl/repl.js"

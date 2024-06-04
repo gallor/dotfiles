@@ -19,6 +19,9 @@ unset file;
 # Set Vim editing Option in terminal
 set -o vi
 
+# Shell only exists after 3 consecutive Ctrl d
+IGNOREEOF=3
+
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob;
 
