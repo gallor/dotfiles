@@ -307,10 +307,6 @@ let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '⚠'
 hi ALEErrorSign ctermbg=NONE ctermfg=red guifg=red
 hi ALEWarningSign ctermbg=NONE ctermfg=yellow guifg=yellow
-if g:colors_name == 'monokai'
-  hi ALEErrorSign guibg=#303030
-  hi ALEWarningSign guibg=#303030
-endif
 
 let g:ale_linters= {
 \   'javascript': ['eslint'],

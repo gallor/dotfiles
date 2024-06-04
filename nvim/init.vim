@@ -25,7 +25,6 @@ hi def link jsObjectKey Structure
 hi def link jsObjectProp Tag
 
 " colorscheme hybrid_material
-" colorscheme PaperColor
 colorscheme dracula-soft
 highlight clear SignColumn
 " set background=light
@@ -123,6 +122,13 @@ set iskeyword+=_ " count underscore as part of the word
 " Some coc servers have problems with backups
 set nobackup
 set nowritebackup
+
+" -----------------------------------------------------------
+" Conda setup
+" -----------------------------------------------------------
+if has('nvim') && !empty($CONDA_PREFIX)
+  let g:python3_host_prog = $CONDA_PREFIX . '/bin/python'
+endif
 
 " -----------------------------------------------------------
 " Key Remapping, Line Numbering

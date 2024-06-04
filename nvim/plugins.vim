@@ -37,8 +37,8 @@ Plug 'airblade/vim-gitgutter' " git signage in gutter
 "==== Development ===="
 Plug 'leafgarland/typescript-vim' " Typescript syntax
 Plug 'pangloss/vim-javascript' " JS highlighting and indenting
-Plug 'greatghoul/vim-web-indent'
 Plug 'hashivim/vim-terraform' " Terraform support
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' } " Python support
 
 "==== Syntax ===="
 Plug 'dense-analysis/ale' " linting engine engine
@@ -50,6 +50,7 @@ Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " Python syntax
 "==== UI ===="
 Plug 'cweagans/vim-taskpaper' " Taskpaper support
 Plug 'kristijanhusak/vim-hybrid-material' " Light and dark theme based on hybrid
+Plug 'Mofiqul/dracula.nvim'
 Plug 'w0ng/vim-hybrid' " colorscheme
 Plug 'Mofiqul/dracula.nvim'
 Plug 'vim-scripts/summerfruit256.vim' " colorscheme
@@ -61,7 +62,7 @@ Plug 'rakr/vim-two-firewatch' " colorscheme
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' } " Styled component syntax
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua' " File Explorer
-Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
+Plug 'akinsho/bufferline.nvim'
 Plug 'nvim-lualine/lualine.nvim' " Status Line
 
 "==== OrgMode ====="
