@@ -62,7 +62,7 @@ Plug 'rakr/vim-two-firewatch' " colorscheme
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' } " Styled component syntax
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua' " File Explorer
-Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
+Plug 'akinsho/bufferline.nvim'
 Plug 'nvim-lualine/lualine.nvim' " Status Line
 
 "==== OrgMode ====="

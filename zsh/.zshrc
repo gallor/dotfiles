@@ -5,31 +5,32 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-for file in ~/.{aliases,exports,zplug/init.zsh,functions,extra}; do
+for file in ~/.{aliases,exports,zsh/.antidote/antidote.zsh,functions,extra}; do
 		[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
 
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+fi
+
 # Autocomplete
 autoload -Uz compinit
-if [[ -n $HOME/.cache/zsh/zcompdump-$ZSH_VERSION(#qN.mh+24) ]]; then
+if [[ -z $HOME/.cache/zsh/zcompdump-$ZSH_VERSION ]]; then
     compinit -d "$HOME/.cache/zsh/zcompdump-$ZSH_VERSION"
 else
     compinit -C;
 fi;
 
+antidote load
 
-# Plugins
-zplug "romkatv/powerlevel10k", as:theme, depth:1
-zplug "jeffreytse/zsh-vi-mode"
-zplug "Aloxaf/fzf-tab"
-zplug "zsh-users/zsh-autosuggestions"
-# zplug "marionrichert/zsh-autocomplete"
-zplug "zsh-users/zsh-completions"
-zplug "zdharma/fast-syntax-highlighting", defer:2
-zplug "unixorn/fzf-zsh-plugin"
-
-zplug load
+autoload -Uz promptinit
+autoload -Uz history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^[[A" history-beginning-search-backward-end
+bindkey "^[[B" history-beginning-search-forward-end
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -49,9 +50,13 @@ alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[
 # Forces TMUX into 256 color mode
 alias ll="ls -la"
 
-
-zstyle ':completion:*:*:git:*' script ~/.git-completion.bash
-
+# Auto complete while typing
+zstyle '*:compinit' arguments -D -i -u -C -w
+# Case insensitive directory completion
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+# Git completion
+zstyle ':completion:*:*:git:*' script ~/.git-completion.bash, fzf-search-display true
+zstyle ':completion:*:*:git:*' fzf-search-display true
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
 # set descriptions format to enable group support
@@ -61,6 +66,13 @@ zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
 zstyle ':completion:*' menu no
+# Cache completion
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/.zcompcache"
+# Fzf-tab enabled for everything
+zstyle ':completion:*' fzf-search-display true
+zstyle ':completion:*' group-name ''
+
 # preview directory's content with eza when completing cd
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 # switch group using `<` and `>`
@@ -68,6 +80,9 @@ zstyle ':fzf-tab:*' switch-group '<' '>'
 
 # Load Git Completion by appending function lookup
 fpath=(~/.zsh $fpath)
+
+# Add .local/bin to PATH
+export PATH="$HOME/.local/bin:$PATH"
 
 # Don't close shell until 3 consecutive Ctrl D
 IGNOREEOF=3
@@ -93,5 +108,7 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+# Fzf tab completion
+# [[ ! -f ${ZDOTDIR:-$HOME}/fzf-tab-completion/zsh/fzf-zsh-completion.sh ]] || source ${ZDOTDIR:-$HOME}/fzf-tab-completion/zsh/fzf-zsh-completion.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f ${ZDOTDIR:-$HOME}/.p10k.zsh ]] || source ${ZDOTDIR:-$HOME}/.p10k.zsh
