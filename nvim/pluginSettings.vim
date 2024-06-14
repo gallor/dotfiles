@@ -412,6 +412,7 @@ let g:typescript_indent_disable = 1
 " Toggle Term
 " -----------------------------------------------------------
 lua require("toggleterm").setup()
+
 " -----------------------------------------------------------
 " NeoFormat
 " -----------------------------------------------------------
@@ -439,3 +440,8 @@ let g:task_paper_search_hide_done = 1
 " highlight-args
 " let g:task_paper_styles={'wait': 'ctermfg=Blue guifg=Blue', 'FAIL': 'ctermbg=Red guibg=Red'}
 
+
+" -----------------------------------------------------------
+" Python 3 NeoVim support
+" -----------------------------------------------------------
+let g:python3_host_prog = '/usr/bin/python3'

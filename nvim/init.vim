@@ -166,6 +166,8 @@ vnoremap j gj
 vnoremap k gk
 nnoremap <S-4> g$
 nnoremap <S-6> g^
+nnoremap H ^
+nnoremap L $
 
 " Exit terminal input mode
 au TermOpen * tnoremap <buffer> <Esc> <C-\><C-n>
