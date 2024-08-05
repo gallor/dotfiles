@@ -1,27 +1,3 @@
-# Compiled Python files
-*.pyc
+.antidote
+.zsh_plugins.zsh
 
-# Folder view configuration files
-.DS_Store
-Desktop.ini
-
-# Thumbnail cache files
-._*
-Thumbs.db
-
-# Files that might appear on external disks
-.Spotlight-V100
-.Trashes
-
-# Files that contain credentials or personal info
-.extra
-.boto
-.mrjob.conf
-.s3cfg
-.aws/
-
-# Don't commit vim bundles that are easily added through Vundle
-.vim/bundle/**
-
-# Ignore Jetbrains config files
-*.iml
