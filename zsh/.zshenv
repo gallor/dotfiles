@@ -4,3 +4,4 @@ if [[ ! -d $HOME/.cache/.antidote ]]; then
         mkdir -p $HOME/.cache/.antidote
 fi
 export ANTIDOTE_HOME="$HOME/.cache/.antidote"
+
