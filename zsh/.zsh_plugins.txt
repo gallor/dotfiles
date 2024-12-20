@@ -11,8 +11,7 @@ mattmc3/zephyr path:plugins/color
 mattmc3/zephyr path:plugins/utility
 mattmc3/zephyr path:plugins/homebrew
 mattmc3/zephyr path:plugins/zfunctions
-mattmc3/zephyr path:plugins/macos conditional:is-macos
-mattmc3/zephyr path:plugins/confd
+mattmc3/zephyr path:plugins/macos
 
 # prompt
 romkatv/powerlevel10k
@@ -24,7 +23,7 @@ unixorn/fzf-zsh-plugin
 
 # completion plugins
 zsh-users/zsh-completions
-mattmc3/zephyr path:plugins/completion
+# mattmc3/zephyr path:plugins/completion
 # marlonrichert/zsh-autocomplete
 
 # deferred plugins
