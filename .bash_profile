@@ -95,3 +95,4 @@ export NVM_DIR="$HOME/.nvm"
 # complete -o nospace -o plusdirs -F _fzf_dir_completion cd
 
 source $HOME/.local/opt/fzf-obc/bin/fzf-obc.bash
+. "$HOME/.cargo/env"
