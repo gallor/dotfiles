@@ -208,28 +208,6 @@ fif() {
   rg --files-with-matches --hidden --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --hidden --context 10 '$1' || rg --ignore-case --hidden --pretty --context 10 '$1' {}"
 }
 
-# cd to selected directory
-fd() {
-  local dir
-  dir=$(find ${1:-.} -path '*/\.*' -prune \
-                  -o -type d -print 2> /dev/null | fzf +m) &&
-  cd "$dir"
-}
-
-# cd into selected directory including hidden
-fda() {
-  local dir
-  dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
-}
-
-# fe [FUZZY PATTERN] - Open the selected file with the default editor
-#   - Bypass fuzzy finder if there's only one match (--select-1)
-#   - Exit if there's no match (--exit-0)
-fe() {
-  local files
-  IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
-  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
-}
 
 # vf - fuzzy open with vim from anywhere
 # ex: vf word1 word2 ... (even part of a file name)
@@ -338,39 +316,53 @@ tm() {
   session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
 }
 
+get_conda_method() {
+  if command -v conda &> /dev/null; then
+    echo "conda"
+  elif command -v mamba &> /dev/null; then
+    echo "mamba"
+  fi
+}
+
 # Get a list of conda environments to pick one to activate
 cm() {
-  local env=$(conda env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
-  local current_env=$(conda env list | grep \* | awk '{print $1}')
+  local method=$(get_conda_method)
+  local env=$("$method" env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
+  local current_env=$("$method" env list | grep \* | awk '{print $1}')
 
   if [[ $current_env == 'base' ]]; then
-    conda activate $env
+    $method activate $env
   fi
 
   if [[ $env ]]; then
-    conda deactivate
-    conda activate $env
+    $method deactivate
+    $method activate $env
   fi
+  unset method
 }
 
 # Remove conda environment
 crm() {
-	local env=$(conda env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
+        local method=$(get_conda_method)
+	local env=$("$method" env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
 
 	if [[ $env ]]; then
     echo "Removing $env"
-		conda deactivate
-		conda activate base
-		conda remove -n $env --all
+		$method deactivate
+		$method activate base
+		$method remove -n $env --all
 	fi
 }
 
 # Deactivate current conda env
 cdd() {
-	if [[ $CONDA_DEFAULT_ENV  ]]; then
-		conda deactivate
-    conda activate base
-	fi
+    if [[ $CONDA_DEFAULT_ENV  ]]; then
+        conda deactivate
+        conda activate base
+    elif [[ $MAMBA_EXE ]]; them
+        mamba deactivate
+        mamba activate base
+    fi
 }
 
 # Install (one or multiple) selected application(s)
@@ -550,3 +542,4 @@ function gitRepo() {
 
 }
 
+unset get_conda_method
