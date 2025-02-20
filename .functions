@@ -297,10 +297,10 @@ grm() {
 
 gcoa() {
   git fetch --all;
-  local branch=$(git branch --all --format "%(refname:short)" | fzf)
+  local branch=$(git branch --all --format="%(refname:lstrip=2)" | fzf)
 
   if [[ $branch ]]; then
-    local newBranch=$(echo $branch | sed -E "s/remotes\/(origin|upstream)\///");
+    local newBranch=$(echo $branch | sed -E "s/(origin|upstream)\///");
     git checkout -b $newBranch $branch;
   fi
 }
