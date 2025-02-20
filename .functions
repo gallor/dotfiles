@@ -280,7 +280,7 @@ gru() {
 
 # Git checkout new branch
 gco() {
-  local branch=$(git branch | fzf)
+  local branch=$(git branch --format "%(refname:short)" | fzf)
 
   if [[ $branch ]]; then
     git checkout $branch; git pull;
@@ -288,7 +288,7 @@ gco() {
 }
 
 grm() {
-  local branch=$(git branch | fzf)
+  local branch=$(git branch --format "%(refname:short)" | fzf)
 
   if [[ $branch ]]; then
     git branch -D $branch
@@ -297,7 +297,7 @@ grm() {
 
 gcoa() {
   git fetch --all;
-  local branch=$(git branch --all | fzf)
+  local branch=$(git branch --all --format "%(refname:short)" | fzf)
 
   if [[ $branch ]]; then
     local newBranch=$(echo $branch | sed -E "s/remotes\/(origin|upstream)\///");
@@ -359,7 +359,7 @@ cdd() {
     if [[ $CONDA_DEFAULT_ENV  ]]; then
         conda deactivate
         conda activate base
-    elif [[ $MAMBA_EXE ]]; them
+    elif [[ $MAMBA_EXE ]]; then
         mamba deactivate
         mamba activate base
     fi
