@@ -197,5 +197,9 @@
 	smudge = git-lfs smudge -- %f
 	required = true
 	process = git-lfs filter-process
+
 [pager]
 	branch = false
+
+[init]
+	defaultBranch = main

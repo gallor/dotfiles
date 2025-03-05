@@ -287,11 +287,6 @@ fstash() {
   done
 }
 
-get_local_branch() {
-  local branch=$(git branch | fzf | awk '{$1=$1};1')
-  echo $branch
-}
-
 gru() {
 	if [[ ! $(git config --get remote.upstream.url)  ]]; then
 		read -p "Upstream Git Url: " ORIGIN_REPO
@@ -307,7 +302,7 @@ gru() {
 
 # Git checkout new branch
 gco() {
-  local branch=$(get_local_branch)
+  local branch=$(git branch --format "%(refname:short)" | fzf)
 
   if [[ $branch ]]; then
     git checkout $branch
@@ -316,7 +311,7 @@ gco() {
 }
 
 grm() {
-  local branch=$(get_local_branch)
+  local branch=$(git branch --format "%(refname:short)" | fzf)
 
   if [[ $branch ]]; then
     git branch -D $branch
@@ -325,10 +320,10 @@ grm() {
 
 gcoa() {
   git fetch --all;
-  local branch=$(git branch --all | fzf | awk '{$1=$1};1')
+  local branch=$(git branch --all --format="%(refname:lstrip=2)" | fzf)
 
   if [[ $branch ]]; then
-    local newBranch=$(echo $branch | sed -E "s/remotes\/(origin|upstream)\///");
+    local newBranch=$(echo $branch | sed -E "s/(origin|upstream)\///");
     git checkout -b $newBranch $branch;
   fi
 }
@@ -344,39 +339,53 @@ tm() {
   session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
 }
 
-# Get a list of mamba environments to pick one to activate
+get_conda_method() {
+  if command -v conda &> /dev/null; then
+    echo "conda"
+  elif command -v mamba &> /dev/null; then
+    echo "mamba"
+  fi
+}
+
+# Get a list of conda environments to pick one to activate
 cm() {
-  local env=$(mamba env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
-  local current_env=$(mamba env list | grep \* | awk '{print $1}')
+  local method=$(get_conda_method)
+  local env=$("$method" env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
+  local current_env=$("$method" env list | grep \* | awk '{print $1}')
 
   if [[ $current_env == 'base' ]]; then
-    mamba activate $env
+    $method activate $env
   fi
 
   if [[ $env ]]; then
-    mamba deactivate
-    mamba activate $env
+    $method deactivate
+    $method activate $env
   fi
+  unset method
 }
 
 # Remove mamba environment
 crm() {
-  local env=$(mamba env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
+    local method=$(get_conda_method)
+    local env=$("$method" env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
 
   if [[ $env ]]; then
     echo "Removing $env"
-        mamba deactivate
-        mamba activate base
-        mamba env remove -n $env -y
+    $method deactivate
+    $method activate base
+    $method remove -n $env --all
   fi
 }
 
 # Deactivate current mamba env
 cdd() {
-	if [[ $CONDA_PREFIX  ]]; then
-            mamba deactivate
-            mamba activate base
-	fi
+    if [[ $CONDA_DEFAULT_ENV  ]]; then
+        conda deactivate
+        conda activate base
+    elif [[ $MAMBA_EXE ]]; then
+        mamba deactivate
+        mamba activate base
+    fi
 }
 
 # Install (one or multiple) selected application(s)
@@ -503,7 +512,10 @@ function dilist() {
 
 # Download Playlist Album from Youtube
 function ytAlbum() {
-    yt-dlp -f "bestaudio[ext=m4a]"  --ppa "ffmpeg: -aac_pns 0 -c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"" --cookies-from-browser firefox --convert-thumbnails jpg --embed-thumbnail --embed-metadata --parse-metadata "playlist_index:%(track_number)s" --output "%(album)s/%(title)s.%(ext)s" $1
+    echo "Downloading Album Art"
+    yt-dlp --skip-download --write-thumbnail --playlist-items 0 -o "%(album)s/%(title)s_thumbnail:cover.%(ext)s" $1
+    echo "Downloading Album"
+    yt-dlp -f "bestaudio[ext=m4a]"  --ppa "ffmpeg: -aac_pns 0 -c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"" --cookies-from-browser chrome --convert-thumbnails jpg --embed-thumbnail --embed-metadata --parse-metadata "playlist_index:%(track_number)s" --output "%(album)s/%(title)s.%(ext)s" $1
 }
 
 function ytAudioTrack() {
@@ -553,3 +565,4 @@ function gitRepo() {
 
 }
 
+unset get_conda_method

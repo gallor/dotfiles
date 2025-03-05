@@ -43,8 +43,8 @@ export CLICOLOR=1
 # --follow: Follow symlinks
 # --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 export BAT_THEME="Monokai Extended"
-export FZF_COMPLETION_OPTS=""
-export FZF_CTRL_T_OPTS="$FZF_COMPLETION_OPTS"
+export FZF_COMPLETION_OPTS="$FZF_DEFAULT_OPTS"
+export FZF_CTRL_T_OPTS="$FZF_DEFAULT_OPTS"
 export FZF_DEFAULT_COMMAND='fd --type file --color always --follow --hidden ---exclude .git --exclude node_modules --exclude build'
 export FZF_DEFAULT_OPTS="--prompt 'λ ' --height 30% --tmux left,40% --layout reverse --border top --preview '(bat --color=alawys {} || cat {} || tree -C {}) 2> /dev/null'"
 export FZF_TMUX_HEIGHT="20%"

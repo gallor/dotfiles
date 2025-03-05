@@ -20,6 +20,10 @@ alias clock="tty-clock -c -B -C 6 -f %D"
 alias fzf="fzf --height=10% --layout=reverse --prompt='λ '"
 alias clock="tty-clock -c -B -C 6 -f %D"
 
+if ! command -v fdfind 2>&1 >/dev/null; then
+    alias fdfind="fd"
+fi
+
 # Idiot proofing to commands
 alias mv='mv -i'
 alias cp='cp -i'
@@ -184,3 +188,5 @@ alias repl="node ~/dev/js/repl/repl.js"
 alias tmux="tmux -2"
 
 alias mic="micromamba"
+# Fix for zsh change to 'which'
+alias which="whence -p"
