@@ -209,7 +209,7 @@ fif() {
 }
 
 # cd to selected directory
-fd() {
+fdd() {
   local dir
   dir=$(find ${1:-.} -path '*/\.*' -prune \
                   -o -type d -print 2> /dev/null | fzf +m) &&
@@ -287,6 +287,11 @@ fstash() {
   done
 }
 
+get_local_branch() {
+  local branch=$(git branch | fzf | awk '{$1=$1};1')
+  echo $branch
+}
+
 gru() {
 	if [[ ! $(git config --get remote.upstream.url)  ]]; then
 		read -p "Upstream Git Url: " ORIGIN_REPO
@@ -302,15 +307,16 @@ gru() {
 
 # Git checkout new branch
 gco() {
-  local branch=$(git branch | fzf)
+  local branch=$(get_local_branch)
 
   if [[ $branch ]]; then
-    git checkout $branch; git pull;
+    git checkout $branch
+    git pull
   fi
 }
 
 grm() {
-  local branch=$(git branch | fzf)
+  local branch=$(get_local_branch)
 
   if [[ $branch ]]; then
     git branch -D $branch
@@ -319,7 +325,7 @@ grm() {
 
 gcoa() {
   git fetch --all;
-  local branch=$(git branch --all | fzf)
+  local branch=$(git branch --all | fzf | awk '{$1=$1};1')
 
   if [[ $branch ]]; then
     local newBranch=$(echo $branch | sed -E "s/remotes\/(origin|upstream)\///");
@@ -338,38 +344,38 @@ tm() {
   session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
 }
 
-# Get a list of conda environments to pick one to activate
+# Get a list of mamba environments to pick one to activate
 cm() {
-  local env=$(conda env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
-  local current_env=$(conda env list | grep \* | awk '{print $1}')
+  local env=$(mamba env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
+  local current_env=$(mamba env list | grep \* | awk '{print $1}')
 
   if [[ $current_env == 'base' ]]; then
-    conda activate $env
+    mamba activate $env
   fi
 
   if [[ $env ]]; then
-    conda deactivate
-    conda activate $env
+    mamba deactivate
+    mamba activate $env
   fi
 }
 
-# Remove conda environment
+# Remove mamba environment
 crm() {
-	local env=$(conda env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
+  local env=$(mamba env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
 
-	if [[ $env ]]; then
+  if [[ $env ]]; then
     echo "Removing $env"
-		conda deactivate
-		conda activate base
-		conda remove -n $env --all
-	fi
+        mamba deactivate
+        mamba activate base
+        mamba env remove -n $env -y
+  fi
 }
 
-# Deactivate current conda env
+# Deactivate current mamba env
 cdd() {
-	if [[ $CONDA_DEFAULT_ENV  ]]; then
-		conda deactivate
-    conda activate base
+	if [[ $CONDA_PREFIX  ]]; then
+            mamba deactivate
+            mamba activate base
 	fi
 }
 

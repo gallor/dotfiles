@@ -182,3 +182,5 @@ alias repl="node ~/dev/js/repl/repl.js"
 
 # Forces TMUX into 256 color mode
 alias tmux="tmux -2"
+
+alias mic="micromamba"
