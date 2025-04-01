@@ -73,11 +73,20 @@ zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/.zcompcache"
 # Fzf-tab enabled for everything
 zstyle ':completion:*' fzf-search-display true
 zstyle ':completion:*' group-name ''
-
 # preview directory's content with eza when completing cd
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+# custom fzf flags
+# NOTE: fzf-tab does not follow FZF_DEFAULT_OPTS by default
+zstyle ':fzf-tab:*' fzf-flags --color=fg:1,fg+:2 --bind=tab:accept
+# To make fzf-tab follow FZF_DEFAULT_OPTS.
+# NOTE: This may lead to unexpected behavior since some flags break this plugin. See Aloxaf/fzf-tab#455.
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
 # switch group using `<` and `>`
 zstyle ':fzf-tab:*' switch-group '<' '>'
+# pop up menu
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+
+
 
 # Load Git Completion by appending function lookup
 fpath=($HOME/.zsh $fpath)
@@ -86,8 +95,8 @@ fpath=($HOME/.zsh $fpath)
 # Add .local/bin to PATH
 export PATH="$HOME/.local/bin:$PATH"
 
-# Don't close shell until 3 consecutive Ctrl D
-IGNOREEOF=3
+# Don't close shell when hitting CTRL D
+set -o ignoreeof
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
@@ -110,6 +119,48 @@ export NVM_DIR="$HOME/.nvm"
 # unset __conda_setup
 # <<< conda initialize <<<
 
+# Fzf tab completion
+[[ ! -f ${ZDOTDIR:-$HOME}/fzf-tab-completion/zsh/fzf-zsh-completion.sh ]] || source ${ZDOTDIR:-$HOME}/fzf-tab-completion/zsh/fzf-zsh-completion.sh
+#
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ${ZDOTDIR:-$HOME}/.p10k.zsh ]] || source ${ZDOTDIR:-$HOME}/.p10k.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# . /home/gallor/.cli_completions/ws-complete.zsh
+
+if [ -d "$HOME/mambaforge" ]; then
+    # >>> conda initialize >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    __conda_setup="$('/home/gallor/mambaforge/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
+    else
+        if [ -f "/home/gallor/mambaforge/etc/profile.d/conda.sh" ]; then
+            . "/home/gallor/mambaforge/etc/profile.d/conda.sh"
+        else
+            export PATH="/home/gallor/mambaforge/bin:$PATH"
+        fi
+    fi
+    unset __conda_setup
+
+    if [ -f "/home/gallor/mambaforge/etc/profile.d/mamba.sh" ]; then
+        . "/home/gallor/mambaforge/etc/profile.d/mamba.sh"
+    fi
+elif [ -d "$HOME/micromamba" ]; then
+    # >>> mamba initialize >>>
+    # !! Contents within this block are managed by 'mamba shell init' !!
+    export MAMBA_EXE="/usr/local/opt/micromamba/bin/mamba";
+    export MAMBA_ROOT_PREFIX="$HOME/micromamba";
+    __mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__mamba_setup"
+    else
+        alias mamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+    fi
+    unset __mamba_setup
+
+fi
 # Fzf tab completion
 # [[ ! -f ${ZDOTDIR:-$HOME}/fzf-tab-completion/zsh/fzf-zsh-completion.sh ]] || source ${ZDOTDIR:-$HOME}/fzf-tab-completion/zsh/fzf-zsh-completion.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.

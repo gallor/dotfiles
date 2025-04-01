@@ -77,13 +77,13 @@
   # Checks out all my submodules
   sup = "!git submodule update --init --recursive && git submodule status"
 
-	# Quick shortcuts
-	st = status
-	co = checkout
-	br = branch
-	up = rebase
-	ci = commit
-	pu = push origin HEAD
+  # Quick shortcuts
+  st = status
+  co = checkout
+  br = branch
+  up = rebase
+  ci = commit
+  pu = push origin HEAD
 
 [branch]
   # local branches automatically track remote branch they were created off of
@@ -197,5 +197,9 @@
 	smudge = git-lfs smudge -- %f
 	required = true
 	process = git-lfs filter-process
+
+[pager]
+	branch = false
+
 [init]
 	defaultBranch = main
