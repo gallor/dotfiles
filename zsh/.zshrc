@@ -25,6 +25,7 @@ fi;
 
 antidote load
 
+
 autoload -Uz promptinit
 autoload -Uz history-search-end
 zle -N history-beginning-search-backward-end history-search-end
@@ -79,7 +80,8 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 zstyle ':fzf-tab:*' switch-group '<' '>'
 
 # Load Git Completion by appending function lookup
-fpath=(~/.zsh $fpath)
+fpath=($HOME/.zsh $fpath)
+
 
 # Add .local/bin to PATH
 export PATH="$HOME/.local/bin:$PATH"
@@ -95,17 +97,17 @@ export NVM_DIR="$HOME/.nvm"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/gallor/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/gallor/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/gallor/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/gallor/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
+# __conda_setup="$('/Users/gallor/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     if [ -f "/Users/gallor/miniconda3/etc/profile.d/conda.sh" ]; then
+#         . "/Users/gallor/miniconda3/etc/profile.d/conda.sh"
+#     else
+#         export PATH="/Users/gallor/miniconda3/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
 # <<< conda initialize <<<
 
 # Fzf tab completion
@@ -114,14 +116,14 @@ unset __conda_setup
 [[ ! -f ${ZDOTDIR:-$HOME}/.p10k.zsh ]] || source ${ZDOTDIR:-$HOME}/.p10k.zsh
 
 # >>> mamba initialize >>>
-# !! Contents within this block are managed by 'mamba shell init' !!
-export MAMBA_EXE="/usr/local/opt/micromamba/bin/mamba";
-export MAMBA_ROOT_PREFIX="$HOME/micromamba";
+# !! Contents within this block are managed by 'micromamba shell init' !!
+export MAMBA_EXE='/home/grant/.local/bin/micromamba';
+export MAMBA_ROOT_PREFIX='/home/grant/micromamba';
 __mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__mamba_setup"
 else
-    alias mamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+    alias micromamba="$MAMBA_EXE"  # Fallback on help from micromamba activate
 fi
 unset __mamba_setup
 # <<< mamba initialize <<<
