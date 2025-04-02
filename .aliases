@@ -20,12 +20,6 @@ alias clock="tty-clock -c -B -C 6 -f %D"
 alias fzf="fzf --height=10% --layout=reverse --prompt='λ '"
 alias clock="tty-clock -c -B -C 6 -f %D"
 
-if ! command -v fdfind 2>&1 >/dev/null; then
-    alias fdfind=fd
-elif ! command -v fd 2>&1 >/dev/null; then
-    alias fd='fdfind'
-fi
-
 # Idiot proofing to commands
 alias mv='mv -i'
 alias cp='cp -i'
