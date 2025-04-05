@@ -150,31 +150,18 @@ if [ -d "$HOME/mambaforge" ]; then
 elif [ -d "$HOME/micromamba" ]; then
     # >>> mamba initialize >>>
     # !! Contents within this block are managed by 'mamba shell init' !!
-    export MAMBA_EXE="/usr/local/opt/micromamba/bin/mamba";
-    export MAMBA_ROOT_PREFIX="$HOME/micromamba";
+    export MAMBA_EXE='/home/grant/.local/bin/micromamba';
+    export MAMBA_ROOT_PREFIX='/home/grant/micromamba';
     __mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
     if [ $? -eq 0 ]; then
         eval "$__mamba_setup"
     else
-        alias mamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+        alias micromamba="$MAMBA_EXE"  # Fallback on help from micromamba activate
     fi
     unset __mamba_setup
-
 fi
 # Fzf tab completion
 # [[ ! -f ${ZDOTDIR:-$HOME}/fzf-tab-completion/zsh/fzf-zsh-completion.sh ]] || source ${ZDOTDIR:-$HOME}/fzf-tab-completion/zsh/fzf-zsh-completion.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+#
 [[ ! -f ${ZDOTDIR:-$HOME}/.p10k.zsh ]] || source ${ZDOTDIR:-$HOME}/.p10k.zsh
-
-# >>> mamba initialize >>>
-# !! Contents within this block are managed by 'micromamba shell init' !!
-export MAMBA_EXE='/home/grant/.local/bin/micromamba';
-export MAMBA_ROOT_PREFIX='/home/grant/micromamba';
-__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__mamba_setup"
-else
-    alias micromamba="$MAMBA_EXE"  # Fallback on help from micromamba activate
-fi
-unset __mamba_setup
-# <<< mamba initialize <<<
