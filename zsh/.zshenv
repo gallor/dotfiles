@@ -5,4 +5,6 @@ if [[ ! -d $HOME/.cache/.antidote ]]; then
 fi
 export ANTIDOTE_HOME="$HOME/.cache/.antidote"
 
+if [[ -d $HOME/.cargo ]]; then
 . "$HOME/.cargo/env"
+fi
