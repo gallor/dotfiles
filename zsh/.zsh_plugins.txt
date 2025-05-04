@@ -21,7 +21,7 @@ Aloxaf/fzf-tab
 unixorn/fzf-zsh-plugin
 
 # completion plugins
-zsh-users/zsh-completions
+# zsh-users/zsh-completions
 # mattmc3/zephyr path:plugins/completion
 # marlonrichert/zsh-autocomplete
 
@@ -30,3 +30,4 @@ olets/zsh-abbr kind:defer
 zsh-users/zsh-autosuggestions kind:defer
 zdharma-continuum/fast-syntax-highlighting kind:defer
 zsh-users/zsh-history-substring-search kind:defer
+

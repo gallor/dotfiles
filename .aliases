@@ -185,3 +185,8 @@ alias tmux="tmux -2"
 
 # Fix for zsh change to 'which'
 alias which="whence -p"
+
+# FdFind alias
+if [[ "$(uname)" == "Linux" ]] && command -v fdfind &> /dev/null; then
+    alias fd='fdfind'
+fi

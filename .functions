@@ -568,8 +568,8 @@ function gitRepo() {
 unset get_conda_method
 
 # Link :
-if ! command -v fdfind 2>&1 >/dev/null; then
-    fdfind() { fd "$@" ; } ;
-elif ! command -v fd 2>&1 >/dev/null; then
-    fd() { fdfind "$@" ; } ;
-fi
+# if ! command -v fdfind 2>&1 >/dev/null; then
+#     fdfind() { fd "$@" ; } ;
+# elif ! command -v fd 2>&1 >/dev/null; then
+#     fd() { fdfind "$@" ; } ;
+# fi
