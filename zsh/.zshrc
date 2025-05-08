@@ -132,26 +132,26 @@ export NVM_DIR="$HOME/.nvm"
 if [ -d "$HOME/mambaforge" ]; then
     # >>> conda initialize >>>
     # !! Contents within this block are managed by 'conda init' !!
-    __conda_setup="$('/home/gallor/mambaforge/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+    __conda_setup="$('$HOME/mambaforge/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
     if [ $? -eq 0 ]; then
         eval "$__conda_setup"
     else
-        if [ -f "/home/gallor/mambaforge/etc/profile.d/conda.sh" ]; then
-            . "/home/gallor/mambaforge/etc/profile.d/conda.sh"
+        if [ -f "$HOME/mambaforge/etc/profile.d/conda.sh" ]; then
+            . "$HOME/mambaforge/etc/profile.d/conda.sh"
         else
-            export PATH="/home/gallor/mambaforge/bin:$PATH"
+            export PATH="$HOME/mambaforge/bin:$PATH"
         fi
     fi
     unset __conda_setup
 
-    if [ -f "/home/gallor/mambaforge/etc/profile.d/mamba.sh" ]; then
-        . "/home/gallor/mambaforge/etc/profile.d/mamba.sh"
+    if [ -f "$HOME/mambaforge/etc/profile.d/mamba.sh" ]; then
+        . "$HOME/mambaforge/etc/profile.d/mamba.sh"
     fi
 elif [ -d "$HOME/micromamba" ]; then
     # >>> mamba initialize >>>
     # !! Contents within this block are managed by 'mamba shell init' !!
-    export MAMBA_EXE='/home/grant/.local/bin/micromamba';
-    export MAMBA_ROOT_PREFIX='/home/grant/micromamba';
+    export MAMBA_EXE="$HOME/.local/bin/micromamba";
+    export MAMBA_ROOT_PREFIX="$HOME/micromamba";
     __mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
     if [ $? -eq 0 ]; then
         eval "$__mamba_setup"
@@ -165,3 +165,5 @@ fi
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 #
 [[ ! -f ${ZDOTDIR:-$HOME}/.p10k.zsh ]] || source ${ZDOTDIR:-$HOME}/.p10k.zsh
+
+fpath+=~/.zfunc; autoload -Uz compinit; compinit
