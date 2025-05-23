@@ -91,9 +91,14 @@ zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 # Load Git Completion by appending function lookup
 fpath=($HOME/.zsh $fpath)
 
+# Add k8s Completion
+if (( $+commands[kubectl] )); then
+    source <(kubectl completion zsh)
+fi
 
 # Add .local/bin to PATH
-export PATH="$HOME/.local/bin:$PATH"
+# Add kubectl Krew to path
+export PATH="$HOME/.local/bin:${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # Don't close shell when hitting CTRL D
 set -o ignoreeof

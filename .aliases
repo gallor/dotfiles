@@ -188,5 +188,5 @@ alias which="whence -p"
 
 # FdFind alias
 if [[ "$(uname)" == "Linux" ]] && command -v fdfind &> /dev/null; then
-    alias fd='fdfind'
+    alias fd='$(which fdfind)'
 fi

@@ -394,7 +394,7 @@ cm() {
     source_conda_activation_script $method $env
   else
     $method deactivate
-    source_conda_activation_script $env
+    source_conda_activation_script $method $env
   fi
 
   unset method
