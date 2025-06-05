@@ -7,6 +7,7 @@ fi
 
 for file in ~/.{aliases,exports,zsh/.antidote/antidote.zsh,functions,extra}; do
 		[ -r "$file" ] && [ -f "$file" ] && source "$file";
+
 done;
 unset file;
 
@@ -85,7 +86,7 @@ zstyle ':fzf-tab:*' use-fzf-default-opts yes
 zstyle ':fzf-tab:*' switch-group '<' '>'
 # pop up menu
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-
+zstyle ':fzf-tab:*' popup-min-size 75 15
 
 
 # Load Git Completion by appending function lookup
