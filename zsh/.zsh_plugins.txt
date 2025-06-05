@@ -19,6 +19,7 @@ romkatv/powerlevel10k
 jeffreytse/zsh-vi-mode
 Aloxaf/fzf-tab
 unixorn/fzf-zsh-plugin
+qoomon/zsh-lazyload
 
 # completion plugins
 # zsh-users/zsh-completions
