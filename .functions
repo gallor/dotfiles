@@ -340,27 +340,63 @@ tm() {
 }
 
 get_conda_method() {
-  if command -v conda &> /dev/null; then
-    echo "conda"
+  if command -v micromamba &> /dev/null; then
+    echo "micromamba"
   elif command -v mamba &> /dev/null; then
     echo "mamba"
-  fi
+  elif command -v conda &> /dev/null; then
+    echo "conda"
+fi
 }
+source_conda_activation_script() {
+  local method=$1
+  local env=$2
+
+  case $method in
+    conda)
+      source "$(conda info --base)/etc/profile.d/conda.sh"
+      conda activate $env
+      ;;
+    mamba)
+      source "$(mamba info --base)/etc/profile.d/mamba.sh"
+      mamba activate $env
+      ;;
+    micromamba)
+      local base_path="$(micromamba info --base | awk '{print $4}' | tr -d '\n' | tr -d ' ')"
+      source "$base_path/etc/profile.d/mamba.sh"
+      micromamba activate $env
+      ;;
+    *)
+      echo "Unsupported method: $method"
+      return 1
+      ;;
+  esac
+}
+
 
 # Get a list of conda environments to pick one to activate
 cm() {
   local method=$(get_conda_method)
+  if [[ -z $method ]]; then
+    echo "No conda/mamba/micromamba found"
+    return 1
+  fi
+
   local env=$("$method" env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
   local current_env=$("$method" env list | grep \* | awk '{print $1}')
 
-  if [[ $current_env == 'base' ]]; then
-    $method activate $env
+  if [[ -z $env ]]; then
+    echo "No environment selected"
+    return 1
   fi
 
-  if [[ $env ]]; then
+  if [[ $current_env == 'base' || -z $current_env ]]; then
+    source_conda_activation_script $method $env
+  else
     $method deactivate
-    $method activate $env
+    source_conda_activation_script $method $env
   fi
+
   unset method
 }
 
@@ -372,20 +408,22 @@ crm() {
   if [[ $env ]]; then
     echo "Removing $env"
     $method deactivate
+    $method env remove -n $env
     $method activate base
-    $method remove -n $env --all
   fi
 }
 
 # Deactivate current mamba env
 cdd() {
-    if [[ $CONDA_DEFAULT_ENV  ]]; then
-        conda deactivate
-        conda activate base
-    elif [[ $MAMBA_EXE ]]; then
-        mamba deactivate
-        mamba activate base
-    fi
+  local method=$(get_conda_method)
+  if [[ -z $method ]]; then
+    echo "No conda/mamba/micromamba found"
+    return 1
+  fi
+
+  $method deactivate
+  $method activate "base"
+  unset method
 }
 
 # Install (one or multiple) selected application(s)

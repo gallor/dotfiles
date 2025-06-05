@@ -17,12 +17,13 @@ romkatv/powerlevel10k
 
 # general
 jeffreytse/zsh-vi-mode
-Aloxaf/fzf-tab
 unixorn/fzf-zsh-plugin
 qoomon/zsh-lazyload
+Aloxaf/fzf-tab
+Freed-Wu/fzf-tab-source
 
 # completion plugins
-# zsh-users/zsh-completions
+zsh-users/zsh-completions
 # mattmc3/zephyr path:plugins/completion
 # marlonrichert/zsh-autocomplete
 
@@ -32,3 +33,5 @@ zsh-users/zsh-autosuggestions kind:defer
 zdharma-continuum/fast-syntax-highlighting kind:defer
 zsh-users/zsh-history-substring-search kind:defer
 
+# Work
+ahmetb/kubectx path:completion kind:fpath
