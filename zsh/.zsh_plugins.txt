@@ -16,7 +16,6 @@ mattmc3/zephyr path:plugins/macos
 romkatv/powerlevel10k
 
 # general
-jeffreytse/zsh-vi-mode
 unixorn/fzf-zsh-plugin
 Aloxaf/fzf-tab
 Freed-Wu/fzf-tab-source
