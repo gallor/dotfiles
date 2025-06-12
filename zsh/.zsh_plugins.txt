@@ -17,6 +17,7 @@ romkatv/powerlevel10k
 
 # general
 unixorn/fzf-zsh-plugin
+qoomon/zsh-lazyload
 Aloxaf/fzf-tab
 Freed-Wu/fzf-tab-source
 

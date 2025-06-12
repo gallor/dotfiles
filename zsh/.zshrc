@@ -1,3 +1,5 @@
+# To enable profiling of zsh startup. Make sure to also uncomment the last line too
+# zmodload zsh/zprof
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -35,6 +37,7 @@ bindkey "^[[A" history-beginning-search-backward-end
 bindkey "^[[B" history-beginning-search-forward-end
 
 bindkey -v
+lazyload nvm -- "source ~/.nvm/nvm.sh"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -173,5 +176,6 @@ fi
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 #
 [[ ! -f ${ZDOTDIR:-$HOME}/.p10k.zsh ]] || source ${ZDOTDIR:-$HOME}/.p10k.zsh
+# zprof
 
 fpath+=~/.zfunc; autoload -Uz compinit; compinit

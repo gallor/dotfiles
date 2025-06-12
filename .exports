@@ -58,7 +58,6 @@ export FZF_DEFAULT_OPTS="
 export FZF_COMPLETION_OPTS="$FZF_DEFAULT_OPTS"
 export FZF_CTRL_T_OPTS="$FZF_DEFAULT_OPTS"
 export FZF_DEFAULT_COMMAND='fd --type file --color always --follow --hidden ---exclude .git --exclude node_modules --exclude build'
-export FZF_TMUX_HEIGHT="20%"
 
 export RIPGREP_CONFIG_PATH=$HOME/.config/ripgrep/rc
 
