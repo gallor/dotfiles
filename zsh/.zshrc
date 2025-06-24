@@ -26,8 +26,6 @@ else
     compinit -C;
 fi;
 
-antidote load
-
 
 autoload -Uz promptinit
 autoload -Uz history-search-end
@@ -37,7 +35,6 @@ bindkey "^[[A" history-beginning-search-backward-end
 bindkey "^[[B" history-beginning-search-forward-end
 
 bindkey -v
-lazyload nvm -- "source ~/.nvm/nvm.sh"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -57,45 +54,9 @@ alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[
 # Forces TMUX into 256 color mode
 alias ll="ls -la"
 
-# Auto complete while typing
-zstyle '*:compinit' arguments -D -i -u -C -w
-# Case insensitive directory completion
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-# Git completion
-zstyle ':completion:*:*:git:*' script ~/.git-completion.bash, fzf-search-display true
-zstyle ':completion:*:*:git:*' fzf-search-display true
-# disable sort when completing `git checkout`
-zstyle ':completion:*:git-checkout:*' sort false
-# set descriptions format to enable group support
-# NOTE: don't use escape sequences here, fzf-tab will ignore them
-zstyle ':completion:*:descriptions' format '[%d]'
-# set list-colors to enable filename colorizing
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-# force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
-zstyle ':completion:*' menu no
-# Cache completion
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/.zcompcache"
-# Fzf-tab enabled for everything
-zstyle ':completion:*' fzf-search-display true
-zstyle ':completion:*' group-name ''
-# preview directory's content with eza when completing cd
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-# custom fzf flags
-# NOTE: fzf-tab does not follow FZF_DEFAULT_OPTS by default
-zstyle ':fzf-tab:*' fzf-flags --color=fg:1,fg+:2 --bind=tab:accept
-# To make fzf-tab follow FZF_DEFAULT_OPTS.
-# NOTE: This may lead to unexpected behavior since some flags break this plugin. See Aloxaf/fzf-tab#455.
-zstyle ':fzf-tab:*' use-fzf-default-opts yes
-# switch group using `<` and `>`
-zstyle ':fzf-tab:*' switch-group '<' '>'
-# pop up menu
-zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-zstyle ':fzf-tab:*' popup-min-size 75 15
-
-
 # Load Git Completion by appending function lookup
 fpath=($HOME/.zsh $fpath)
+fpath+=~/.zfunc; autoload -Uz compinit; compinit
 
 # Add k8s Completion
 if (( $+commands[kubectl] )); then
@@ -132,7 +93,7 @@ export NVM_DIR="$HOME/.nvm"
 
 # Fzf tab completion
 [[ ! -f ${ZDOTDIR:-$HOME}/fzf-tab-completion/zsh/fzf-zsh-completion.sh ]] || source ${ZDOTDIR:-$HOME}/fzf-tab-completion/zsh/fzf-zsh-completion.sh
-#
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ${ZDOTDIR:-$HOME}/.p10k.zsh ]] || source ${ZDOTDIR:-$HOME}/.p10k.zsh
 
@@ -171,11 +132,47 @@ elif [ -d "$HOME/micromamba" ]; then
     fi
     unset __mamba_setup
 fi
-# Fzf tab completion
-# [[ ! -f ${ZDOTDIR:-$HOME}/fzf-tab-completion/zsh/fzf-zsh-completion.sh ]] || source ${ZDOTDIR:-$HOME}/fzf-tab-completion/zsh/fzf-zsh-completion.sh
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-#
-[[ ! -f ${ZDOTDIR:-$HOME}/.p10k.zsh ]] || source ${ZDOTDIR:-$HOME}/.p10k.zsh
-# zprof
 
-fpath+=~/.zfunc; autoload -Uz compinit; compinit
+
+antidote load
+# Auto complete while typing
+zstyle '*:compinit' arguments -D -i -u -C -w
+# Case insensitive directory completion
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+# Git completion
+zstyle ':completion:*:*:git:*' script ~/.git-completion.bash, fzf-search-display true
+zstyle ':completion:*:*:git:*' fzf-search-display true
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+# NOTE: don't use escape sequences here, fzf-tab will ignore them
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
+zstyle ':completion:*' menu no
+# Cache completion
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/.zcompcache"
+# Fzf-tab enabled for everything
+zstyle ':completion:*' fzf-search-display true
+zstyle ':completion:*' group-name ''
+# preview directory's content with eza when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+# custom fzf flags
+# NOTE: fzf-tab does not follow FZF_DEFAULT_OPTS by default
+zstyle ':fzf-tab:*' fzf-flags --color=fg:1,fg+:2 --bind=tab:accept
+# To make fzf-tab follow FZF_DEFAULT_OPTS.
+# NOTE: This may lead to unexpected behavior since some flags break this plugin. See Aloxaf/fzf-tab#455.
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
+# switch group using `<` and `>`
+zstyle ':fzf-tab:*' switch-group '<' '>'
+# pop up menu
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+# zstyle ':fzf-tab:*' popup-min-size 75 15
+
+lazyload nvm -- "source ~/.nvm/nvm.sh"
+
+
+# Use this in conjunction with the top profiling line
+# zprof

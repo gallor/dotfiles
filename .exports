@@ -46,7 +46,7 @@ export BAT_THEME="Monokai Extended"
 export FZF_DEFAULT_OPTS="
         --prompt 'λ '
         --tmux left,40%
-        --height 30%
+        --height 100%
         --layout reverse
         --border top
         --preview '(bat --color=alawys {} || cat {} || tree -C {}) 2> /dev/null'

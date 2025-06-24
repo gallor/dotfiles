@@ -15,22 +15,21 @@ mattmc3/zephyr path:plugins/macos
 # prompt
 romkatv/powerlevel10k
 
-# general
-unixorn/fzf-zsh-plugin
-qoomon/zsh-lazyload
-Aloxaf/fzf-tab
-Freed-Wu/fzf-tab-source
-
 # completion plugins
-zsh-users/zsh-completions
+# zsh-users/zsh-completions
 # mattmc3/zephyr path:plugins/completion
-# marlonrichert/zsh-autocomplete
 
 # deferred plugins
 olets/zsh-abbr kind:defer
-zsh-users/zsh-autosuggestions kind:defer
+# zsh-users/zsh-autosuggestions kind:defer
 zdharma-continuum/fast-syntax-highlighting kind:defer
-zsh-users/zsh-history-substring-search kind:defer
+zsh-users/zsh-history-substring-search
 
 # Work
 ahmetb/kubectx path:completion kind:fpath
+
+# general
+unixorn/fzf-zsh-plugin
+qoomon/zsh-lazyload
+Freed-Wu/fzf-tab-source
+Aloxaf/fzf-tab
