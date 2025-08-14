@@ -20,12 +20,14 @@ fi
 
 # Autocomplete
 autoload -Uz compinit
+autoload -Uz bashcompinit
 if [[ -z $HOME/.cache/zsh/zcompdump-$ZSH_VERSION ]]; then
     compinit -d "$HOME/.cache/zsh/zcompdump-$ZSH_VERSION"
 else
     compinit -C;
 fi;
 
+bashcompinit
 
 autoload -Uz promptinit
 autoload -Uz history-search-end
@@ -66,6 +68,11 @@ fi
 # Add .local/bin to PATH
 # Add kubectl Krew to path
 export PATH="$HOME/.local/bin:${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+# Add asdf to Path
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
+autoload -Uz compinit && compinit
 
 # Don't close shell when hitting CTRL D
 set -o ignoreeof
@@ -130,6 +137,7 @@ elif [ -d "$HOME/micromamba" ]; then
     else
         alias micromamba="$MAMBA_EXE"  # Fallback on help from micromamba activate
     fi
+    alias mic="$MAMBA_EXE"
     unset __mamba_setup
 fi
 
@@ -169,7 +177,7 @@ zstyle ':fzf-tab:*' use-fzf-default-opts yes
 zstyle ':fzf-tab:*' switch-group '<' '>'
 # pop up menu
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-# zstyle ':fzf-tab:*' popup-min-size 75 15
+zstyle ':fzf-tab:*' popup-min-size 75 15
 
 lazyload nvm -- "source ~/.nvm/nvm.sh"
 
