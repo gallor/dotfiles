@@ -17,6 +17,10 @@ if type brew &>/dev/null
 then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
+#
+# Load Git Completion by appending function lookup
+fpath=($HOME/.zsh $fpath)
+fpath+=~/.zfunc
 
 # Autocomplete
 autoload -Uz compinit
@@ -30,11 +34,25 @@ fi;
 bashcompinit
 
 autoload -Uz promptinit
+
+# Set history autocomplete
+# history setup
 autoload -Uz history-search-end
-zle -N history-beginning-search-backward-end history-search-end
-zle -N history-beginning-search-forward-end history-search-end
-bindkey "^[[A" history-beginning-search-backward-end
-bindkey "^[[B" history-beginning-search-forward-end
+HISTFILE=$HOME/.zhistory
+SAVEHIST=1000
+HISTSIZE=999
+HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
+setopt share_history
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt hist_verify
+bindkey '^[[A' history-substring-search-up
+bindkey '^[OA' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey '^[OB' history-substring-search-down
+# Bind keys for Vim mode
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
 
 bindkey -v
 
@@ -55,10 +73,6 @@ alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[
 
 # Forces TMUX into 256 color mode
 alias ll="ls -la"
-
-# Load Git Completion by appending function lookup
-fpath=($HOME/.zsh $fpath)
-fpath+=~/.zfunc; autoload -Uz compinit; compinit
 
 # Add k8s Completion
 if (( $+commands[kubectl] )); then
@@ -98,13 +112,14 @@ export NVM_DIR="$HOME/.nvm"
 # unset __conda_setup
 # <<< conda initialize <<<
 
-# Fzf tab completion
-[[ ! -f ${ZDOTDIR:-$HOME}/fzf-tab-completion/zsh/fzf-zsh-completion.sh ]] || source ${ZDOTDIR:-$HOME}/fzf-tab-completion/zsh/fzf-zsh-completion.sh
+# Fzf
+[ -f ${HOME}/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ${ZDOTDIR:-$FZF_PATH}/shell/completion.zsh ] && source ${ZDOTDIR:-$FZF_PATH}/shell/completion.zsh
+[ -f ${ZDOTDIR:-$FZF_PATH}/shell/key-bindings.zsh ] && source ${ZDOTDIR:-$FZF_PATH}/shell/key-bindings.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ${ZDOTDIR:-$HOME}/.p10k.zsh ]] || source ${ZDOTDIR:-$HOME}/.p10k.zsh
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # . /home/gallor/.cli_completions/ws-complete.zsh
 
@@ -184,3 +199,10 @@ lazyload nvm -- "source ~/.nvm/nvm.sh"
 
 # Use this in conjunction with the top profiling line
 # zprof
+
+# bun completions
+[ -s "/home/gallor/.bun/_bun" ] && source "/home/gallor/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

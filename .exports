@@ -49,6 +49,7 @@ export FZF_DEFAULT_OPTS="
         --height 100%
         --layout reverse
         --border top
+        --ansi
         --preview '(bat --color=alawys {} || cat {} || tree -C {}) 2> /dev/null'
         --color=fg:#d0d0d0,hl:#5f87af
         --color=fg+:#d0d0d0,hl+:#5fd7ff
