@@ -280,7 +280,7 @@ gru() {
 
 # Git checkout new branch
 gco() {
-  local branch=$(git branch | fzf)
+  local branch=$(git branch --format "%(refname:short)" | fzf)
 
   if [[ $branch ]]; then
     git checkout $branch; git pull;
@@ -288,7 +288,7 @@ gco() {
 }
 
 grm() {
-  local branch=$(git branch | fzf)
+  local branch=$(git branch --format "%(refname:short)" | fzf)
 
   if [[ $branch ]]; then
     git branch -D $branch
@@ -297,7 +297,7 @@ grm() {
 
 gcoa() {
   git fetch --all;
-  local branch=$(git branch --all | fzf)
+  local branch=$(git branch --all --format "%(refname:short)" | fzf)
 
   if [[ $branch ]]; then
     local newBranch=$(echo $branch | sed -E "s/remotes\/(origin|upstream)\///");
@@ -317,9 +317,11 @@ tm() {
 }
 
 get_conda_method() {
-  if command -v conda &> /dev/null; then
+  if command -v conda >/dev/null 2>&1; then
+  # if command -v conda 2>&1 > /dev/null; then
     echo "conda"
-  elif command -v mamba &> /dev/null; then
+  elif command -v mamba >/dev/null 2>&1; then
+  # elif command -v mamba &> /dev/null; then
     echo "mamba"
   fi
 }
@@ -359,7 +361,7 @@ cdd() {
     if [[ $CONDA_DEFAULT_ENV  ]]; then
         conda deactivate
         conda activate base
-    elif [[ $MAMBA_EXE ]]; them
+    elif [[ $MAMBA_EXE ]]; then
         mamba deactivate
         mamba activate base
     fi
@@ -488,15 +490,22 @@ function dilist() {
 }
 
 # Download Playlist Album from Youtube
+# function ytAlbum() {
+#     echo "Downloading Album Art"
+#     yt-dlp --skip-download --write-thumbnail --playlist-items 0 -o "%(album)s/%(title)s_thumbnail:cover.%(ext)s" $1
+#     echo "Downloading Album"
+#     yt-dlp -f "bestaudio[ext=m4a]"  --ppa "ffmpeg: -aac_pns 0 -c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"" --cookies-from-browser chrome --convert-thumbnails jpg --embed-thumbnail --embed-metadata --parse-metadata "playlist_index:%(track_number)s" --output "%(album)s/%(title)s.%(ext)s" $1
+# }
+
 function ytAlbum() {
     echo "Downloading Album Art"
-    yt-dlp --skip-download --write-thumbnail --playlist-items 0 -o "%(album)s/%(title)s_thumbnail:cover.%(ext)s" $1
+    yt-dlp --skip-download --write-thumbnail --playlist-items 0 -o "%(album)s/%(title)s_thumbnail.%(ext)s" $1
     echo "Downloading Album"
-    yt-dlp -f "bestaudio[ext=m4a]"  --ppa "ffmpeg: -aac_pns 0 -c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"" --cookies-from-browser chrome --convert-thumbnails jpg --embed-thumbnail --embed-metadata --parse-metadata "playlist_index:%(track_number)s" --output "%(album)s/%(title)s.%(ext)s" $1
+    yt-dlp -f 140 --ppa "ffmpeg: -aac_pns 0 -c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"" --convert-thumbnails jpg --embed-thumbnail --embed-metadata --parse-metadata "playlist_index:%(track_number)s" --output "%(album)s/%(title)s.%(ext)s" $1
 }
 
 function ytAudioTrack() {
-    yt-dlp -f 'bestaudio[ext=m4a]' -x --ppa "ffmpeg: -aac_pns 0 -c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"" --cookies-from-browser firefox --convert-thumbnails jpg --embed-thumbnail --embed-metadata -o '%(title)s.%(ext)s' $1
+    yt-dlp -f 140 -x --ppa "ffmpeg: -aac_pns 0 -c:v mjpeg -vf crop=\"'if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'\"" --cookies-from-browser firefox --convert-thumbnails jpg --embed-thumbnail --embed-metadata -o '%(title)s.%(ext)s' $1
 }
 
 function ytVideo() {
