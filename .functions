@@ -208,6 +208,28 @@ fif() {
   rg --files-with-matches --hidden --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --hidden --context 10 '$1' || rg --ignore-case --hidden --pretty --context 10 '$1' {}"
 }
 
+# cd to selected directory
+fdd() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune \
+                  -o -type d -print 2> /dev/null | fzf +m) &&
+  cd "$dir"
+}
+
+# cd into selected directory including hidden
+fda() {
+  local dir
+  dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
+}
+
+# fe [FUZZY PATTERN] - Open the selected file with the default editor
+#   - Bypass fuzzy finder if there's only one match (--select-1)
+#   - Exit if there's no match (--exit-0)
+fe() {
+  local files
+  IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
+  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+}
 
 # vf - fuzzy open with vim from anywhere
 # ex: vf word1 word2 ... (even part of a file name)
@@ -283,7 +305,8 @@ gco() {
   local branch=$(git branch --format "%(refname:short)" | fzf)
 
   if [[ $branch ]]; then
-    git checkout $branch; git pull;
+    git checkout $branch
+    git pull
   fi
 }
 
@@ -300,7 +323,7 @@ gcoa() {
   local branch=$(git branch --all --format "%(refname:short)" | fzf)
 
   if [[ $branch ]]; then
-    local newBranch=$(echo $branch | sed -E "s/remotes\/(origin|upstream)\///");
+    local newBranch=$(echo $branch | sed -E "s/(origin|upstream)\///");
     git checkout -b $newBranch $branch;
   fi
 }
@@ -317,54 +340,90 @@ tm() {
 }
 
 get_conda_method() {
-  if command -v conda >/dev/null 2>&1; then
-  # if command -v conda 2>&1 > /dev/null; then
-    echo "conda"
-  elif command -v mamba >/dev/null 2>&1; then
-  # elif command -v mamba &> /dev/null; then
+  if command -v micromamba &> /dev/null; then
+    echo "micromamba"
+  elif command -v mamba &> /dev/null; then
     echo "mamba"
-  fi
+  elif command -v conda &> /dev/null; then
+    echo "conda"
+fi
 }
+source_conda_activation_script() {
+  local method=$1
+  local env=$2
+
+  case $method in
+    conda)
+      source "$(conda info --base)/etc/profile.d/conda.sh"
+      conda activate $env
+      ;;
+    mamba)
+      source "$(mamba info --base)/etc/profile.d/mamba.sh"
+      mamba activate $env
+      ;;
+    micromamba)
+      local base_path="$(micromamba info --base | awk '{print $4}' | tr -d '\n' | tr -d ' ')"
+      source "$base_path/etc/profile.d/mamba.sh"
+      micromamba activate $env
+      ;;
+    *)
+      echo "Unsupported method: $method"
+      return 1
+      ;;
+  esac
+}
+
 
 # Get a list of conda environments to pick one to activate
 cm() {
   local method=$(get_conda_method)
+  if [[ -z $method ]]; then
+    echo "No conda/mamba/micromamba found"
+    return 1
+  fi
+
   local env=$("$method" env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
   local current_env=$("$method" env list | grep \* | awk '{print $1}')
 
-  if [[ $current_env == 'base' ]]; then
-    $method activate $env
+  if [[ -z $env ]]; then
+    echo "No environment selected"
+    return 1
   fi
 
-  if [[ $env ]]; then
+  if [[ $current_env == 'base' || -z $current_env ]]; then
+    source_conda_activation_script $method $env
+  else
     $method deactivate
-    $method activate $env
+    source_conda_activation_script $method $env
   fi
+
   unset method
 }
 
-# Remove conda environment
+# Remove mamba environment
 crm() {
-        local method=$(get_conda_method)
-	local env=$("$method" env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
+    local method=$(get_conda_method)
+    local env=$("$method" env list | sed '1,2d' | awk '{print $1}' | grep -v -e '/' | fzf)
 
-	if [[ $env ]]; then
+  if [[ $env ]]; then
     echo "Removing $env"
-		$method deactivate
-		$method activate base
-		$method remove -n $env --all
-	fi
+    $method deactivate
+    $method env remove -n $env
+    $method activate base
+  fi
 }
 
-# Deactivate current conda env
+# Deactivate current mamba env
 cdd() {
-    if [[ $CONDA_DEFAULT_ENV  ]]; then
-        conda deactivate
-        conda activate base
-    elif [[ $MAMBA_EXE ]]; then
-        mamba deactivate
-        mamba activate base
-    fi
+  local method=$(get_conda_method)
+  if [[ -z $method ]]; then
+    echo "No conda/mamba/micromamba found"
+    return 1
+  fi
+
+  $method deactivate
+  $method activate "base"
+  unset method
 }
 
 # Install (one or multiple) selected application(s)
@@ -552,3 +611,10 @@ function gitRepo() {
 }
 
 unset get_conda_method
+
+# Link :
+# if ! command -v fdfind 2>&1 >/dev/null; then
+#     fdfind() { fd "$@" ; } ;
+# elif ! command -v fd 2>&1 >/dev/null; then
+#     fd() { fdfind "$@" ; } ;
+# fi

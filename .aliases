@@ -17,12 +17,7 @@ alias clock="tty-clock -c -B -C 6 -f %D"
 
 
 # Application config
-alias fzf="fzf --height=10% --layout=reverse --prompt='λ '"
 alias clock="tty-clock -c -B -C 6 -f %D"
-
-if ! command -v fdfind 2>&1 >/dev/null; then
-    alias fdfind="fd"
-fi
 
 # Idiot proofing to commands
 alias mv='mv -i'
@@ -189,3 +184,9 @@ alias tmux="tmux -2"
 
 # Fix for zsh change to 'which'
 alias which="whence -p"
+
+alias fd="fd -H -l -L -c always -td -tf"
+# FdFind alias
+# if [[ "$(uname)" == "Linux" ]] && command -v fdfind &> /dev/null; then
+#     alias fd='$(which fdfind)'
+# fi

@@ -1,32 +1,35 @@
 # Make nvim the default editor.
-export EDITOR='nvim';
+export EDITOR='nvim'
+export VISUAL='nvim'
 
 # Enable persistent REPL history for `node`.
-NODE_REPL_HISTORY_FILE=~/.node_history;
+NODE_REPL_HISTORY_FILE=~/.node_history
 # Allow 32³ entries; the default is 1000.
-NODE_REPL_HISTORY_SIZE='32768';
+NODE_REPL_HISTORY_SIZE='32768'
 
-# Increase Bash history size. Allow 32³ entries; the default is 500.
-export HISTSIZE='32768';
-export HISTFILESIZE="${HISTSIZE}";
+# Increase history size. Allow 32³ entries; the default is 500.
+export HISTSIZE='32768'
+export SAVEHIST='32768'
+export HISTFILE="${ZDOTDIR}/.zsh_history"
+export HISTFILESIZE="${HISTSIZE}"
 # Omit duplicates and commands that begin with a space from history.
 export HISTCONTROL='ignoreboth';
 
 # Prefer US English and use UTF-8.
-export LANG='en_US.UTF-8';
-export LC_COLLATE="en_US.UTF-8";
-export LC_CTYPE="en_US.UTF-8";
-export LC_MESSAGES="en_US.UTF-8";
-export LC_MONETARY="en_US.UTF-8";
-export LC_NUMERIC="en_US.UTF-8";
-export LC_TIME="en_US.UTF-8";
-export LC_ALL="en_US.UTF-8";
+export LANG='en_US.UTF-8'
+export LC_COLLATE="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
+export LC_MESSAGES="en_US.UTF-8"
+export LC_MONETARY="en_US.UTF-8"
+export LC_NUMERIC="en_US.UTF-8"
+export LC_TIME="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
 
 # Highlight section titles in manual pages.
-export LESS_TERMCAP_md="${yellow}";
+export LESS_TERMCAP_md="${yellow}"
 
 # Don’t clear the screen after quitting a manual page.
-export MANPAGER='less -X';
+export MANPAGER='less -X'
 
 # Java Home Location
 export JAVA_HOME=/Library/Java/Home;
@@ -40,12 +43,24 @@ export CLICOLOR=1
 # --hidden: Search hidden files and folders
 # --follow: Follow symlinks
 # --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
-# export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
-# export BAT_THEME="Monokai Extended"
-# export FZF_COMPLETION_OPTS="--prompt 'λ ' --preview '(bat --color=alawys {} || cat {} || tree -C {}) 2> /dev/null | head -10'"
-# export FZF_CTRL_T_OPTS="$FZF_COMPLETION_OPTS"
-# export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-# export FZF_TMUX_HEIGHT="20%"
+export BAT_THEME="Monokai Extended"
+export FZF_DEFAULT_OPTS="
+        --prompt 'λ '
+        --tmux left,40%
+        --height 100%
+        --layout reverse
+        --border top
+        --ansi
+        --preview '(bat --color=alawys {} || cat {} || tree -C {}) 2> /dev/null'
+        --color=fg:#d0d0d0,hl:#5f87af
+        --color=fg+:#d0d0d0,hl+:#5fd7ff
+        --color=info:#afaf87,prompt:#d7005f,pointer:#af5fff
+        --color=marker:#87ff00,spinner:#af5fff,header:#87afaf
+        --preview-window=down:40%
+        "
+export FZF_COMPLETION_OPTS="$FZF_DEFAULT_OPTS"
+export FZF_CTRL_T_OPTS="$FZF_DEFAULT_OPTS"
+export FZF_DEFAULT_COMMAND='fd --type file --color always --follow --hidden ---exclude .git --exclude node_modules --exclude build'
 
 export RIPGREP_CONFIG_PATH=$HOME/.config/ripgrep/rc
 
@@ -56,4 +71,3 @@ export RUBY_HOME=/usr/local/opt/ruby/bin
 export GEM_HOME=/usr/local/lib/ruby/gems/2.7.0/bin
 
 export HOMEBREW_CASK_OPTS='--appdir=~/Applications'
-
