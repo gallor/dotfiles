@@ -22,6 +22,9 @@ fi
 fpath=($HOME/.zsh $fpath)
 fpath+=~/.zfunc
 
+# Add asdf completions
+fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
+
 # Autocomplete
 autoload -Uz compinit
 autoload -Uz bashcompinit
@@ -83,18 +86,14 @@ fi
 # Add kubectl Krew to path
 export PATH="$HOME/.local/bin:${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
-# Add asdf to Path
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
-fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
-autoload -Uz compinit && compinit
 
 # Don't close shell when hitting CTRL D
 set -o ignoreeof
 
 # NVM
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 
 # >>> conda initialize >>>
@@ -206,4 +205,5 @@ lazyload nvm -- "source ~/.nvm/nvm.sh"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+export ASDF_DATA_DIR="$HOME/.asdf"
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$BUN_INSTALL/bin:$PATH"

@@ -408,9 +408,21 @@ crm() {
   if [[ $env ]]; then
     echo "Removing $env"
     $method deactivate
-    $method env remove -n $env
+    $method env remove -n $env -y
     $method activate base
   fi
+}
+
+# Create new mambe env from dev-environment file
+ccm() {
+    local method=$(get_conda_method)
+    if [[ -z method ]]; then
+        echo "No conda/mamba/micromamba found"
+        return 1
+    fi
+    $method deactivate
+    $method activate "base"
+    $method create -f "dev-environment.yaml"
 }
 
 # Deactivate current mamba env
