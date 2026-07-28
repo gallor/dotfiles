@@ -197,6 +197,27 @@ zstyle ':fzf-tab:*' popup-min-size 75 15
 lazyload nvm -- "source ~/.nvm/nvm.sh"
 
 
+# Claude Code: clean up the per-pane tmux status/notification temp files on exit.
+# update-tmux.sh writes /tmp/claude-{status,tools,ctx-hist}-$TMUX_PANE; remove
+# them when claude exits so a stale label/sparkline doesn't linger in this pane.
+# Only define the wrapper when claude is actually installed, so the shell is
+# unaffected on machines without it.
+if (( $+commands[claude] )); then
+  claude() {
+    command claude "$@"
+    local ret=$?
+    if [[ -n "$TMUX_PANE" ]]; then
+      rm -f "/tmp/claude-status-${TMUX_PANE}" \
+            "/tmp/claude-tools-${TMUX_PANE}" \
+            "/tmp/claude-ctx-hist-${TMUX_PANE}"
+      tmux set-option -uw @claude_state 2>/dev/null
+      tmux set-option -uw @claude_type 2>/dev/null
+    fi
+    return $ret
+  }
+fi
+
+
 # Use this in conjunction with the top profiling line
 # zprof
 
