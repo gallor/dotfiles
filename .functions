@@ -332,11 +332,42 @@ gcoa() {
 # `tm` will allow you to select your tmux session via fzf.
 # `tm irc` will attach to the irc session (if it exists), else it will create it.
 tm() {
-  [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
-  if [ $1 ]; then
-    tmux $change -t "$1" 2>/dev/null || (tmux new-session -s $1 && tmux $change -t "$1"); return
+  local session action
+
+  # inside tmux we want switch-client, outside we want attach-session
+  if [[ -n "$TMUX" ]]; then
+    action="switch-client"
+  else
+    action="attach-session"
   fi
-  session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
+
+  # pick a session name: either $1 or via fzf
+  if [[ -n "$1" ]]; then
+    session=$1
+  else
+    session=$(
+      tmux list-sessions -F "#{session_name}" 2>/dev/null | \
+        fzf --exit-0 --prompt="Select tmux session> "
+    )
+    if [[ -z "$session" ]]; then
+      echo "No session selected."
+      return
+    fi
+  fi
+
+  # if it already exists, just attach/switch
+  if tmux has-session -t "$session" 2>/dev/null; then
+    tmux $action -t "$session"
+  else
+    # otherwise create it.  But if we're already inside tmux we create
+    # it detached then switch-client, otherwise new-session will attach.
+    if [[ -n "$TMUX" ]]; then
+      tmux new-session -d -s "$session"
+      tmux switch-client -t "$session"
+    else
+      tmux new-session -s "$session"
+    fi
+  fi
 }
 
 get_conda_method() {
